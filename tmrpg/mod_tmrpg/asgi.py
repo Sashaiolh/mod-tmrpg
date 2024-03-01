@@ -1,5 +1,5 @@
 """
-ASGI config for tmrpg project.
+ASGI config for mod_tmrpg project.
 
 It exposes the ASGI callable as a module-level variable named ``application``.
 
@@ -11,6 +11,6 @@ import os
 
 from django.core.asgi import get_asgi_application
 
-os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'tmrpg.settings')
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'mod_tmrpg.settings')
 
 application = get_asgi_application()
