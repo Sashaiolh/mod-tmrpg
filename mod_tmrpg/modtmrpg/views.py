@@ -15,7 +15,7 @@ import json
 API_ENDPOINT = 'https://discord.com/api/v10'
 CLIENT_ID = '1213447548342116373'
 CLIENT_SECRET = '11ZYkGhlOqRTLXl64oPxWBOETKdoQw0m'
-REDIRECT_URI = "http://127.0.0.1:8000/oauth2/discord/"
+REDIRECT_URI = "http://128.0.0.1:8000/oauth2/discord/"
 
 
 # def exchange_code(code):
@@ -96,13 +96,16 @@ def accounts_profile(request):
 
 
 def index(request):
-    domain = ''.join(request.build_absolute_uri('/')[:-1].split(':')[1].replace('/',''))
+    domain = request.build_absolute_uri('/')[:-1]
+    print(domain)
+    if domain == 'http://127.0.0.1:8000':
+        redire
     if not request.user.is_authenticated:
         return HttpResponseRedirect('/accounts/login')
     data = {}
     data['user'] = request.user
     # data['discord_user'] = 
-    return render(request, 'modtmrpg/index.html', {'data': data, 'domain':domain, })
+    return render(request, 'modtmrpg/index.html', {'data': data})
 
 def shop(request):
     if not request.user.is_authenticated:
