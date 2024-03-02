@@ -99,13 +99,15 @@ def index(request):
     domain = request.build_absolute_uri('/')[:-1]
     print(domain)
     if domain == 'http://127.0.0.1:8000':
-        redire
+        ds_url = 'https://discord.com/oauth2/authorize?client_id=1213447548342116373&response_type=code&redirect_uri=http%3A%2F%2F127.0.0.1%3A8000%2Foauth2%2Fdiscord&scope=guilds+identify'
+    else:
+        ds_url = 'https://discord.com/oauth2/authorize?client_id=1213447548342116373&response_type=code&redirect_uri=http%3A%2F%2Fmodtmrpg.pythonanywhere.com%2Foauth2%2Fdiscord&scope=guilds+identify'
     if not request.user.is_authenticated:
         return HttpResponseRedirect('/accounts/login')
     data = {}
     data['user'] = request.user
     # data['discord_user'] = 
-    return render(request, 'modtmrpg/index.html', {'data': data})
+    return render(request, 'modtmrpg/index.html', {'data': data, 'ds_url': ds_url, })
 
 def shop(request):
     if not request.user.is_authenticated:
