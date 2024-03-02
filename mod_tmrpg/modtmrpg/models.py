@@ -49,6 +49,7 @@ class RegisterFormModel(models.Model):
 class Item(models.Model):
     item_name = models.CharField('название',max_length=16)
     description = models.TextField('описание')
+    note = models.TextField('примечание')
     price = models.IntegerField('цена')
     image = models.ImageField(upload_to ='items/')
     def __str__(self):
