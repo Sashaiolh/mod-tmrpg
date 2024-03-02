@@ -96,12 +96,13 @@ def accounts_profile(request):
 
 
 def index(request):
+    domain = ''.join(request.build_absolute_uri('/')[:-1].split(':')[1].replace('/',''))
     if not request.user.is_authenticated:
         return HttpResponseRedirect('/accounts/login')
     data = {}
     data['user'] = request.user
     # data['discord_user'] = 
-    return render(request, 'modtmrpg/index.html', {'data': data})
+    return render(request, 'modtmrpg/index.html', {'data': data, 'domain':domain, })
 
 def shop(request):
     if not request.user.is_authenticated:
