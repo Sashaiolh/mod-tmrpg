@@ -24,6 +24,9 @@ from modtmrpg import views
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('accounts/logout/', views.logout_view, name='logout'),
+    path('accounts/register/', views.register_view, name='register'),
+    path('accounts/profile/', views.accounts_profile, name='accounts_profile'),
     path('accounts/', include('django.contrib.auth.urls')),
-    path('', include('modtmrpg.urls'))
-] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+    path('oauth2/discord/', views.oauth2, name='oauth2'),
+    path('', include('modtmrpg.urls')),
+] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT) + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
