@@ -119,6 +119,11 @@ def index(request):
 def shop(request, status=''):
     if not request.user.is_authenticated:
         return HttpResponseRedirect('/accounts/login')
+    domain = request.build_absolute_uri('/')[:-1]
+    if domain == 'http://127.0.0.1:8000':
+        img_url_prefix = ''
+    else:
+        img_url_prefix = '/mod_tmrpg'
     data = {}
     data['user'] = request.user
 
@@ -129,7 +134,7 @@ def shop(request, status=''):
     elif status=='error':
         data['alert_text'] = 'Недостаточно баллов!'
 
-    return render(request, 'modtmrpg/shop.html', {'data': data, 'items': items, })
+    return render(request, 'modtmrpg/shop.html', {'data': data, 'items': items, 'img_url_prefix':img_url_prefix, })
 
 @csrf_exempt
 def buy_item(request, id):
