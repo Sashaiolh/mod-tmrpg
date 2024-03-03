@@ -51,6 +51,7 @@ class Item(models.Model):
     description = models.TextField('описание')
     note = models.TextField('примечание')
     price = models.IntegerField('цена')
+    # image = models.CharField(max_length=100)
     image = models.ImageField(upload_to ='items/')
     type = models.IntegerField()
     # 0 - items
@@ -58,3 +59,9 @@ class Item(models.Model):
     # 2 - privki
     def __str__(self):
         return self.item_name
+    
+class MediaItem(models.Model):
+    media_name = models.CharField('название', default='image', max_length=16)
+    media_file = models.ImageField(upload_to ='items/')
+    def __str__(self):
+        return f'{self.media_name} | {self.id}'

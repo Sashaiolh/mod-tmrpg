@@ -48,7 +48,6 @@ def get_token():
   r = requests.post('%s/oauth2/token' % API_ENDPOINT, data=data, headers=headers, auth=(CLIENT_ID, CLIENT_SECRET))
   r.raise_for_status()
   return r.json()
-
     
 def logout_view(request):
     logout(request)
@@ -216,6 +215,9 @@ def buy_item_error(request):
     data['success_text'] = 'Недостаточно баллов!'
     return render(request, 'modtmrpg/shop.html', {'data': data, })
 
+
+def media_view(request):
+    return render(request, 'modtmrpg/media.html')
 
 
 

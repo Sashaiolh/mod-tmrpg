@@ -22,5 +22,10 @@ class AuthorAdmin(admin.ModelAdmin):
 class AuthorAdmin(admin.ModelAdmin):
     pass
 
+@admin.register(MediaItem)
+class AuthorAdmin(admin.ModelAdmin):
+    pass
+
+
 
 

@@ -1,0 +1,72 @@
+{%extends 'base.html'%}
+
+{%block content%}
+
+
+
+{%for item in media%}
+<!-- <h1></h1> -->
+
+
+  
+  <!-- Modal -->
+  <div class="modal fade" id="exampleModal{{item.id}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="exampleModalLabel{{item.id}}">Modal title</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+            <div class="form-outline">
+                <form action="buy/{{item.id}}" method="post">
+                    {% csrf_token %}
+                        <label class="form-label" for="typeNumber{{item.id}}">Введите количество:</label>
+                        <input type="number" name="amount" id="typeNumber{{item.id}}" class="form-control" />
+                        <script>
+                            $("#typeNumber{{item.id}}").val(1)
+                        </script>
+                    
+            </div>
+        </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Отменить</button>
+                <button type="submit" class="btn btn-primary">Подтвердить покупку</button>
+            </div>
+        </form>
+      </div>
+    </div>
+  </div>
+    
+
+
+
+<div class="card mb-3" style="max-width: 540px;">
+    <div class="row g-1">
+      <div class="col-md-4">
+        <img src="{{item.image.url}}" class="img-fluid rounded-start" alt="...">
+      </div>
+
+    <div class="col-md-8">
+    <div class="card-body">
+      <h5 class="card-title">{{item.item_name}}</h5>
+      <span class="card-text">ℹ️{{item.description}}</span></br>
+      <span class="card-text"><b>💵Цена: {{item.price}}</b></span></br>
+      <span class="card-text"><small class="text-muted">⚠️{{item.note}}</small></span></br>
+      <button style="margin-top: 3%;" type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#exampleModal{{item.id}}">Купить</button>
+    </div>
+  </div> 
+    </div>
+  </div>
+      
+      
+
+
+
+{%endfor%}
+
+{%endblock%}
+
+
+
+
