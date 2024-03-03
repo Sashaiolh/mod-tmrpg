@@ -103,20 +103,22 @@ def accounts_profile(request):
 
 
 def index(request):
+    if not request.user.is_authenticated:
+        return HttpResponseRedirect('/accounts/login/')
+    categories = models.MediaCategory.objects.all()
     domain = request.build_absolute_uri('/')[:-1]
     print(domain)
     if domain == 'http://127.0.0.1:8000':
         ds_url = 'https://discord.com/oauth2/authorize?client_id=1213447548342116373&response_type=code&redirect_uri=http%3A%2F%2F127.0.0.1%3A8000%2Foauth2%2Fdiscord&scope=guilds+identify'
     else:
         ds_url = 'https://discord.com/oauth2/authorize?client_id=1213447548342116373&response_type=code&redirect_uri=http%3A%2F%2Fmodtmrpg.pythonanywhere.com%2Foauth2%2Fdiscord&scope=guilds+identify'
-    if not request.user.is_authenticated:
-        return HttpResponseRedirect('/accounts/login')
     data = {}
     data['user'] = request.user
     # data['discord_user'] = 
-    return render(request, 'modtmrpg/index.html', {'data': data, 'ds_url': ds_url, })
+    return render(request, 'modtmrpg/index.html', {'data': data, 'ds_url': ds_url, 'categories': categories,})
 
 def shop(request, status=''):
+    categories = models.MediaCategory.objects.all()
     if not request.user.is_authenticated:
         return HttpResponseRedirect('/accounts/login')
     data = {}
@@ -129,7 +131,7 @@ def shop(request, status=''):
     elif status=='error':
         data['alert_text'] = 'Недостаточно баллов!'
 
-    return render(request, 'modtmrpg/shop.html', {'data': data, 'items': items, })
+    return render(request, 'modtmrpg/shop.html', {'data': data, 'items': items, 'categories':categories, })
 
 @csrf_exempt
 def buy_item(request, id):
@@ -140,6 +142,9 @@ def buy_item(request, id):
     print(id)
     item = models.Item.objects.get(id=id)
     amount = int(request.POST.get('amount'))
+
+    if amount <0:
+        return HttpResponseRedirect('/shop/')
 
 
     if moder.balance < item.price*amount:
@@ -216,9 +221,40 @@ def buy_item_error(request):
     return render(request, 'modtmrpg/shop.html', {'data': data, })
 
 
-def media_view(request):
-    return render(request, 'modtmrpg/media.html')
+def media_view(request, category):
+    domain = request.build_absolute_uri('/')[:-1]
+    categories = models.MediaCategory.objects.all()
+    data = {}
+    if category != 'None':
+        current_category = models.MediaCategory.objects.get(category_folder=category)
+        media = models.MediaItem.objects.filter(category=current_category)
+    else:
+        media = models.MediaItem.objects.filter(category=None)
 
+    return render(request, 'modtmrpg/media.html', {'data': data, 'media': media, 'categories': categories, 'domain': domain})
+
+
+@csrf_exempt
+def new_file(request):
+    if not request.user.is_authenticated:
+        return HttpResponseRedirect('/accounts/login')
+    data = {}
+    categories = models.MediaCategory.objects.all()
+
+    # amount = int(request.POST.get('amount'))
+    if request.method == "POST":
+        form = forms.AddItem(request.POST,request.FILES)
+        print('хуй1')
+        if form.is_valid():
+            print('хуй2')
+            item = form.save(commit=False)
+            # moder.user = request.user
+            item.save()
+            print(item.media_name)
+            data['success'] = True
+           
+    form = forms.AddItem()
+    return render(request, 'modtmrpg/new_file.html', {'data': data, 'categories': categories, 'form': form, })
 
 
 def oauth2(request):

@@ -1,0 +1,22 @@
+{%extends 'base.html'%}
+{% load crispy_forms_tags %}
+
+{%block content%}
+
+{%if data.success%}
+<div class="alert alert-success d-flex align-items-center" id="msg" role="alert">
+    <svg class="bi flex-shrink-0 me-2" role="img" aria-label="Danger:"><use xlink:href="#exclamation-triangle-fill"/></svg>
+    <div>
+      Файл загружен успешно!
+    </div>
+  </div>
+{%endif%}
+
+<form method="post" enctype="multipart/form-data" action="">
+    {% csrf_token %}
+    {{form|crispy}}
+    <button class="btn btn-primary" type="submit" value="">Добавить</button>
+    <input type="hidden" name="next" value="{{ next }}" />
+</form>
+
+{%endblock%}

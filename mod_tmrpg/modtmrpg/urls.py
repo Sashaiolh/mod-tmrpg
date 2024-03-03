@@ -22,5 +22,6 @@ urlpatterns = [
     path('shop/', views.shop, name='shop'),
     path('shop/<str:status>', views.shop, name='buy_item_success'),
     path('shop/buy/<int:id>', views.buy_item, name='buy_item'),
-    path('media/', views.media_view, name='media_view'),
+    path('files/New/', views.new_file, name='new_file'),
+    path('files/<str:category>/', views.media_view, name='media_view'),
 ]

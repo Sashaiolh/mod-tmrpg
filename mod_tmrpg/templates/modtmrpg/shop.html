@@ -59,7 +59,7 @@ delayedGreeting();
                 <form action="buy/{{item.id}}" method="post">
                     {% csrf_token %}
                         <label class="form-label" for="typeNumber{{item.id}}">Введите количество:</label>
-                        <input type="number" name="amount" id="typeNumber{{item.id}}" class="form-control" />
+                        <input type="number" name="amount" id="typeNumber{{item.id}}" min="1" class="form-control" />
                         <script>
                             $("#typeNumber{{item.id}}").val(1)
                         </script>
@@ -81,7 +81,7 @@ delayedGreeting();
 <div class="card mb-3" style="max-width: 540px;">
     <div class="row g-1">
       <div class="col-md-4">
-        <img src="{{item.image.url}}" class="img-fluid rounded-start" alt="{{item.image.url}}">
+        <img src="{{item.image.url}}" class="img-fluid rounded-start" alt="Передай владельцу сайта, что он пидорас">
 
       </div>
 

@@ -49,7 +49,7 @@ class RegisterFormModel(models.Model):
 class Item(models.Model):
     item_name = models.CharField('название',max_length=16)
     description = models.TextField('описание')
-    note = models.TextField('примечание')
+    note = models.CharField('примечание',max_length=35)
     price = models.IntegerField('цена')
     # image = models.CharField(max_length=100)
     image = models.ImageField(upload_to ='items/')
@@ -60,8 +60,15 @@ class Item(models.Model):
     def __str__(self):
         return self.item_name
     
+class MediaCategory(models.Model):
+    category_name = models.CharField('название',max_length=12)
+    category_folder = models.CharField('путь',max_length=12)
+    def __str__(self):
+        return f'{self.category_name} | {self.category_folder}'
+    
 class MediaItem(models.Model):
-    media_name = models.CharField('название', default='image', max_length=16)
+    media_name = models.CharField('название', max_length=16)
     media_file = models.ImageField(upload_to ='items/')
+    category = models.ForeignKey("MediaCategory", on_delete=models.SET_NULL, blank=True, null=True)
     def __str__(self):
         return f'{self.media_name} | {self.id}'

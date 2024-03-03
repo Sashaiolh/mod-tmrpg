@@ -4,8 +4,7 @@
 
 
 
-{%for item
-   in media%}
+{%for item in media%}
 <!-- <h1></h1> -->
 
 
@@ -15,26 +14,42 @@
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
-          <h1 class="modal-title fs-5" id="exampleModalLabel{{item.id}}">Modal title</h1>
+          <h1 class="modal-title fs-5" id="exampleModalLabel{{item.id}}">Картинка</h1>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
             <div class="form-outline">
-                <form action="buy/{{item.id}}" method="post">
-                    {% csrf_token %}
-                        <label class="form-label" for="typeNumber{{item.id}}">Введите количество:</label>
-                        <input type="number" name="amount" id="typeNumber{{item.id}}" class="form-control" />
-                        <script>
-                            $("#typeNumber{{item.id}}").val(1)
-                        </script>
-                    
+
+                        <p>Название: {{item.media_name}}</p>
+                        <p>Ссылка: <span id="link{{item.id}}">{{domain}}{{item.media_file.url}}</span></p>
+                        
+
             </div>
         </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Отменить</button>
-                <button type="submit" class="btn btn-primary">Подтвердить покупку</button>
+              <button type="button" class="btn btn-secondary" onclick="copy{{item.id}}()" data-bs-dismiss="modal">Копировать ссылку</button> 
+              <a href="{{domain}}{{item.media_file.url}}" class="btn btn-primary">Открыть в браузере</a>
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Закрыть</button> 
             </div>
-        </form>
+
+            <script>
+              function copy{{item.id}}() {
+                // get the container
+                const element = document.querySelector('#link{{item.id}}');
+                // Create a fake `textarea` and set the contents to the text
+                // you want to copy
+                const storage = document.createElement('textarea');
+                storage.value = element.innerHTML;
+                element.appendChild(storage);
+
+                // Copy the text in the fake `textarea` and remove the `textarea`
+                storage.select();
+                storage.setSelectionRange(0, 99999);
+                document.execCommand('copy');
+                element.removeChild(storage);
+              }
+            </script>
+        
       </div>
     </div>
   </div>
@@ -42,29 +57,36 @@
 
 
 
-<div class="card mb-3" style="max-width: 540px;">
+<!-- <div class="card mb-3" style="max-width: 540px;">
     <div class="row g-1">
       <div class="col-md-4">
-        <img src="{{item.image.url}}" class="img-fluid rounded-start" alt="...">
+        <img src="" class="img-fluid rounded-start" alt="Передай владельцу сайта, что он пидорас">
+        
       </div>
 
-    <div class="col-md-8">
+     <div class="col-md-8">
     <div class="card-body">
       <h5 class="card-title">{{item.item_name}}</h5>
       <span class="card-text">ℹ️{{item.description}}</span></br>
       <span class="card-text"><b>💵Цена: {{item.price}}</b></span></br>
       <span class="card-text"><small class="text-muted">⚠️{{item.note}}</small></span></br>
-      <button style="margin-top: 3%;" type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#exampleModal{{item.id}}">Купить</button>
-    </div>
+      
+    </div> 
   </div> 
     </div>
-  </div>
-      
-      
+  </div> -->
+ 
+  <span class="files" data-bs-toggle="modal" data-bs-target="#exampleModal{{item.id}}">  <img src="{{item.media_file.url}}" style="max-width: 100px; " class="img-thumbnail" alt="..."></span>
 
 
 
 {%endfor%}
+
+<style>
+  span.files:hover{
+    cursor:pointer
+    }
+</style>
 
 {%endblock%}
 
