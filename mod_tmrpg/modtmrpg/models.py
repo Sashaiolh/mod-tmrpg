@@ -52,5 +52,9 @@ class Item(models.Model):
     note = models.TextField('примечание')
     price = models.IntegerField('цена')
     image = models.ImageField(upload_to ='items/')
+    type = models.IntegerField()
+    # 0 - items
+    # 1 - cases
+    # 2 - privki
     def __str__(self):
         return self.item_name

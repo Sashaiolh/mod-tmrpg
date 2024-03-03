@@ -20,4 +20,6 @@ from modtmrpg import views
 urlpatterns = [
     path('', views.index, name='index'),
     path('shop/', views.shop, name='shop'),
+    path('shop/<str:status>', views.shop, name='buy_item_success'),
+    path('shop/buy/<int:id>', views.buy_item, name='buy_item'),
 ]

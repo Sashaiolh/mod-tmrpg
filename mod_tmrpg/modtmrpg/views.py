@@ -12,6 +12,10 @@ from modtmrpg import forms
 import requests
 import json
 
+from discord_webhook import DiscordWebhook, DiscordEmbed
+
+
+
 API_ENDPOINT = 'https://discord.com/api/v10'
 CLIENT_ID = '1213447548342116373'
 CLIENT_SECRET = '11ZYkGhlOqRTLXl64oPxWBOETKdoQw0m'
@@ -69,21 +73,25 @@ def register_view(request):
             if user_data['password1'] != user_data['password2']:
                 data['alert_text'] = 'Пароли не совпадают!'
             else:
-                # try:
+                try:
                     moder = models.Moder.objects.get(id=user_data['secret_code'])
-                    if moder:
+                    if moder.is_registered:
+                        data['alert_text'] = 'Вы уже зарегистрированы!'
+                    elif moder and not moder.is_registered:
                         print(moder.nickname)
                         user = User.objects.create_user(username=moder.nickname)
                         user.set_password(user_data['password1'])
                         user.save()
                         print('Всё заебись брат')
+                        moder.is_registered = True
+                        moder.save()
                         return HttpResponseRedirect('/')
-                # except Exception as e:
-                #     print('не повезло')
-                #     print('------------------------------------')
-                #     print(e)
-                #     print('------------------------------------')
-                #     data['alert_text'] = 'Введите корректный код!'
+                except Exception as e:
+                    print('не повезло')
+                    print('------------------------------------')
+                    print(e)
+                    print('------------------------------------')
+                    data['alert_text'] = 'Введите корректный код!'
                 
                 
     form = forms.ModerRegForm()
@@ -109,7 +117,7 @@ def index(request):
     # data['discord_user'] = 
     return render(request, 'modtmrpg/index.html', {'data': data, 'ds_url': ds_url, })
 
-def shop(request):
+def shop(request, status=''):
     if not request.user.is_authenticated:
         return HttpResponseRedirect('/accounts/login')
     data = {}
@@ -117,7 +125,99 @@ def shop(request):
 
     items = models.Item.objects.all()
 
+    if status=='success':
+        data['success_text'] = 'Покупка успешна!'
+    elif status=='error':
+        data['alert_text'] = 'Недостаточно баллов!'
+
     return render(request, 'modtmrpg/shop.html', {'data': data, 'items': items, })
+
+@csrf_exempt
+def buy_item(request, id):
+    if not request.user.is_authenticated:
+        return HttpResponseRedirect('/accounts/login')
+    username = request.user.username
+    moder = models.Moder.objects.get(nickname=username)
+    print(id)
+    item = models.Item.objects.get(id=id)
+    amount = int(request.POST.get('amount'))
+
+
+    if moder.balance < item.price*amount:
+        return HttpResponseRedirect(f'/shop/error')
+    else:
+        moder.balance -= item.price*amount
+        moder.save()
+
+        curatorPex = models.Pex.objects.get(pex_name='curator')
+        curatorsQuery = models.Moder.objects.filter(pex=curatorPex)
+
+        GMPex = models.Pex.objects.get(pex_name='gm')
+        GMQuery = models.Moder.objects.filter(pex=GMPex)
+
+        StPex = models.Pex.objects.get(pex_name='StModer')
+        StQuery = models.Moder.objects.filter(pex=StPex)
+
+        tapcura = []
+        tapst = []
+
+        for curator in curatorsQuery:
+            # for discord in models.Discord.objects.all():
+            discords = models.Discord.objects.filter(moder=curator)
+            for discord in discords:
+                tapcura.append(f'<@{discord.ds_id}>')  
+
+        for gm in GMQuery:
+            # for discord in models.Discord.objects.all():
+            discords = models.Discord.objects.filter(moder=gm)
+            for discord in discords:
+                tapst.append(f'<@{discord.ds_id}>')   
+            
+        for StModer in StQuery:
+            # for discord in models.Discord.objects.all():
+            discords = models.Discord.objects.filter(moder=StModer)
+            for discord in discords:
+                tapst.append(f'<@{discord.ds_id}>')     
+
+        webhook = DiscordWebhook(url="https://discord.com/api/webhooks/1213640643558117446/5dUk-tlebu7QfT6XJ35vM7Z0vGDjhPwgwjiWYRwbY7cAnHn6NrQD_E4vrdy7qlYq-zz3")            
+
+        if item.type == 0 or item.type == 1:
+            webhook.content=''.join(tapst)
+        elif item.type==2:
+            webhook.content=''.join(tapcura)
+
+        
+
+            
+
+        embed = DiscordEmbed(title="Покупка на сайте", description="", color="03b2f8")
+        # embed.set_author(name="Author Name", url="https://github.com/lovvskillz", icon_url="https://avatars0.githubusercontent.com/u/14542790")
+        # embed.set_footer(text="Embed Footer Text")
+        embed.set_timestamp()
+        embed.add_embed_field(name=f"Модератор:", value=f"{moder.nickname}")
+        embed.add_embed_field(name=f"Купил:", value=f"{item.item_name}")
+        embed.add_embed_field(name=f"В количестве:", value=f"{amount}шт.")
+        # embed.add_embed_field(name="Field 3", value="amet consetetur")
+        # embed.add_embed_field(name="Field 4", value="sadipscing elitr")
+
+        webhook.add_embed(embed)
+        response = webhook.execute()
+
+
+        return HttpResponseRedirect(f'/shop/success')
+    
+def buy_item_success(request):
+    data = {}
+    data['success_text'] = 'Покупка успешна!'
+    return render(request, 'modtmrpg/shop.html', {'data': data, })
+
+def buy_item_error(request):
+    data = {}
+    data['success_text'] = 'Недостаточно баллов!'
+    return render(request, 'modtmrpg/shop.html', {'data': data, })
+
+
+
 
 def oauth2(request):
     if not request.user.is_authenticated:
