@@ -120,7 +120,7 @@ def index(request):
 def shop(request, status=''):
     categories = models.MediaCategory.objects.all()
     if not request.user.is_authenticated:
-        return HttpResponseRedirect('/accounts/login')
+        return HttpResponseRedirect('/')
     data = {}
     data['user'] = request.user
 
@@ -136,7 +136,7 @@ def shop(request, status=''):
 @csrf_exempt
 def buy_item(request, id):
     if not request.user.is_authenticated:
-        return HttpResponseRedirect('/accounts/login')
+        return HttpResponseRedirect('/')
     username = request.user.username
     moder = models.Moder.objects.get(nickname=username)
     print(id)
@@ -237,7 +237,7 @@ def media_view(request, category):
 @csrf_exempt
 def new_file(request):
     if not request.user.is_authenticated:
-        return HttpResponseRedirect('/accounts/login/')
+        return HttpResponseRedirect('/')
     data = {}
     categories = models.MediaCategory.objects.all()
 
@@ -259,7 +259,7 @@ def new_file(request):
 
 def oauth2(request):
     if not request.user.is_authenticated:
-        return HttpResponseRedirect('/accounts/login')
+        return HttpResponseRedirect('/')
     with open('data.json', 'w') as f:
         json.dump(get_token(), f)
     
