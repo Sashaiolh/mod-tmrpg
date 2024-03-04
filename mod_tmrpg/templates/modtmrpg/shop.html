@@ -51,7 +51,7 @@ delayedGreeting();
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
-          <h1 class="modal-title fs-5" id="exampleModalLabel{{item.id}}">Modal title</h1>
+          <h1 class="modal-title fs-5" id="exampleModalLabel{{item.id}}">Покупка предмета</h1>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
@@ -78,19 +78,20 @@ delayedGreeting();
 
 
 
-<div class="card mb-3" style="max-width: 540px;">
+<div class="card mb-3" style="max-width: 540px; float: left; margin: 10px;">
     <div class="row g-1">
       <div class="col-md-4">
-        <img src="{{item.image.url}}" class="img-fluid rounded-start" alt="Передай владельцу сайта, что он пидорас">
+        <img src="{{item.image.url}}" class="item_images" style="" class="img-fluid rounded-start" alt="Передай владельцу сайта, что он пидорас">
 
       </div>
 
     <div class="col-md-8">
     <div class="card-body">
-      <h5 class="card-title">{{item.item_name}}</h5>
-      <span class="card-text">ℹ️{{item.description}}</span></br>
-      <span class="card-text"><b>💵Цена: {{item.price}}</b></span></br>
-      <span class="card-text"><small class="text-muted">⚠️{{item.note}}</small></span></br>
+      <h6 class="card-title">{{item.item_name}}</h6>
+      {%if item.description%}<span class="card-text">ℹ️{{item.description}}</span></br>{%endif%}
+      <span class="card-text">💵Цена: {{item.price}}</span></br>
+      <span class="card-text"><span class="text-muted">⚠️{{item.note}}</span></span></br>
+      {%if not item.description%}<span class="card-text"></span></br>{%endif%}
       <button style="margin-top: 3%;" type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#exampleModal{{item.id}}">Купить</button>
     </div>
   </div> 
@@ -102,6 +103,21 @@ delayedGreeting();
 
 
 {%endfor%}
+
+<style>
+@media only screen and (min-width: 768px) {
+  /* For mobile phones: */
+  .item_images {
+    max-width: 176px;
+  }
+}
+  @media only screen and (max-width: 768px) {
+  /* For mobile phones: */
+  .item_images {
+    max-width: 200px;
+  }
+}
+</style>
 
 {%endblock%}
 

@@ -47,9 +47,9 @@ class RegisterFormModel(models.Model):
         return self.secret_code
     
 class Item(models.Model):
-    item_name = models.CharField('название',max_length=16)
-    description = models.TextField('описание')
-    note = models.CharField('примечание',max_length=35)
+    item_name = models.CharField('название',max_length=35)
+    description = models.CharField('описание', blank=True, max_length=30)
+    note = models.CharField('примечание', blank=True, max_length=35)
     price = models.IntegerField('цена')
     # image = models.CharField(max_length=100)
     image = models.ImageField(upload_to ='items/')
@@ -67,7 +67,7 @@ class MediaCategory(models.Model):
         return f'{self.category_name} | {self.category_folder}'
     
 class MediaItem(models.Model):
-    media_name = models.CharField('название', max_length=16)
+    media_name = models.CharField('название', max_length=30)
     media_file = models.ImageField(upload_to ='items/')
     category = models.ForeignKey("MediaCategory", on_delete=models.SET_NULL, blank=True, null=True)
     def __str__(self):
