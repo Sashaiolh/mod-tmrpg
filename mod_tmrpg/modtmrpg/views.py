@@ -237,7 +237,7 @@ def media_view(request, category):
 @csrf_exempt
 def new_file(request):
     if not request.user.is_authenticated:
-        return HttpResponseRedirect('/accounts/login')
+        return HttpResponseRedirect('/accounts/login/')
     data = {}
     categories = models.MediaCategory.objects.all()
 
