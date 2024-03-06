@@ -78,7 +78,7 @@ def init_data(request):
     data['current_url'] = request.build_absolute_uri('/')
     data['domain'] = request.build_absolute_uri('/')[:-1]
     data['all_moders'] = models.Moder.objects.all()
-    data['ecologs'] = models.EcoLog.objects.order_by('date')
+    data['ecologs'] = models.EcoLog.objects.all()
     data['moder'] = models.Moder.objects.get(nickname=request.user.username)
     data['user'] = request.user
 
@@ -211,6 +211,7 @@ def modsEdit(request):
             moder = models.Moder.objects.get(nickname=request.POST.get('nick'))
             operator = request.POST.get('options-operator')
             amount = int(request.POST.get('amount'))
+            reason = request.POST.get('reason')
             if data['moder'].pex.hierarchy > moder.pex.hierarchy:
                 if operator == '=':
                     moder.balance = amount
@@ -219,6 +220,8 @@ def modsEdit(request):
                     amount = (-1)*amount if operator == '-' else amount
                     moder.balance += amount
                     moder.save()
+                    new_log = models.EcoLog.objects.create(admin=data['moder'], moder=moder, amount=amount, reason=reason)
+                    new_log.save()
         
         if request.POST.get('typePost') != None:
             moder = models.Moder.objects.get(nickname=request.POST.get('nick'))
@@ -250,7 +253,7 @@ def modsEdit(request):
                     pass
                 moder.delete()
             
-        return redirect(f'{data['current_url']}modsEdit/')
+        return redirect(f'{data["current_url"]}modsEdit/')
                 
 
 
@@ -396,6 +399,15 @@ def skinfix(request, nick):
     moder.skin_valid = False
     moder.head_valid = False
     moder.save()
+    return HttpResponseRedirect('/')
+
+
+def oauth2Remove(request):
+    if not request.user.is_authenticated:
+        return HttpResponseRedirect('/accounts/login/')
+    data = init_data(request)
+    if data['moder'].discord:
+        data['moder'].discord.delete()
     return HttpResponseRedirect('/')
 
 

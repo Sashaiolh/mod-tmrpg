@@ -74,7 +74,7 @@ delayedGreeting();
                 <form action="" method="post" >
                     {% csrf_token %}
                         <label class="form-label" for="typeNumber{{moder.id}}">Введите количество:</label>
-                        <input type="number" name="amount" id="typeNumber{{moder.id}}" min="1" class="form-control" />
+                        <input type="number" name="amount" id="typeNumber{{moder.id}}" min="0" class="form-control" />
 
                         </br>
                         <h6>Выберите оператор</h6>
@@ -84,8 +84,15 @@ delayedGreeting();
                         <input type="radio" class="btn-check" name="options-operator" value="-" id="option2{{moder.id}}" autocomplete="off">
                         <label class="btn" for="option2{{moder.id}}">-</label>
 
+                        {%if data.moder.is_admin%}
                         <input type="radio" class="btn-check" name="options-operator"value="=" i id="option3{{moder.id}}" autocomplete="off">
                         <label class="btn" for="option3{{moder.id}}">=</label>
+                        {%endif%}
+                      
+                        </br>
+                        
+                        <label class="form-label" for="reason{{moder.id}}" style="margin-top: 3%;">Причина:</label>
+                        <input type="text" name="reason" maxlength="20" id="reason{{moder.id}}" class="form-control" />
 
                         <input type="hidden" name="nick" value="{{moder.nickname}}">
                     
@@ -157,7 +164,7 @@ delayedGreeting();
         <span style="font-size: 14px;" class="">♿Должность: <b>{{moder.pex.display_name}}</b></span></br>
         <span class="card-text" style="font-size: 14px;">💵Баланс: {{moder.balance}} баллов</span></br>
         <span class="card-text" style="font-size: 14px;">🛑Выговоров: 0/3</span></br>
-        <span class="card-text" style="font-size: 14px;">🛜Discord: <b>{%if moder.discord%}привязан{%else%}не привязан{%endif%}</b></span></br>
+        <span class="card-text" style="font-size: 14px;">🛜Discord: <span style="color:{%if moder.discord %}green{%else%}tomato{%endif%}"><b>{%if moder.discord%}привязан{%else%}не привязан{%endif%}</span></b></span></br>
         <!-- <span class="card-text" style="font-size: 14px;"><span class="">⚠️{{item.note}}</span></span></br> -->
         </div>
 

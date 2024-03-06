@@ -39,11 +39,15 @@ class EcoLog(models.Model):
     amount = models.IntegerField('Количество')
     reason = models.CharField('Причина', max_length=50)
     date = models.DateTimeField(auto_now_add=True)
+    def getDate(self):
+        return self.date.strftime("%d %b %Y")
     def __str__(self):
         t = f'+{self.amount}' if self.amount>0 else self.amount
         if self.admin:
             return f'[{self.admin.pex.display_name}] {self.admin.nickname} --> {t} --> [{self.moder.pex.display_name}] {self.moder.nickname}'
         return f'[Shop --> {t} --> [{self.moder.pex.display_name}] {self.moder.nickname}'
+    class Meta:
+        ordering = ['-date']
 
 
 class Discord(models.Model):
