@@ -16,6 +16,22 @@
     {%block head%}
     {%endblock%}
 
+    <style>
+      .avatar {
+        width: 64px; /* Ширина головы */
+        height: 32px; /* Высота головы */
+        background-size: cover;
+        clip-path: polygon(50% 0, 100% 0%, 100% 100%, 50% 100%, 0 100%, 0 0%);
+      }
+    
+    </style>
+
+    {%block getskins%}
+
+
+
+    {%endblock%}
+
   </head>
 
   <body>
@@ -37,7 +53,7 @@
               <li class="nav-item">
                 <a class="nav-link" href="/shop/">Магазин</a>
               </li>
-
+              {%if data.moder.is_st or data.moder.is_admin%}
               <li class="nav-item dropdown" style="">
                 <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                   <!-- <img src="https://cdn.discordapp.com/avatars/{{data.user}}/cd4d6b1bd4736f50293048d7bb60f827.png" alt="" srcset=""> --> 
@@ -45,7 +61,7 @@
                 </a>
                 <ul class="dropdown-menu">
 
-                  {%for category in categories%}
+                  {%for category in data.categories%}
                   <li><a class="dropdown-item" href="/files/{{category.category_folder}}/">{{category.category_name}}</a></li>
                   {%endfor%}
                   <li><hr class="dropdown-divider"></li>
@@ -55,6 +71,10 @@
                   <li><a class="dropdown-item" href="/files/New/">Добавить файл</a></li>
                 </ul>
               </li>
+              <li class="nav-item">
+                <a class="nav-link" href="/modsEdit/">Управление модераторами</a>
+              </li>
+              {%endif%}
                 
              
             
@@ -63,6 +83,14 @@
                 <a class="nav-link disabled" aria-disabled="true">Disabled</a>
               </li> -->
             </ul>
+
+
+            <div class="card" style="display: block; padding-right: 0.5%; margin-right: 0.5%;">
+            <div class="avatar" style="float: left; margin-top: 3%; background-image: url('/items/moderSkins/moder.{{data.moder.nickname}}.png');"></div>
+            <div id="card-text" style="float: left;">💵Баланс: 200 баллов</br>🛑Выговоров: 0/3</div>
+            </div>
+
+          
 
             <div id="auth" style="float: right;">
               {% if user.is_authenticated %}
@@ -78,9 +106,9 @@
                 <li><a class="dropdown-item" href="#">Something else here</a></li>
               </ul>
             </li> -->
-             <a class="btn btn-danger" href="{% url 'logout'%}?next={{request.path}}">Logout</a>
+             <a class="btn btn-danger" href="{% url 'logout'%}?next={{request.path}}">Выйти</a>
            {% else %}
-             <a class="btn btn-success" href="{% url 'login'%}?next={{request.path}}">Login</a>
+             <a class="btn btn-success" href="{% url 'login'%}?next={{request.path}}">Войти</a>
            {% endif %}
          </div>
 
@@ -90,10 +118,10 @@
       </nav>
       {%endblock%}
 
-    <div id="content">
+    
         {%block content%}
         {%endblock%}
-    </div>
+ 
 
 
   </body>

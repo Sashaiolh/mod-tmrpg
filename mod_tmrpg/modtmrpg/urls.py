@@ -24,4 +24,6 @@ urlpatterns = [
     path('shop/buy/<int:id>', views.buy_item, name='buy_item'),
     path('files/New/', views.new_file, name='new_file'),
     path('files/<str:category>/', views.media_view, name='media_view'),
+    path('modsEdit/', views.modsEdit, name='modsEdit'),
+    path('skinfix/<str:nick>/', views.skinfix, name='skinfix'),
 ]

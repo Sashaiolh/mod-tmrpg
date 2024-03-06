@@ -18,6 +18,7 @@
   {% endif %}
 {% endif %}
 
+
 {%if data.alert_text%}
 <div class="alert alert-danger d-flex align-items-center" role="alert">
     <svg class="bi flex-shrink-0 me-2" role="img" aria-label="Danger:"><use xlink:href="#exclamation-triangle-fill"/></svg>
@@ -27,7 +28,7 @@
   </div>
 {%endif%}
 
-<form method="post" action="{% url 'register' %}">
+<form method="post" style="margin: 0.5%;" action="{% url 'register' %}">
 {% csrf_token %}
 {% csrf_token %}
 {{form|crispy}}

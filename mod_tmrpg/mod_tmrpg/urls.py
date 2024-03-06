@@ -27,6 +27,6 @@ urlpatterns = [
     path('accounts/register/', views.register_view, name='register'),
     path('accounts/profile/', views.accounts_profile, name='accounts_profile'),
     path('accounts/', include('django.contrib.auth.urls')),
-    path('oauth2/discord/', views.oauth2, name='oauth2'),
+    path('oauth2/discord', views.oauth2, name='oauth2'),
     path('', include('modtmrpg.urls')),
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT) + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

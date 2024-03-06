@@ -12,7 +12,7 @@ class ModerRegForm(forms.ModelForm):
         "type": "password",
         'class': 'form-control'
     }
-    
+
     class Meta:
         model = RegisterFormModel
         widgets = {

@@ -1,7 +1,8 @@
 {%extends 'base.html'%}
 
 {%block content%}
-
+{%if data.success_text or data.alert_text%}
+<div class="alerts" style="">
 {%if data.alert_text%}
 <div class="alert alert-danger d-flex align-items-center" id="msg" role="alert">
     <svg class="bi flex-shrink-0 me-2" role="img" aria-label="Danger:"><use xlink:href="#exclamation-triangle-fill"/></svg>
@@ -19,8 +20,21 @@
     </div>
   </div>
 {%endif%}
+</div>
 
-{%if data.success_text or data.alert_text%}
+<style>
+  .alerts {
+    position:fixed; 
+    left: 50%;
+    top: 1%;
+    transform: translate(-50%, 0%);
+    max-width: 90%;
+    width: 100%;
+    z-index:9999; 
+    border-radius:0px
+}
+</style>
+
 <script>
 const sleep = (ms = 0) => new Promise(resolve => setTimeout(resolve, ms));
     
@@ -34,12 +48,13 @@ async function delayedGreeting() {
     var newURL = currentURL.substring(0, currentURL.lastIndexOf('/'));
 
     // Перенаправляем на новый URL
-    window.location.href = newURL;
+    window.location.href = newURL+'/';
 
 }
 
 delayedGreeting();
 </script>{%endif%}
+
 
 {%for item in items%}
 <!-- <h1></h1> -->
@@ -74,14 +89,15 @@ delayedGreeting();
       </div>
     </div>
   </div>
-    
+  {%endfor%}
 
-
-
-<div class="card mb-3" style="max-width: 540px; float: left; margin: 10px;">
+<!-- 
+  <div style="" class="">
+  {%for item in items%}
+<div class="card row equal-height-row  
+d-flex flex-wrap" style="max-width: 540px;  float: left;">
     <div class="row g-1">
       <div class="col-md-4">
-        <img src="{{item.image.url}}" class="item_images" style="" class="img-fluid rounded-start" alt="Передай владельцу сайта, что он пидорас">
 
       </div>
 
@@ -97,12 +113,195 @@ delayedGreeting();
   </div> 
     </div>
   </div>
-      
-      
-
-
 
 {%endfor%}
+</div> -->
+
+
+
+<!-- <div class="container">
+  <div class="row">
+
+  {%for item in items%}
+  <div class="col-6 col-sm-4">
+
+
+
+
+
+
+      <h6 class="card-title">{{item.item_name}}</h6>
+      {%if item.description%}<span class="card-text">ℹ️{{item.description}}</span></br>{%endif%}
+      <span class="card-text">💵Цена: {{item.price}}</span></br>
+      <span class="card-text"><span class="text-muted">⚠️{{item.note}}</span></span></br>
+      {%if not item.description%}<span class="card-text"></span></br>{%endif%} COMMENT
+      <button style="margin-top: 3%;" type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#exampleModal{{item.id}}">Купить</button>
+
+</div>  
+{%endfor%}
+  </div>
+</div> -->
+
+  
+  <!-- <div class="conteiner row-equal" style="width: 100%;">
+    <div class="child" style="margin-left: auto; margin-right: auto; max-width: 70%;">
+  {%for item in items%}
+  <div class="card test h-50" style="width: 15rem; margin: 10px; float: left;">
+    <img src="" class="card-img-top" alt="...">
+    <div class="card-body">
+      <h6 class="card-title">{{item.item_name}}</h6>
+      {%if item.description%}<span class="card-text">ℹ️{{item.description}}</span></br>{%endif%}
+      <span class="card-text">💵Цена: {{item.price}}</span></br>
+      <span class="card-text"><span class="text-muted">⚠️{{item.note}}</span></span></br>
+      {%if not item.description%}<span class="card-text"></span></br>{%endif%}
+    </div>
+    
+    <div class="card-body">
+      <button style="" type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#exampleModal{{item.id}}">Купить</button>
+    </div>
+  </div>
+  {%endfor%}
+</div>
+</div> -->
+
+
+<!--  -->
+
+
+
+
+<!-- <div class="conteiner row-equal">
+{%for item in items%}
+
+<div class="card test h-50" id="card{{item.id}}" style="float: left; padding-right: 50px;">
+  <div class="card" style="float:left; object-fit: none; min-height: 128px; max-height: 128px;">
+    <h6 class="card-title">{{item.item_name}}</h6>
+    {%if item.description%}<span class="card-text">ℹ️{{item.description}}</span></br>{%endif%}
+    <span class="card-text">💵Цена: {{item.price}}</span></br>
+    <span class="card-text"><span class="text-muted">⚠️{{item.note}}</span></span></br>
+    {%if not item.description%}<span class="card-text"></span></br>{%endif%}
+  </div>
+</div>
+
+<style>
+  #card{{item.id}} {
+    background-repeat: no-repeat;
+    background-position: left;
+    padding-left: 128px; */
+  }
+</style>
+
+{%endfor%}
+</div> -->
+
+
+
+
+
+
+<!-- <script>
+  jQuery.fn.centerElement = function () {
+   this.css ("position", "absolute");
+   this.css ("top", ($ (window). height () - this.height ()) / 2 + $ (window). scrollTop () + "px");
+   this.css ("left", ($ (window). width () - this.width ()) / 2 + $ (window). scrollLeft () + "px")
+   return this;
+}
+</script> -->
+
+
+<div class="conteiner rere row-equal" id="allCards">
+  {% for item in items %}
+  <div class="cardr card test" id="card{{item.id}}">
+    <div class="card-content">
+      <div class="card cardr image-container" style="margin-top: 3%;">
+        
+        <img src="{%if item.image%}{{item.image.url}}{%else%}{{item.image_url}}{%endif%}"  class="rounded" alt="...">
+      </div>
+      <div class="text-container">
+
+        <div style="">
+        <b><span style="font-size: 18px;" class="card-title">{{item.item_name}}</span></b></br>
+        {%if item.description%}<span style="font-size: 14px;" class="">ℹ️{{item.description}}</span></br>{%endif%}
+        <span class="card-text" style="font-size: 14px;">💵Цена: {{item.price}} баллов</span></br>
+        <span class="card-text" style="font-size: 14px;"><span class="">⚠️{{item.note}}</span></span></br>
+        {%if not item.description%}<span class="card-text"></span></br>{%endif%}
+        </div>
+
+          <button style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .8rem; --bs-btn-font-size: .75rem; margin-top: 2%;" type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#exampleModal{{item.id}}">Купить</button>
+   
+      </div>
+      
+    </div>
+  </div>
+  {% endfor %}
+</div>
+
+
+<style>
+  .cardr {
+  float: left;
+  width: 320px; /* 300px + 10px (margin-right) + 10px (margin-left) */
+  margin-right: 10px;
+  margin: 10px;
+}
+
+.card-content {
+  display: flex;
+}
+
+.image-container {
+  max-width: 128px;
+  max-height: 128px;
+}
+
+.text-container {
+  /* flex-grow: 1; Увеличьте значение, чтобы увеличить ширину текстового контейнера */
+  margin: 10px; 
+  margin-bottom: 15px;
+}
+
+.conteiner {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.test {
+  flex: 0 0 450px;
+  margin-right: 10px;
+  margin-bottom: 10px;  
+}
+
+/* Дополнительные стили для последней строки */
+.conteiner:last-child {
+  justify-content: flex-start;
+}
+</style>
+
+  <!-- <style>
+    .rere {
+      display: grid;
+    grid-column-gap: 1%;
+    grid-template-columns: repeat(auto-fit, 300px);
+  }
+  </style>  -->
+<!-- #allCards -->
+  <script>
+// $('#allCards').css({ position:"absolute", 
+//      left: "50%", 
+//     transform: "translate(-50%, 0%)" 
+// })
+// $('#allCards').centerElement();
+  </script>
+
+
+
+
+
+
+
+
+
 
 <style>
 @media only screen and (min-width: 768px) {

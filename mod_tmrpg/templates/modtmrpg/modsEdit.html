@@ -1,0 +1,280 @@
+{%extends 'base.html'%}
+
+{%block content%}
+{%if data.success_text or data.alert_text%}
+<div class="alerts" style="">
+{%if data.alert_text%}
+<div class="alert alert-danger d-flex align-items-center" id="msg" role="alert">
+    <svg class="bi flex-shrink-0 me-2" role="img" aria-label="Danger:"><use xlink:href="#exclamation-triangle-fill"/></svg>
+    <div>
+      {{data.alert_text}}
+    </div>
+  </div>
+{%endif%}
+
+{%if data.success_text%}
+<div class="alert alert-success d-flex align-items-center" id="msg" role="alert">
+    <svg class="bi flex-shrink-0 me-2" role="img" aria-label="Danger:"><use xlink:href="#exclamation-triangle-fill"/></svg>
+    <div>
+      {{data.success_text}}
+    </div>
+  </div>
+{%endif%}
+</div>
+
+<style>
+  .alerts {
+    position:fixed; 
+    left: 50%;
+    top: 1%;
+    transform: translate(-50%, 0%);
+    max-width: 90%;
+    width: 100%;
+    z-index:9999; 
+    border-radius:0px
+}
+</style>
+
+<script>
+const sleep = (ms = 0) => new Promise(resolve => setTimeout(resolve, ms));
+    
+
+async function delayedGreeting() {
+  await sleep(2000);
+ 
+    var currentURL = window.location.href;
+
+    // Удаляем последний сегмент в URL (в данном случае "success")
+    var newURL = currentURL.substring(0, currentURL.lastIndexOf('/'));
+
+    // Перенаправляем на новый URL
+    window.location.href = newURL+'/';
+
+}
+
+delayedGreeting();
+</script>{%endif%}
+
+
+{%for moder in moders%}
+<!-- <h1></h1> -->
+
+
+  
+  <!-- Modal -->
+  <div class="modal fade" id="changeMoney{{moder.id}}" tabindex="-1" aria-labelledby="changeMoneyLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="changeMoneyLabel{{moder.id}}">Изменение баланса</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+            <div class="form-outline">
+                <form action="" method="post" >
+                    {% csrf_token %}
+                        <label class="form-label" for="typeNumber{{moder.id}}">Введите количество:</label>
+                        <input type="number" name="amount" id="typeNumber{{moder.id}}" min="1" class="form-control" />
+
+                        </br>
+                        <h6>Выберите оператор</h6>
+                        <input type="radio" class="btn-check" name="options-operator" value="+" id="option1{{moder.id}}" autocomplete="off" checked>
+                        <label class="btn" for="option1{{moder.id}}">+</label>
+                        
+                        <input type="radio" class="btn-check" name="options-operator" value="-" id="option2{{moder.id}}" autocomplete="off">
+                        <label class="btn" for="option2{{moder.id}}">-</label>
+
+                        <input type="radio" class="btn-check" name="options-operator"value="=" i id="option3{{moder.id}}" autocomplete="off">
+                        <label class="btn" for="option3{{moder.id}}">=</label>
+
+                        <input type="hidden" name="nick" value="{{moder.nickname}}">
+                    
+            </div>
+        </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Отменить</button>
+                <button type="submit" class="btn btn-primary">Подтвердить</button>
+            </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+
+
+    <!-- Modal -->
+    <div class="modal fade" id="kickmoder{{moder.id}}" tabindex="-1" aria-labelledby="kickmoderLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h1 class="modal-title fs-5" id="kickmoderLabel{{moder.id}}">Снятие сотрудника</h1>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+              <div class="form-outline">
+                  <form action="" method="post" >
+                      {% csrf_token %}
+                          
+                        <h6>Вы уверены, что хотите снять данного сотрудника?</h6>
+
+                          <input type="hidden" name="typePost" value="kickmoder">
+                          <input type="hidden" name="nick" value="{{moder.nickname}}">
+                      
+              </div>
+          </div>
+              <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Отменить</button>
+                  <button type="submit" class="btn btn-primary">Подтвердить</button>
+              </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  {%endfor%}
+
+
+
+
+<div class="conteiner rere row-equal" id="allCards">
+  {% for moder in moders %}
+  <div class="card cardd test" id="card{{item.id}}">
+    <div class="card-content">
+      <div class="cardd image-container" style="margin-top: 3%;">
+        
+        <!-- <img src="/items/moderHeads/moder.{{moder.nickname}}.png"  class="rounded" alt="..."> -->
+        <div id="moderIcons" class="avatar" style="background-image: url('/items/moderSkins/moder.{{moder.nickname}}.png');"></div>
+        <style>
+          #moderIcons {
+            width: 128px;
+            height: 64px;
+          }
+        </style>
+      </div>
+      <div class="text-container">
+
+        <div style="">
+        <b><span style="font-size: 18px;" class="card-title">{{moder.nickname}}</span></b></br>
+        <span style="font-size: 14px;" class="">♿Должность: <b>{{moder.pex.display_name}}</b></span></br>
+        <span class="card-text" style="font-size: 14px;">💵Баланс: {{moder.balance}} баллов</span></br>
+        <span class="card-text" style="font-size: 14px;">🛑Выговоров: 0/3</span></br>
+        <span class="card-text" style="font-size: 14px;">🛜Discord: <b>{%if moder.discord%}привязан{%else%}не привязан{%endif%}</b></span></br>
+        <!-- <span class="card-text" style="font-size: 14px;"><span class="">⚠️{{item.note}}</span></span></br> -->
+        </div>
+
+          <button style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .8rem; --bs-btn-font-size: .75rem; margin-top: 2%;" type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#changeMoney{{moder.id}}">Изменить баллы</button>
+          
+          <a href="/skinfix/{{moder.nickname}}/" style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .8rem; --bs-btn-font-size: .75rem; margin-top: 2%;" type="button" class="btn btn-primary"  data-bs-target="">фикс скин</a>
+        
+        </br>
+        <div class="" style="display: block; margin-top: 2%;">
+          <form action="" method="post">
+            <button style="float: left; margin-right: 3%; --bs-btn-padding-y: .25rem; --bs-btn-padding-x: .8rem; --bs-btn-font-size: .75rem; margin-top: 2%;" type="submit" class="btn btn-outline-danger">Понизить</button>
+            <input type="hidden" name="typePost" value="downmoder">
+            <input type="hidden" name="nick" value="{{moder.nickname}}">
+          </form>
+          <form action="" method="post">
+            <button style="float: left; margin-right: 3%; --bs-btn-padding-y: .25rem; --bs-btn-padding-x: .8rem; --bs-btn-font-size: .75rem; margin-top: 2%;" type="submit" class="btn btn-outline-success">Повысить</button>
+            <input type="hidden" name="typePost" value="upmoder">
+            <input type="hidden" name="nick" value="{{moder.nickname}}">
+          </form>
+        </div>
+          </br>
+          <button style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .8rem; --bs-btn-font-size: .75rem; margin-top: 3%;" type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#kickmoder{{moder.id}}">Снять</button>
+
+          <!-- <form action="" method="post">
+
+          </form> -->
+      </div>
+      
+    </div>
+  </div>
+  {% endfor %}
+</div>
+
+
+<style>
+  .cardd {
+  float: left;
+  width: 320px; /* 300px + 10px (margin-right) + 10px (margin-left) */
+  margin-right: 10px;
+  margin: 10px;
+}
+
+.card-content {
+  display: flex;
+}
+
+.image-container {
+  max-width: 128px;
+  max-height: 128px;
+}
+
+.text-container {
+  /* flex-grow: 1; Увеличьте значение, чтобы увеличить ширину текстового контейнера */
+  margin: 10px; 
+  margin-bottom: 15px;
+}
+
+.conteiner {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.test {
+  flex: 0 0 450px;
+  margin-right: 10px;
+  margin-bottom: 10px;  
+}
+
+/* Дополнительные стили для последней строки */
+.conteiner:last-child {
+  justify-content: flex-start;
+}
+</style>
+
+  <!-- <style>
+    .rere {
+      display: grid;
+    grid-column-gap: 1%;
+    grid-template-columns: repeat(auto-fit, 300px);
+  }
+  </style>  -->
+<!-- #allCards -->
+  <script>
+// $('#allCards').css({ position:"absolute", 
+//      left: "50%", 
+//     transform: "translate(-50%, 0%)" 
+// })
+// $('#allCards').centerElement();
+  </script>
+
+
+
+
+
+
+
+
+
+
+<style>
+@media only screen and (min-width: 768px) {
+  /* For mobile phones: */
+  .item_images {
+    max-width: 176px;
+  }
+}
+  @media only screen and (max-width: 768px) {
+  /* For mobile phones: */
+  .item_images {
+    max-width: 200px;
+  }
+}
+</style>
+
+{%endblock%}
+
+
+
+
