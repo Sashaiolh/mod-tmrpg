@@ -65,9 +65,6 @@ def download(url, nick, folder):
                     f.write(chunk)
             return True
     except Exception as e:
-        with open('excep.txt', 'wb') as f:
-            f.write(e)
-        print(str(e))
         return False
 
 
