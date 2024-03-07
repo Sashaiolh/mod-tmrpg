@@ -87,17 +87,21 @@ def init_data(request):
     
     for moder in data['all_moders']:
         if not moder.skin_valid:
-            moder.skin_valid = download(f'https://skins.mcskill.net/MinecraftSkins/{moder.nickname}.png', moder.nickname, 'moderSkins')
+            moder.skin_valid = True
             moder.save()
+            data['updateSkin'] = True
+            return data
+            # moder.skin_valid = download(f'https://skins.mcskill.net/MinecraftSkins/{moder.nickname}.png', moder.nickname, 'moderSkins')
+            
+
+            
+            
     data['skin_face_url'] = f'https://visage.surgeplay.com/face/256/{image_to_data_url("items/moderSkins/moder.{nick}.png".format(nick=moder.nickname))}'
     data['skin_bust_url'] = f'https://visage.surgeplay.com/bust/256/{image_to_data_url("items/moderSkins/moder.{nick}.png".format(nick=moder.nickname))}'
     data['skin_full_url'] = f'https://visage.surgeplay.com/full/384/{image_to_data_url("items/moderSkins/moder.{nick}.png".format(nick=moder.nickname))}'
         # if not moder.head_valid:
         #     moder.head_valid = download(f'https://mcskill.net/MineCraft/?name={moder.nickname}&mode=5&fx=43&fy=43', moder.nickname, 'moderHeads')
         #     moder.save()
-
-
-
 
     return data
 
@@ -177,8 +181,12 @@ def accounts_profile(request):
 def index(request):
     if not request.user.is_authenticated:
         return HttpResponseRedirect('/accounts/login/')
+    
     data = init_data(request)
-    print(data['domain'])
+    if data['updateSkin']:
+        print(234820938409238)
+        return HttpResponseRedirect(f"https://mod-tmrpg.vercel.app/updateSkin/{data['moder'].nickname}/")
+
     if data['domain'] == 'http://127.0.0.1:8000':
         ds_url = 'https://discord.com/oauth2/authorize?client_id=1213447548342116373&response_type=code&redirect_uri=http%3A%2F%2F127.0.0.1%3A8000%2Foauth2%2Fdiscord&scope=guilds+identify'
     else:
@@ -189,9 +197,14 @@ def index(request):
 
 @csrf_exempt
 def shop(request, status=''):
-    data = init_data(request)
     if not request.user.is_authenticated:
         return HttpResponseRedirect('/')
+    
+    data = init_data(request)
+    if data == 'updateSkin':
+        nick = data['moder'].nickname
+        print('UPDATE')
+        return HttpResponseRedirect(f"https://mod-tmrpg.vercel.app/updateSkin/")
 
     items = models.Item.objects.all()
 
@@ -208,6 +221,8 @@ def modsEdit(request):
         return HttpResponseRedirect('/')
     
     data = init_data(request)
+    if data == 'updateSkin':
+        return HttpResponseRedirect(f"https://mod-tmrpg.vercel.app/updateSkin/{data['moder'].nickname}/")
 
     moders = models.Moder.objects.all()
 
@@ -268,6 +283,11 @@ def modsEdit(request):
 def buy_item(request, id):
     if not request.user.is_authenticated:
         return HttpResponseRedirect('/')
+    
+    data = init_data(request)
+    if data == 'updateSkin':
+        return HttpResponseRedirect(f"https://mod-tmrpg.vercel.app/updateSkin/{data['moder'].nickname}/")
+
     username = request.user.username
     moder = models.Moder.objects.get(nickname=username)
     print(id)
@@ -340,7 +360,11 @@ def buy_item(request, id):
 def buy_item_success(request):
     if not request.user.is_authenticated:
         return HttpResponseRedirect('/')
+    
     data = init_data(request)
+    if data == 'updateSkin':
+        return HttpResponseRedirect(f"https://mod-tmrpg.vercel.app/updateSkin/{data['moder'].nickname}/")
+
     data['success_text'] = 'Покупка успешна!'
     return render(request, 'modtmrpg/shop.html', {'data': data, })
 
@@ -348,7 +372,11 @@ def buy_item_success(request):
 def buy_item_error(request):
     if not request.user.is_authenticated:
         return HttpResponseRedirect('/')
+    
     data = init_data(request)
+    if data == 'updateSkin':
+        return HttpResponseRedirect(f"https://mod-tmrpg.vercel.app/updateSkin/{data['moder'].nickname}/")
+
     data['success_text'] = 'Недостаточно баллов!'
     return render(request, 'modtmrpg/shop.html', {'data': data, })
 
@@ -356,7 +384,11 @@ def buy_item_error(request):
 def media_view(request, category):
     if not request.user.is_authenticated:
         return HttpResponseRedirect('/')
+    
     data = init_data(request)
+    if data == 'updateSkin':
+        return HttpResponseRedirect(f"https://mod-tmrpg.vercel.app/updateSkin/{data['moder'].nickname}/")
+
     if not data['moder'].is_st() and not data['moder'].is_admin():
         return HttpResponseRedirect('/')
     if category != 'None':
@@ -372,7 +404,11 @@ def media_view(request, category):
 def new_file(request):
     if not request.user.is_authenticated:
         return HttpResponseRedirect('/')
-    data = {}
+    
+    data = init_data(request)
+    if data == 'updateSkin':
+        return HttpResponseRedirect(f"https://mod-tmrpg.vercel.app/updateSkin/{data['moder'].nickname}/")
+
     categories = models.MediaCategory.objects.all()
 
     # amount = int(request.POST.get('amount'))
@@ -399,7 +435,11 @@ def new_file(request):
 def skinfix(request, nick):
     if not request.user.is_authenticated:
         return HttpResponseRedirect('/accounts/login/')
+    
     data = init_data(request)
+    if data == 'updateSkin':
+        return HttpResponseRedirect(f"https://mod-tmrpg.vercel.app/updateSkin/{data['moder'].nickname}/")
+
     moder = models.Moder.objects.get(nickname=nick)
     moder.skin_valid = False
     moder.head_valid = False
@@ -410,7 +450,11 @@ def skinfix(request, nick):
 def oauth2Remove(request):
     if not request.user.is_authenticated:
         return HttpResponseRedirect('/accounts/login/')
+    
     data = init_data(request)
+    if data == 'updateSkin':
+        return HttpResponseRedirect(f"https://mod-tmrpg.vercel.app/updateSkin/{data['moder'].nickname}/")
+
     if data['moder'].discord:
         data['moder'].discord.delete()
     return HttpResponseRedirect('/')
