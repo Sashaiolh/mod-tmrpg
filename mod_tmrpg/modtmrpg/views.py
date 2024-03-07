@@ -436,15 +436,16 @@ def new_file(request):
 def skinfix(request, nick):
     if not request.user.is_authenticated:
         return HttpResponseRedirect('/accounts/login/')
-    
-    data = init_data(request)
-    if data['updateSkin']:
-        return HttpResponseRedirect(f"https://mod-tmrpg.vercel.app/updateSkin/{data['moder'].nickname}/")
 
     moder = models.Moder.objects.get(nickname=nick)
     moder.skin_valid = False
     moder.head_valid = False
     moder.save()
+
+    data = init_data(request)
+    if data['updateSkin']:
+        return HttpResponseRedirect(f"https://mod-tmrpg.vercel.app/updateSkin/{data['moder'].nickname}/")
+
     return HttpResponseRedirect('/')
 
 
