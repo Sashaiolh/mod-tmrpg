@@ -97,10 +97,12 @@ def init_data(request):
             
 
             
-            
-    data['skin_face_url'] = f'https://visage.surgeplay.com/face/256/{image_to_data_url("items/moderSkins/moder.{nick}.png".format(nick=moder.nickname))}'
-    data['skin_bust_url'] = f'https://visage.surgeplay.com/bust/256/{image_to_data_url("items/moderSkins/moder.{nick}.png".format(nick=moder.nickname))}'
-    data['skin_full_url'] = f'https://visage.surgeplay.com/full/384/{image_to_data_url("items/moderSkins/moder.{nick}.png".format(nick=moder.nickname))}'
+    try:
+        data['skin_face_url'] = f'https://visage.surgeplay.com/face/256/{image_to_data_url("items/moderSkins/moder.{nick}.png".format(nick=moder.nickname))}'
+        data['skin_bust_url'] = f'https://visage.surgeplay.com/bust/256/{image_to_data_url("items/moderSkins/moder.{nick}.png".format(nick=moder.nickname))}'
+        data['skin_full_url'] = f'https://visage.surgeplay.com/full/384/{image_to_data_url("items/moderSkins/moder.{nick}.png".format(nick=moder.nickname))}'
+    except:
+        pass
         # if not moder.head_valid:
         #     moder.head_valid = download(f'https://mcskill.net/MineCraft/?name={moder.nickname}&mode=5&fx=43&fy=43', moder.nickname, 'moderHeads')
         #     moder.save()
