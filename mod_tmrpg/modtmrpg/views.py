@@ -53,19 +53,15 @@ webhook = DiscordWebhook(url="https://discord.com/api/webhooks/12136406435581174
 
 
 def download(url, nick, folder):
-    print(url)
-    try:
-        response = requests.head(url)
-        get_response = requests.get(url,stream=True)
-        # time.spleep(5)
-        file_name  = f'items/{folder}/moder.{nick}.png'
-        with open(file_name, 'wb') as f:
-            for chunk in get_response.iter_content(chunk_size=1024):
-                if chunk: # filter out keep-alive new chunks
-                    f.write(chunk)
-            return True
-    except:
-        return False
+    response = requests.head(url)
+    get_response = requests.get(url,stream=True)
+    # time.spleep(5)
+    file_name  = f'items/{folder}/moder.{nick}.png'
+    with open(file_name, 'wb') as f:
+        for chunk in get_response.iter_content(chunk_size=1024):
+            if chunk: # filter out keep-alive new chunks
+                f.write(chunk)
+        return True
 
 
 def init_data(request):
