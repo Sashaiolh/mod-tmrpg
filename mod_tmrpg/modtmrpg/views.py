@@ -20,6 +20,8 @@ from modtmrpg import forms
 import requests
 import json
 
+import base64
+
 from discord_webhook import DiscordWebhook, DiscordEmbed
 
 from django.shortcuts import redirect
@@ -62,6 +64,13 @@ def download(url, nick, folder):
             if chunk: # filter out keep-alive new chunks
                 f.write(chunk)
         return True
+    
+def image_to_data_url(filename):
+    ext = filename.split('.')[-1]
+    prefix = f'data:image/{ext};base64,'
+    with open(filename, 'rb') as f:
+        img = f.read()
+    return base64.b64encode(img).decode('utf-8')
 
 
 def init_data(request):
@@ -80,9 +89,12 @@ def init_data(request):
         if not moder.skin_valid:
             moder.skin_valid = download(f'https://skins.mcskill.net/MinecraftSkins/{moder.nickname}.png', moder.nickname, 'moderSkins')
             moder.save()
-        if not moder.head_valid:
-            moder.head_valid = download(f'https://mcskill.net/MineCraft/?name={moder.nickname}&mode=5&fx=43&fy=43', moder.nickname, 'moderHeads')
-            moder.save()
+    data['skin_face_url'] = f'https://visage.surgeplay.com/face/256/{image_to_data_url("items/moderSkins/moder.{nick}.png".format(nick=moder.nickname))}'
+    data['skin_bust_url'] = f'https://visage.surgeplay.com/bust/256/{image_to_data_url("items/moderSkins/moder.{nick}.png".format(nick=moder.nickname))}'
+    data['skin_full_url'] = f'https://visage.surgeplay.com/full/384/{image_to_data_url("items/moderSkins/moder.{nick}.png".format(nick=moder.nickname))}'
+        # if not moder.head_valid:
+        #     moder.head_valid = download(f'https://mcskill.net/MineCraft/?name={moder.nickname}&mode=5&fx=43&fy=43', moder.nickname, 'moderHeads')
+        #     moder.save()
 
 
 

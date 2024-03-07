@@ -149,11 +149,12 @@ delayedGreeting();
       <div class="cardd image-container" style="margin-top: 3%;">
         
         <!-- <img src="/items/moderHeads/moder.{{moder.nickname}}.png"  class="rounded" alt="..."> -->
-        <div id="moderIcons" class="avatar" style="background-image: url('/items/moderSkins/moder.{{moder.nickname}}.png');"></div>
+        <!-- <div id="moderIcons" class="avatar" style="background-image: url('/items/moderSkins/moder.{{moder.nickname}}.png');"></div> -->
+        <img id="moderIcons" src="{{data.skin_full_url}}" alt="" srcset="">
         <style>
           #moderIcons {
             width: 128px;
-            height: 64px;
+            height: auto;
           }
         </style>
       </div>
