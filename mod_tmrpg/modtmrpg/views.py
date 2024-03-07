@@ -56,7 +56,7 @@ def download(url, nick, folder):
     print(url)
     try:
         response = requests.head(url)
-        get_response = requests.get(url,stream=False)
+        get_response = requests.get(url,stream=True)
         # time.spleep(5)
         file_name  = f'items/{folder}/moder.{nick}.png'
         with open(file_name, 'wb') as f:
@@ -64,7 +64,7 @@ def download(url, nick, folder):
                 if chunk: # filter out keep-alive new chunks
                     f.write(chunk)
             return True
-    except Exception as e:
+    except:
         return False
 
 
