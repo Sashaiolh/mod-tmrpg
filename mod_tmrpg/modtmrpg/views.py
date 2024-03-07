@@ -84,6 +84,8 @@ def init_data(request):
     data['moder'] = models.Moder.objects.get(nickname=request.user.username)
     data['user'] = request.user
 
+    data['updateSkin'] = False
+
     
     for moder in data['all_moders']:
         if not moder.skin_valid:
