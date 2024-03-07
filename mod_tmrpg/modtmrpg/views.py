@@ -78,7 +78,7 @@ def init_data(request):
     
     for moder in data['all_moders']:
         if not moder.skin_valid:
-            moder.skin_valid = download(f'https://mcskill.net/MineCraft/?name={moder.nickname}&mode=1.png', moder.nickname, 'moderSkins')
+            moder.skin_valid = download(f'https://skins.mcskill.net/MinecraftSkins/{moder.nickname}.png', moder.nickname, 'moderSkins')
             moder.save()
         if not moder.head_valid:
             moder.head_valid = download(f'https://mcskill.net/MineCraft/?name={moder.nickname}&mode=5&fx=43&fy=43', moder.nickname, 'moderHeads')
