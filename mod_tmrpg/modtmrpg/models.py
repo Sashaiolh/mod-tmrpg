@@ -100,6 +100,7 @@ class Item(models.Model):
     def __str__(self):
         return self.item_name
     class Meta:
+        ordering = ['-type', '-price']
         verbose_name = "Предмет"
         verbose_name_plural = "Предметы"
     
