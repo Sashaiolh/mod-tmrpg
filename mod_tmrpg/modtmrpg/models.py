@@ -8,7 +8,7 @@ import random
 class Pex(models.Model):
     hierarchy = models.IntegerField('высота должности', default=1)
     pex_name = models.CharField('pex', max_length=12, unique=True)
-    display_name = models.CharField('display_name', max_length=12)
+    display_name = models.CharField('display_name', max_length=15)
     prefix_color = models.CharField('цвет префикса', max_length=12)
     nickname_color = models.CharField('цвет ника',max_length=12)
 
