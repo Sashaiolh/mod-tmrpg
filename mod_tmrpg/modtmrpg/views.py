@@ -196,10 +196,10 @@ def index(request):
         return HttpResponseRedirect('/accounts/login/')
     
     data = init_data(request)
-    # if data['updateSkin']:
-    #     print(3990234092384092390409)
-    #     print(data['moder'].nickname)
-    #     return HttpResponseRedirect(f"https://mod-tmrpg.vercel.app/updateSkin/{data['moder'].nickname}/")
+    if data['updateSkin']:
+        print(3509250948509, data['updateModer'])
+        print(f"https://mod-tmrpg.vercel.app/updateSkin/{data['updateModer']}/")
+        return HttpResponseRedirect(f"https://mod-tmrpg.vercel.app/updateSkin/{data['updateModer']}/")
 
     if data['domain'] == 'http://127.0.0.1:8000':
         ds_url = 'https://discord.com/oauth2/authorize?client_id=1213447548342116373&response_type=code&redirect_uri=http%3A%2F%2F127.0.0.1%3A8000%2Foauth2%2Fdiscord&scope=guilds+identify'
@@ -216,7 +216,9 @@ def shop(request, status=''):
     
     data = init_data(request)
     if data['updateSkin']:
-        return HttpResponseRedirect(f"https://mod-tmrpg.vercel.app/updateSkin/{data['moder'].nickname}/")
+        print(3509250948509, data['updateModer'])
+        print(f"https://mod-tmrpg.vercel.app/updateSkin/{data['updateModer']}/")
+        return HttpResponseRedirect(f"https://mod-tmrpg.vercel.app/updateSkin/{data['updateModer']}/")
 
     items = models.Item.objects.all()
 
@@ -303,7 +305,9 @@ def buy_item(request, id):
     
     data = init_data(request)
     if data['updateSkin']:
-        return HttpResponseRedirect(f"https://mod-tmrpg.vercel.app/updateSkin/{data['updateModer'].nickname}/")
+        print(3509250948509, data['updateModer'])
+        print(f"https://mod-tmrpg.vercel.app/updateSkin/{data['updateModer']}/")
+        return HttpResponseRedirect(f"https://mod-tmrpg.vercel.app/updateSkin/{data['updateModer']}/")
 
     username = request.user.username
     moder = models.Moder.objects.get(nickname=username)
@@ -380,7 +384,9 @@ def buy_item_success(request):
     
     data = init_data(request)
     if data['updateSkin']:
-        return HttpResponseRedirect(f"https://mod-tmrpg.vercel.app/updateSkin/{data['updateModer'].nickname}/")
+        print(3509250948509, data['updateModer'])
+        print(f"https://mod-tmrpg.vercel.app/updateSkin/{data['updateModer']}/")
+        return HttpResponseRedirect(f"https://mod-tmrpg.vercel.app/updateSkin/{data['updateModer']}/")
 
     data['success_text'] = 'Покупка успешна!'
     return render(request, 'modtmrpg/shop.html', {'data': data, })
@@ -392,7 +398,9 @@ def buy_item_error(request):
     
     data = init_data(request)
     if data['updateSkin']:
-        return HttpResponseRedirect(f"https://mod-tmrpg.vercel.app/updateSkin/{data['updateModer'].nickname}/")
+        print(3509250948509, data['updateModer'])
+        print(f"https://mod-tmrpg.vercel.app/updateSkin/{data['updateModer']}/")
+        return HttpResponseRedirect(f"https://mod-tmrpg.vercel.app/updateSkin/{data['updateModer']}/")
 
     data['success_text'] = 'Недостаточно баллов!'
     return render(request, 'modtmrpg/shop.html', {'data': data, })
@@ -404,7 +412,9 @@ def media_view(request, category):
     
     data = init_data(request)
     if data['updateSkin']:
-        return HttpResponseRedirect(f"https://mod-tmrpg.vercel.app/updateSkin/{data['updateModer'].nickname}/")
+        print(3509250948509, data['updateModer'])
+        print(f"https://mod-tmrpg.vercel.app/updateSkin/{data['updateModer']}/")
+        return HttpResponseRedirect(f"https://mod-tmrpg.vercel.app/updateSkin/{data['updateModer']}/")
 
     if not data['moder'].is_st() and not data['moder'].is_admin():
         return HttpResponseRedirect('/')
@@ -468,8 +478,10 @@ def oauth2Remove(request):
         return HttpResponseRedirect('/accounts/login/')
     
     data = init_data(request)
-    if data == 'updateSkin':
-        return HttpResponseRedirect(f"https://mod-tmrpg.vercel.app/updateSkin/{data['updateModer'].nickname}/")
+    if data['updateSkin']:
+        print(3509250948509, data['updateModer'])
+        print(f"https://mod-tmrpg.vercel.app/updateSkin/{data['updateModer']}/")
+        return HttpResponseRedirect(f"https://mod-tmrpg.vercel.app/updateSkin/{data['updateModer']}/")
 
     if data['moder'].discord:
         data['moder'].discord.delete()
