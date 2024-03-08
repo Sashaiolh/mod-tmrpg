@@ -32,6 +32,7 @@ class Moder(RandomIDModel):
         return f'[{self.pex.display_name}] {self.nickname} | id: {self.id}'
     
     class Meta:
+        ordering = ['-pex__hierarchy']
         verbose_name = "Модератор"
         verbose_name_plural = "Модераторы"
     
