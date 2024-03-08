@@ -6,6 +6,10 @@ from django.shortcuts import redirect
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login
 
+
+from django import template
+register = template.Library()
+
 from django.core.files import File
 
 import os
@@ -98,8 +102,7 @@ def init_data(request):
 
             
     try:
-        data['skin_face_url'] = f'https://visage.surgeplay.com/face/256/{image_to_data_url("items/moderSkins/moder.{nick}.png".format(nick=moder.nickname))}'
-        data['skin_bust_url'] = f'https://visage.surgeplay.com/bust/256/{image_to_data_url("items/moderSkins/moder.{nick}.png".format(nick=moder.nickname))}'
+        # data['skin_bust_url'] = f'https://visage.surgeplay.com/bust/256/{image_to_data_url("items/moderSkins/moder.{nick}.png".format(nick=moder.nickname))}'
         data['skin_full_url'] = f'https://visage.surgeplay.com/full/384/{image_to_data_url("items/moderSkins/moder.{nick}.png".format(nick=moder.nickname))}'
     except:
         pass
@@ -224,6 +227,9 @@ def modsEdit(request):
     data = init_data(request)
     if data['updateSkin']:
         return HttpResponseRedirect(f"https://mod-tmrpg.vercel.app/updateSkin/{data['moder'].nickname}/")
+    
+    def test(str):
+        print(str, 'world!')
 
     moders = models.Moder.objects.all()
 
@@ -278,7 +284,7 @@ def modsEdit(request):
                 
 
 
-    return render(request, 'modtmrpg/modsEdit.html', {'data': data, 'moders': moders,})
+    return render(request, 'modtmrpg/modsEdit.html', {'data': data, 'moders': moders, 'test': test})
 
 @csrf_exempt
 def buy_item(request, id):
