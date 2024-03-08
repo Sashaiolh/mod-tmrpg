@@ -151,7 +151,7 @@ delayedGreeting();
         
         <!-- <img src="/items/moderHeads/moder.{{moder.nickname}}.png"  class="rounded" alt="..."> -->
         <!-- <div id="moderIcons" class="avatar" style="background-image: url('/items/moderSkins/moder.{{moder.nickname}}.png');"></div> -->
-        <img id="moderIcons{{moder.id}}" src="{{moder.nickname | get_skin_full_url}}" alt="" srcset="">
+        <img id="moderIcons{{moder.id}}" src="{{moder.nickname | get_skin_full_url}}" loading="lazy" alt="" srcset="">
 
         <style>
           #moderIcons{{moder.id}} {
