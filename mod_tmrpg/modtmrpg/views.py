@@ -13,6 +13,7 @@ register = template.Library()
 from django.core.files import File
 
 import os
+import os.path
 
 import urllib.request
 
@@ -93,10 +94,15 @@ def init_data(request):
     
     for moder in data['all_moders']:
         if not moder.skin_valid:
+            data['updateSkin'] = True
+            data['updateModer'] = moder.nickname
             moder.skin_valid = True
             moder.save()
-            data['updateSkin'] = True
             return data
+        # if not os.path.isfile("items/moderSkins/moder.{nick}.png".format(nick=moder.nickname)):
+        #     data['updateSkin'] = True
+        #     data['updateModer'] = moder
+            
             # moder.skin_valid = download(f'https://skins.mcskill.net/MinecraftSkins/{moder.nickname}.png', moder.nickname, 'moderSkins')
             
 
@@ -190,8 +196,10 @@ def index(request):
         return HttpResponseRedirect('/accounts/login/')
     
     data = init_data(request)
-    if data['updateSkin']:
-        return HttpResponseRedirect(f"https://mod-tmrpg.vercel.app/updateSkin/{data['moder'].nickname}/")
+    # if data['updateSkin']:
+    #     print(3990234092384092390409)
+    #     print(data['moder'].nickname)
+    #     return HttpResponseRedirect(f"https://mod-tmrpg.vercel.app/updateSkin/{data['moder'].nickname}/")
 
     if data['domain'] == 'http://127.0.0.1:8000':
         ds_url = 'https://discord.com/oauth2/authorize?client_id=1213447548342116373&response_type=code&redirect_uri=http%3A%2F%2F127.0.0.1%3A8000%2Foauth2%2Fdiscord&scope=guilds+identify'
@@ -226,7 +234,9 @@ def modsEdit(request):
     
     data = init_data(request)
     if data['updateSkin']:
-        return HttpResponseRedirect(f"https://mod-tmrpg.vercel.app/updateSkin/{data['moder'].nickname}/")
+        print(3509250948509, data['updateModer'])
+        print(f"https://mod-tmrpg.vercel.app/updateSkin/{data['updateModer']}/")
+        return HttpResponseRedirect(f"https://mod-tmrpg.vercel.app/updateSkin/{data['updateModer']}/")
     
     def test(str):
         print(str, 'world!')
@@ -293,7 +303,7 @@ def buy_item(request, id):
     
     data = init_data(request)
     if data['updateSkin']:
-        return HttpResponseRedirect(f"https://mod-tmrpg.vercel.app/updateSkin/{data['moder'].nickname}/")
+        return HttpResponseRedirect(f"https://mod-tmrpg.vercel.app/updateSkin/{data['updateModer'].nickname}/")
 
     username = request.user.username
     moder = models.Moder.objects.get(nickname=username)
@@ -370,7 +380,7 @@ def buy_item_success(request):
     
     data = init_data(request)
     if data['updateSkin']:
-        return HttpResponseRedirect(f"https://mod-tmrpg.vercel.app/updateSkin/{data['moder'].nickname}/")
+        return HttpResponseRedirect(f"https://mod-tmrpg.vercel.app/updateSkin/{data['updateModer'].nickname}/")
 
     data['success_text'] = 'Покупка успешна!'
     return render(request, 'modtmrpg/shop.html', {'data': data, })
@@ -382,7 +392,7 @@ def buy_item_error(request):
     
     data = init_data(request)
     if data['updateSkin']:
-        return HttpResponseRedirect(f"https://mod-tmrpg.vercel.app/updateSkin/{data['moder'].nickname}/")
+        return HttpResponseRedirect(f"https://mod-tmrpg.vercel.app/updateSkin/{data['updateModer'].nickname}/")
 
     data['success_text'] = 'Недостаточно баллов!'
     return render(request, 'modtmrpg/shop.html', {'data': data, })
@@ -394,7 +404,7 @@ def media_view(request, category):
     
     data = init_data(request)
     if data['updateSkin']:
-        return HttpResponseRedirect(f"https://mod-tmrpg.vercel.app/updateSkin/{data['moder'].nickname}/")
+        return HttpResponseRedirect(f"https://mod-tmrpg.vercel.app/updateSkin/{data['updateModer'].nickname}/")
 
     if not data['moder'].is_st() and not data['moder'].is_admin():
         return HttpResponseRedirect('/')
@@ -414,7 +424,7 @@ def new_file(request):
     
     data = init_data(request)
     if data['updateSkin']:
-        return HttpResponseRedirect(f"https://mod-tmrpg.vercel.app/updateSkin/{data['moder'].nickname}/")
+        return HttpResponseRedirect(f"https://mod-tmrpg.vercel.app/updateSkin/{data['updateModer'].nickname}/")
 
     categories = models.MediaCategory.objects.all()
 
@@ -449,8 +459,6 @@ def skinfix(request, nick):
     moder.save()
 
     data = init_data(request)
-    if data['updateSkin']:
-        return HttpResponseRedirect(f"https://mod-tmrpg.vercel.app/updateSkin/{data['moder'].nickname}/")
 
     return HttpResponseRedirect('/')
 
@@ -461,7 +469,7 @@ def oauth2Remove(request):
     
     data = init_data(request)
     if data == 'updateSkin':
-        return HttpResponseRedirect(f"https://mod-tmrpg.vercel.app/updateSkin/{data['moder'].nickname}/")
+        return HttpResponseRedirect(f"https://mod-tmrpg.vercel.app/updateSkin/{data['updateModer'].nickname}/")
 
     if data['moder'].discord:
         data['moder'].discord.delete()
