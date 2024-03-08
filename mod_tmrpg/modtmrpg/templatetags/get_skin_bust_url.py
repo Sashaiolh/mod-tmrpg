@@ -7,4 +7,7 @@ register = template.Library()
 def get_skin_bust_url(nick):
     if nick == 'default':
         return f'https://visage.surgeplay.com/bust/256/{image_to_data_url("items/default.png")}'
-    return f'https://visage.surgeplay.com/bust/256/{image_to_data_url("items/moderSkins/moder.{nick}.png".format(nick=nick))}'
+    try:
+        return f'https://visage.surgeplay.com/bust/256/{image_to_data_url("items/moderSkins/moder.{nick}.png".format(nick=nick))}'
+    except:
+        return f'https://visage.surgeplay.com/bust/256/{image_to_data_url("items/default.png")}'

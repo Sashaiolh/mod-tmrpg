@@ -93,7 +93,7 @@ def init_data(request):
 
     
     for moder in data['all_moders']:
-        if not moder.skin_valid:
+        if not moder.skin_valid or not os.path.isfile("items/moderSkins/moder.{nick}.png".format(nick=moder.nickname)):
             data['updateSkin'] = True
             data['updateModer'] = moder.nickname
             moder.skin_valid = True
