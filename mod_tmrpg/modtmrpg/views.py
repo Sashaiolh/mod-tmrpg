@@ -590,19 +590,9 @@ def skinfix(request, nick):
     return HttpResponseRedirect('/')
 
 
-def oauth2Remove(request):
-    if not request.user.is_authenticated:
-        return HttpResponseRedirect('/accounts/login/')
-    
-    data = init_data(request)
-    if data['updateSkin']:
-        print(3509250948509, data['updateModer'])
-        print(f"https://mod-tmrpg.vercel.app/updateSkin/{data['updateModer']}/")
-        return HttpResponseRedirect(f"https://mod-tmrpg.vercel.app/updateSkin/{data['updateModer']}/")
-
-    if data['moder'].discord:
-        data['moder'].discord.delete()
-    return HttpResponseRedirect('/')
+def api_OC_moders(request):
+    content = 'huy huy huy huy huy huy huy huy huy huy huy'
+    return HttpResponse(content, content_type='text/plain')
 
 
 @csrf_exempt
@@ -655,3 +645,19 @@ def oauth2(request):
     
 
     return HttpResponseRedirect('/')
+
+
+def oauth2Remove(request):
+    if not request.user.is_authenticated:
+        return HttpResponseRedirect('/accounts/login/')
+    
+    data = init_data(request)
+    if data['updateSkin']:
+        print(3509250948509, data['updateModer'])
+        print(f"https://mod-tmrpg.vercel.app/updateSkin/{data['updateModer']}/")
+        return HttpResponseRedirect(f"https://mod-tmrpg.vercel.app/updateSkin/{data['updateModer']}/")
+
+    if data['moder'].discord:
+        data['moder'].discord.delete()
+    return HttpResponseRedirect('/')
+

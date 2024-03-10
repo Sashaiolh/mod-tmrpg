@@ -29,4 +29,5 @@ urlpatterns = [
     path('ecoLogs/', views.ecoLogs, name='ecoLogs'),
     path('profile/<str:nick>/', views.profile, name='profile'),
     path('skinfix/<str:nick>/', views.skinfix, name='skinfix'),
+    path('api/oc/moders/', views.api_OC_moders, name='api_OC_moders'),
 ]
