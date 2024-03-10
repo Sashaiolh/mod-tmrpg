@@ -1,5 +1,6 @@
 {%extends 'base.html'%}
 {% load get_skin_full_url %}
+{% load get_skin_bust_url %}
 
 {%block content%}
 {%if data.success_text or data.alert_text%}
@@ -151,7 +152,7 @@ delayedGreeting();
         
         <!-- <img src="/items/moderHeads/moder.{{moder.nickname}}.png"  class="rounded" alt="..."> -->
         <!-- <div id="moderIcons" class="avatar" style="background-image: url('/items/moderSkins/moder.{{moder.nickname}}.png');"></div> -->
-        <img id="moderIcons{{moder.id}}" src="{{moder.nickname | get_skin_full_url}}" loading="lazy" alt="" srcset="">
+        <img id="moderIcons{{moder.id}}" src="{{moder.nickname | get_skin_bust_url}}" loading="lazy" alt="" srcset="">
 
         <style>
           #moderIcons{{moder.id}} {
@@ -171,25 +172,7 @@ delayedGreeting();
         <!-- <span class="card-text" style="font-size: 14px;"><span class="">⚠️{{item.note}}</span></span></br> -->
         </div>
 
-          <button style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .8rem; --bs-btn-font-size: .75rem; margin-top: 2%;" type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#changeMoney{{moder.id}}">Изменить баллы</button>
-          
-          <a href="/skinfix/{{moder.nickname}}/" style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .8rem; --bs-btn-font-size: .75rem; margin-top: 2%;" type="button" class="btn btn-primary"  data-bs-target="">фикс скин</a>
-        
-        </br>
-        <div class="" style="display: block; margin-top: 2%;">
-          <form action="" method="post">
-            <button style="float: left; margin-right: 3%; --bs-btn-padding-y: .25rem; --bs-btn-padding-x: .8rem; --bs-btn-font-size: .75rem; margin-top: 2%;" type="submit" class="btn btn-outline-danger">Понизить</button>
-            <input type="hidden" name="typePost" value="downmoder">
-            <input type="hidden" name="nick" value="{{moder.nickname}}">
-          </form>
-          <form action="" method="post">
-            <button style="float: left; margin-right: 3%; --bs-btn-padding-y: .25rem; --bs-btn-padding-x: .8rem; --bs-btn-font-size: .75rem; margin-top: 2%;" type="submit" class="btn btn-outline-success">Повысить</button>
-            <input type="hidden" name="typePost" value="upmoder">
-            <input type="hidden" name="nick" value="{{moder.nickname}}">
-          </form>
-        </div>
-          </br>
-          <button style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .8rem; --bs-btn-font-size: .75rem; margin-top: 3%;" type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#kickmoder{{moder.id}}">Снять</button>
+       
 
           <!-- <form action="" method="post">
 

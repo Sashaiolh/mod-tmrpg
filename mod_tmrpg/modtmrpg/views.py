@@ -210,6 +210,43 @@ def index(request):
     return render(request, 'modtmrpg/index.html', {'data': data, 'ds_url': ds_url,})
 
 @csrf_exempt
+def profile(request, nick=None):
+    if not request.user.is_authenticated:
+        return HttpResponseRedirect('/accounts/login/')
+    
+    data = init_data(request)
+    if data['updateSkin']:
+        print(3509250948509, data['updateModer'])
+        print(f"https://mod-tmrpg.vercel.app/updateSkin/{data['updateModer']}/")
+        return HttpResponseRedirect(f"https://mod-tmrpg.vercel.app/updateSkin/{data['updateModer']}/")
+
+    if data['domain'] == 'http://127.0.0.1:8000':
+        ds_url = 'https://discord.com/oauth2/authorize?client_id=1213447548342116373&response_type=code&redirect_uri=http%3A%2F%2F127.0.0.1%3A8000%2Foauth2%2Fdiscord&scope=guilds+identify'
+    else:
+        ds_url = 'https://discord.com/oauth2/authorize?client_id=1213447548342116373&response_type=code&redirect_uri=http%3A%2F%2Fmodtmrpg.pythonanywhere.com%2Foauth2%2Fdiscord&scope=guilds+identify'
+    nickname = request.user.username if not nick else nick
+    moder = models.Moder.objects.get(nickname=nickname)
+    return render(request, 'modtmrpg/profile.html', {'data': data, 'ds_url': ds_url, 'moder': moder, })
+
+@csrf_exempt
+def ecoLogs(request, nick=None):
+    if not request.user.is_authenticated:
+        return HttpResponseRedirect('/accounts/login/')
+    
+    data = init_data(request)
+    if data['updateSkin']:
+        print(3509250948509, data['updateModer'])
+        print(f"https://mod-tmrpg.vercel.app/updateSkin/{data['updateModer']}/")
+        return HttpResponseRedirect(f"https://mod-tmrpg.vercel.app/updateSkin/{data['updateModer']}/")
+
+    if data['domain'] == 'http://127.0.0.1:8000':
+        ds_url = 'https://discord.com/oauth2/authorize?client_id=1213447548342116373&response_type=code&redirect_uri=http%3A%2F%2F127.0.0.1%3A8000%2Foauth2%2Fdiscord&scope=guilds+identify'
+    else:
+        ds_url = 'https://discord.com/oauth2/authorize?client_id=1213447548342116373&response_type=code&redirect_uri=http%3A%2F%2Fmodtmrpg.pythonanywhere.com%2Foauth2%2Fdiscord&scope=guilds+identify'
+
+    return render(request, 'modtmrpg/ecoLogs.html', {'data': data, 'ds_url': ds_url, })
+
+@csrf_exempt
 def shop(request, status=''):
     if not request.user.is_authenticated:
         return HttpResponseRedirect('/')
@@ -231,6 +268,75 @@ def shop(request, status=''):
 
 @csrf_exempt
 def modsEdit(request):
+    if not request.user.is_authenticated:
+        return HttpResponseRedirect('/')
+    
+    data = init_data(request)
+    if data['updateSkin']:
+        print(3509250948509, data['updateModer'])
+        print(f"https://mod-tmrpg.vercel.app/updateSkin/{data['updateModer']}/")
+        return HttpResponseRedirect(f"https://mod-tmrpg.vercel.app/updateSkin/{data['updateModer']}/")
+    
+    def test(str):
+        print(str, 'world!')
+
+    moders = models.Moder.objects.all()
+
+    if request.method == 'POST':
+        if request.POST.get('options-operator') != None:
+            moder = models.Moder.objects.get(nickname=request.POST.get('nick'))
+            operator = request.POST.get('options-operator')
+            amount = int(request.POST.get('amount'))
+            reason = request.POST.get('reason')
+            if data['moder'].pex.hierarchy > moder.pex.hierarchy or request.user.is_superuser:
+                if operator == '=':
+                    moder.balance = amount
+                    moder.save()
+                elif operator == '-' or operator == '+':
+                    amount = (-1)*amount if operator == '-' else amount
+                    moder.balance += amount
+                    moder.save()
+                    new_log = models.EcoLog.objects.create(admin=data['moder'], moder=moder, amount=amount, reason=reason)
+                    new_log.save()
+        
+        if request.POST.get('typePost') != None:
+            moder = models.Moder.objects.get(nickname=request.POST.get('nick'))
+            if (request.POST.get('typePost') == 'downmoder' and (data['moder'].pex.hierarchy > moder.pex.hierarchy and (moder.pex.hierarchy > 1) or request.user.is_superuser)) or (request.POST.get('typePost') == 'upmoder' and (data['moder'].pex.hierarchy > moder.pex.hierarchy+1 )): 
+                new_hierarchy = moder.pex.hierarchy - 1 if request.POST.get('typePost') == 'downmoder' else moder.pex.hierarchy + 1
+                new_pex = models.Pex.objects.get(hierarchy=new_hierarchy)
+                moder.pex = new_pex
+                moder.save()
+            if (request.POST.get('typePost') == 'kickmoder') and (data['moder'].pex.hierarchy > moder.pex.hierarchy):
+                embed = DiscordEmbed(title="Снятие модератора", description="", color="ff0000")
+                # embed.set_author(name="Author Name", url="https://github.com/lovvskillz", icon_url="https://avatars0.githubusercontent.com/u/14542790")
+                # embed.set_footer(text="Embed Footer Text")
+                embed.set_timestamp()
+                embed.add_embed_field(name=f"Сотрудник", value=f"`{data['moder'].nickname}`")
+                embed.add_embed_field(name=f"Снял", value=f"`{moder.nickname}`")
+                embed.add_embed_field(name=f"С должности", value=f"{moder.pex.display_name}")
+                embed.add_embed_field(name=f"Накопленные баллы", value=f"{moder.balance}")
+                embed.add_embed_field(name=f"Выговоры", value=f"0/3")
+                # embed.add_embed_field(name="Field 3", value="amet consetetur")
+                # embed.add_embed_field(name="Field 4", value="sadipscing elitr")
+
+                webhook.add_embed(embed)
+                response = webhook.execute()
+
+                try:
+                    u = User.objects.get(username = moder.nickname)
+                    u.delete()
+                except:
+                    pass
+                moder.delete()
+            
+        return redirect(f'{data["current_url"]}modsEdit/')
+                
+
+
+    return render(request, 'modtmrpg/modsEdit.html', {'data': data, 'moders': moders, 'test': test})
+
+@csrf_exempt
+def modsList(request):
     if not request.user.is_authenticated:
         return HttpResponseRedirect('/')
     
@@ -296,7 +402,7 @@ def modsEdit(request):
                 
 
 
-    return render(request, 'modtmrpg/modsEdit.html', {'data': data, 'moders': moders, 'test': test})
+    return render(request, 'modtmrpg/modsList.html', {'data': data, 'moders': moders, 'test': test})
 
 @csrf_exempt
 def buy_item(request, id):

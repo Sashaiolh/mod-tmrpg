@@ -25,5 +25,8 @@ urlpatterns = [
     path('files/New/', views.new_file, name='new_file'),
     path('files/<str:category>/', views.media_view, name='media_view'),
     path('modsEdit/', views.modsEdit, name='modsEdit'),
+    path('modsList/', views.modsList, name='modsList'),
+    path('ecoLogs/', views.ecoLogs, name='ecoLogs'),
+    path('profile/<str:nick>/', views.profile, name='profile'),
     path('skinfix/<str:nick>/', views.skinfix, name='skinfix'),
 ]

@@ -1,0 +1,175 @@
+{%extends 'base.html'%}
+{%block content%}
+{%load static%}
+{% load get_skin_bust_url %}
+<!-- <p>хуй хуй хуй</p>
+
+<a href="">DISCORD</a>
+<a href="{%static 'modtmrpg/base.css'%}">lalala</a> -->
+
+<div class="container-lg">
+    
+</div>
+
+
+<div class="container" style="margin-top: 1%; min-width: 70%">
+  <div class="main-body">
+    <div class="row">
+      <div class="col-lg-4">
+        <div class="card">
+          <div class="card-body">
+            <div class="d-flex flex-column align-items-center text-center">
+              <!-- <div class="avatar"  class=" "  style="float: left; margin-top: 3%; background-image: url('/items/moderSkins/moder.{{data.moder.nickname}}.png');"></div> -->
+              <!-- <div id="avatar" class="avatar p-1" style="background-image: url('/items/moderSkins/moder.{{data.moder.nickname}}.png');"></div> -->
+              <img src="{{moder.nickname | get_skin_bust_url}}" id="skin_burst" srcset="">
+
+              <script>
+                let imgg = document.getElementById("skin_burst")
+                imgg.addEventListener("error", function(event) {
+                  // event.target.src = "https://visage.surgeplay.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"
+                  event.target.src = "{{'default' | get_skin_bust_url}}"
+                  
+                })
+            </script>
+
+              <style>
+                #avatar {
+                  width: 200px;
+                  height: 100px;
+                }
+              </style>
+              <!-- <img src="/items/moderHeads/moder.{{data.moder.nickname}}.png" > -->
+              <div class="mt-3">
+                <!-- <h5>[<span style="color: {{data.moder.pex.prefix_color}}">Куратор</span>] <span style="color:{{data.moder.pex.nickname_color}}">{{data.moder.nickname}}</span></h5> -->
+                <!-- <p >Куратор</p>
+                <p class="text-muted font-size-sm">Bay Area, San Francisco, CA</p>
+                <button class="btn btn-primary">Follow</button>
+                <button class="btn btn-outline-primary">Message</button> -->
+              </div>
+            </div>
+            <hr class="">
+            <ul class="list-group list-group-flush">
+              <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
+                <h6 class="mb-0">🐵Никнейм</h6>
+                <span class="" style="color: {{moder.pex.nickname_color}}">{{moder.nickname}}</span>
+              </li>
+              <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
+                <h6 class="mb-0">♿Должность</h6>
+                <span class="" style="color: {{moder.pex.prefix_color}}">{{moder.pex.display_name}}</span>
+              </li>
+              <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
+                <h6 class="mb-0">💵Баланс</h6>
+                <span class=""><b>{{moder.balance}} б.</b></span>
+              </li>
+              <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
+                <h6 class="mb-0">🛑Выговоров</h6>
+                <span class=""><b>0/3</b></span>
+              </li>
+              <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
+                <h6 class="mb-0">🛜Discord</h6>
+                {%if moder.discord%}
+                  <span class="" style="color:green">Привязан</span>
+                {%else%}
+                  <span class="" style="color:tomato">Не привязан</span>
+                {%endif%}
+              </li>
+              <!-- <center class="mt-3"><h5>Управление</h5></center> -->
+
+              <!-- <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
+                <h6 class="mb-0"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-facebook me-2 icon-inline text-primary"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path></svg>Facebook</h6>
+                <span class="text-secondary">bootdey</span>
+              </li> -->
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-8">
+        <!-- <div class="card">
+          <div class="card-body">
+            <div class="row"> 
+              <div class="col-sm-3">
+
+              <h6 class="mb-4">Починить скин</h6>
+              <h6 class="mb-0">{%if data.moder.discord%}Отвязать{%else%}Привязать{%endif%} discord</h6>
+              </div>
+            </div>
+
+
+          </div>
+        </div> -->  <!-- <div class="row mb-3"> -->
+        
+        <div class="row" style="margin-top: 2%;">
+          <center><h2 class="">История</h2></center>
+          <div class="col-sm-12">
+            <div class="card">
+              <div class="card-body">
+
+
+                <table class="table table-dark table-hover ">
+                  <thead>
+                    <tr>
+                      <th scope="col">Админ</th>
+                      <th scope="col">Сумма</th>
+                      
+                      <th scope="col">Причина</th>
+                      <th scope="col">Дата</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {%for log in data.ecologs%}
+                    {%if log.moder == moder%}
+                    <tr>
+                      <th scope="row">{{log.admin.nickname}}{%if not log.admin%}TMRPG-shop{%endif%}</th>
+                      <td><b>{% if log.amount > 0 %}+{%endif%}{{log.amount}}</b></td>
+                      <td>{{log.reason}}</td>
+                      <td>{{log.getDate}}</td>
+                    </tr>
+                    {%endif%}
+                    {%endfor%}
+<!-- 
+                    <tr>
+                      <th scope="row">+50</th>
+                      <td>Sashaiolh</td>
+                      <td>Thornton</td>
+                      <td>@fat</td>
+                    </tr>
+                    <tr>
+                      <th scope="row">+300</th>
+                      <td colspan="2">Larry the Bird</td>
+                      <td>@twitter</td>
+                    </tr> -->
+
+                  </tbody>
+                </table>
+
+                <!-- <div class="mb-3" style="height: 5px">
+                    <div class="progress-bar bg-primary" role="progressbar" style="width: 80%" aria-valuenow="80" aria-valuemin="0" aria-valuemax="100"></div>
+                </div>
+                
+                <p>Website Markup</p>
+                <div class="progress mb-3" style="height: 5px">
+                  <div class="progress-bar bg-danger" role="progressbar" style="width: 72%" aria-valuenow="72" aria-valuemin="0" aria-valuemax="100"></div>
+                </div>
+                <p>One Page</p>
+                <div class="progress mb-3" style="height: 5px">
+                  <div class="progress-bar bg-success" role="progressbar" style="width: 89%" aria-valuenow="89" aria-valuemin="0" aria-valuemax="100"></div>
+                </div>
+                <p>Mobile Template</p>
+                <div class="progress mb-3" style="height: 5px">
+                  <div class="progress-bar bg-warning" role="progressbar" style="width: 55%" aria-valuenow="55" aria-valuemin="0" aria-valuemax="100"></div>
+                </div>
+                <p>Backend API</p>
+                <div class="progress" style="height: 5px">
+                  <div class="progress-bar bg-info" role="progressbar" style="width: 66%" aria-valuenow="66" aria-valuemin="0" aria-valuemax="100"></div>
+                </div> -->
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+{%endblock%}
