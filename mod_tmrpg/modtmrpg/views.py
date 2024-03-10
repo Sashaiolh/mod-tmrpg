@@ -305,12 +305,12 @@ def modsEdit(request):
         
         if request.POST.get('typePost') != None:
             moder = models.Moder.objects.get(nickname=request.POST.get('nick'))
-            if (request.POST.get('typePost') == 'downmoder' and (data['moder'].pex.hierarchy > moder.pex.hierarchy and (moder.pex.hierarchy > 1) or request.user.is_superuser)) or (request.POST.get('typePost') == 'upmoder' and (data['moder'].pex.hierarchy > moder.pex.hierarchy+1 )): 
+            if (request.POST.get('typePost') == 'downmoder' and (data['moder'].pex.hierarchy > moder.pex.hierarchy and (moder.pex.hierarchy > 1) or request.user.is_superuser)) or (request.POST.get('typePost') == 'upmoder' and (data['moder'].pex.hierarchy > moder.pex.hierarchy+1 ) or request.user.is_superuser): 
                 new_hierarchy = moder.pex.hierarchy - 1 if request.POST.get('typePost') == 'downmoder' else moder.pex.hierarchy + 1
                 new_pex = models.Pex.objects.get(hierarchy=new_hierarchy)
                 moder.pex = new_pex
                 moder.save()
-            if (request.POST.get('typePost') == 'kickmoder') and (data['moder'].pex.hierarchy > moder.pex.hierarchy):
+            if (request.POST.get('typePost') == 'kickmoder') and ((data['moder'].pex.hierarchy > moder.pex.hierarchy) or request.user.is_superuser):
                 embed = DiscordEmbed(title="Снятие модератора", description="", color="ff0000")
                 # embed.set_author(name="Author Name", url="https://github.com/lovvskillz", icon_url="https://avatars0.githubusercontent.com/u/14542790")
                 # embed.set_footer(text="Embed Footer Text")

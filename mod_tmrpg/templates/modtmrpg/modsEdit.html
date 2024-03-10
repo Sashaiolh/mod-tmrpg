@@ -74,6 +74,7 @@ delayedGreeting();
             <div class="form-outline">
                 <form action="" method="post" >
                     {% csrf_token %}
+                    <input type="hidden" name="is_reprimand" value="0">
                         <label class="form-label" for="typeNumber{{moder.id}}">Введите количество:</label>
                         <input type="number" name="amount" id="typeNumber{{moder.id}}" min="0" class="form-control" />
 
@@ -127,6 +128,7 @@ delayedGreeting();
 
                           <input type="hidden" name="typePost" value="kickmoder">
                           <input type="hidden" name="nick" value="{{moder.nickname}}">
+                          <input type="hidden" name="is_reprimand" value="0">
                       
               </div>
           </div>
@@ -207,13 +209,15 @@ delayedGreeting();
         </br>
         <div class="" style="display: block; margin-top: 2%;">
           <form action="" method="post">
-            <button style="float: left; margin-right: 3%; --bs-btn-padding-y: .25rem; --bs-btn-padding-x: .8rem; --bs-btn-font-size: .75rem; margin-top: 2%;" type="submit" class="btn btn-outline-danger">Понизить</button>
-            <input type="hidden" name="typePost" value="downmoder">
+            <input type="hidden" name="is_reprimand" value="0">
+            <button style="float: left; margin-right: 3%; --bs-btn-padding-y: .25rem; --bs-btn-padding-x: .8rem; --bs-btn-font-size: .75rem; margin-top: 2%;" type="submit" class="btn btn-outline-success">Повысить</button>
+            <input type="hidden" name="typePost" value="upmoder">
             <input type="hidden" name="nick" value="{{moder.nickname}}">
           </form>
           <form action="" method="post">
-            <button style="float: left; margin-right: 3%; --bs-btn-padding-y: .25rem; --bs-btn-padding-x: .8rem; --bs-btn-font-size: .75rem; margin-top: 2%;" type="submit" class="btn btn-outline-success">Повысить</button>
-            <input type="hidden" name="typePost" value="upmoder">
+            <input type="hidden" name="is_reprimand" value="0">
+            <button style="float: left; margin-right: 3%; --bs-btn-padding-y: .25rem; --bs-btn-padding-x: .8rem; --bs-btn-font-size: .75rem; margin-top: 2%;" type="submit" class="btn btn-outline-danger">Понизить</button>
+            <input type="hidden" name="typePost" value="downmoder">
             <input type="hidden" name="nick" value="{{moder.nickname}}">
           </form>
         </div>
