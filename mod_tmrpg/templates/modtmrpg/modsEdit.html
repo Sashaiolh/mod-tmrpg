@@ -138,6 +138,35 @@ delayedGreeting();
         </div>
       </div>
     </div>
+
+
+  <!-- Modal -->
+  <div class="modal fade" id="reprimand{{moder.id}}" tabindex="-1" aria-labelledby="reprimandLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="reprimandLabel{{moder.id}}">Выговор</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+            <div class="form-outline">
+                <form action="" method="post" >
+                    {% csrf_token %}
+                        <label class="form-label" for="reason{{moder.id}}" style="margin-top: 3%;">Причина:</label>
+                        <input type="text" name="reason" maxlength="20" id="reason{{moder.id}}" class="form-control" />
+                        <input type="hidden" name="nick" value="{{moder.nickname}}">
+                        <input type="hidden" name="is_reprimand" value="1">
+                    
+            </div>
+        </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Отменить</button>
+                <button type="submit" class="btn btn-primary">Подтвердить</button>
+            </div>
+        </form>
+      </div>
+    </div>
+  </div>
   {%endfor%}
 
 
@@ -166,7 +195,7 @@ delayedGreeting();
         <b><a href="/profile/{{moder.nickname}}/" style="font-size: 20px; color:royalblue" class="card-title">{{moder.nickname}}</a></b></br>
         <span style="font-size: 14px;" class="">♿Должность: <b>{{moder.pex.display_name}}</b></span></br>
         <span class="card-text" style="font-size: 14px;">💵Баланс: {{moder.balance}} баллов</span></br>
-        <span class="card-text" style="font-size: 14px;">🛑Выговоров: 0/3</span></br>
+        <span class="card-text" style="font-size: 14px;">🛑Выговоров: {{moder.get_all_reprimands | length}}/3</span></br>
         <span class="card-text" style="font-size: 14px;">🛜Discord: <span style="color:{%if moder.discord %}white{%else%}tomato{%endif%}"><b>{%if moder.discord%}{{moder.discord.username}}{%else%}не привязан{%endif%}</span></b></span></br>
         <!-- <span class="card-text" style="font-size: 14px;"><span class="">⚠️{{item.note}}</span></span></br> -->
         </div>
@@ -190,6 +219,7 @@ delayedGreeting();
         </div>
           </br>
           <button style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .8rem; --bs-btn-font-size: .75rem; margin-top: 3%;" type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#kickmoder{{moder.id}}">Снять</button>
+          <button style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .8rem; --bs-btn-font-size: .75rem; margin-top: 3%;" type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#reprimand{{moder.id}}">Выговор</button>
 
           <!-- <form action="" method="post">
 

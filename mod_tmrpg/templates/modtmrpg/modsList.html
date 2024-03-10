@@ -167,7 +167,7 @@ delayedGreeting();
         <b><a href="/profile/{{moder.nickname}}/" style="font-size: 20px; color:royalblue" class="card-title">{{moder.nickname}}</a></b></br>
         <span style="font-size: 14px;" class="">♿Должность: <b>{{moder.pex.display_name}}</b></span></br>
         <span class="card-text" style="font-size: 14px;">💵Баланс: {{moder.balance}} баллов</span></br>
-        <span class="card-text" style="font-size: 14px;">🛑Выговоров: 0/3</span></br>
+        <span class="card-text" style="font-size: 14px;">🛑Выговоров: {{moder.get_all_reprimands | length}}/3</span></br>
         <span class="card-text" style="font-size: 14px;">🛜Discord: <span style="color:{%if moder.discord %}white{%else%}tomato{%endif%}"><b>{%if moder.discord%}{{moder.discord.username}}{%else%}не привязан{%endif%}</span></b></span></br>
         <!-- <span class="card-text" style="font-size: 14px;"><span class="">⚠️{{item.note}}</span></span></br> -->
         </div>

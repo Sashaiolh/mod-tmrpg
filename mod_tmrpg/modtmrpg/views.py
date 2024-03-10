@@ -77,6 +77,9 @@ def image_to_data_url(filename):
         img = f.read()
     return base64.b64encode(img).decode('utf-8')
 
+def get_amount_of_reprimands(nick):
+    moder = models.Moder.objects.get(nickname=nick)
+    return len(models.Reprimand.objects.filter(moder=moder))
 
 def init_data(request):
     data = {}
@@ -90,6 +93,7 @@ def init_data(request):
     data['user'] = request.user
 
     data['updateSkin'] = False
+
 
     
     for moder in data['all_moders']:
@@ -225,8 +229,8 @@ def profile(request, nick=None):
     else:
         ds_url = 'https://discord.com/oauth2/authorize?client_id=1213447548342116373&response_type=code&redirect_uri=http%3A%2F%2Fmodtmrpg.pythonanywhere.com%2Foauth2%2Fdiscord&scope=guilds+identify'
     nickname = request.user.username if not nick else nick
-    moder = models.Moder.objects.get(nickname=nickname)
-    return render(request, 'modtmrpg/profile.html', {'data': data, 'ds_url': ds_url, 'moder': moder, })
+    data['moder'] = models.Moder.objects.get(nickname=nickname)
+    return render(request, 'modtmrpg/profile.html', {'data': data, 'ds_url': ds_url, })
 
 @csrf_exempt
 def ecoLogs(request, nick=None):
@@ -282,7 +286,7 @@ def modsEdit(request):
 
     moders = models.Moder.objects.all()
 
-    if request.method == 'POST':
+    if request.method == 'POST' and (data['moder'].is_st() or data['moder'].is_admin()):
         if request.POST.get('options-operator') != None:
             moder = models.Moder.objects.get(nickname=request.POST.get('nick'))
             operator = request.POST.get('options-operator')
@@ -329,6 +333,13 @@ def modsEdit(request):
                     pass
                 moder.delete()
             
+        if int(request.POST.get('is_reprimand')) == 1:
+            moder = models.Moder.objects.get(nickname=request.POST.get('nick'))
+            admin = data['moder']
+            reason = request.POST.get('reason')  
+            new_reprimand = models.Reprimand.objects.create(admin=admin, moder=moder, reason=reason)
+            new_reprimand.save()
+
         return redirect(f'{data["current_url"]}modsEdit/')
                 
 

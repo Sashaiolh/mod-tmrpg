@@ -40,6 +40,9 @@ class Moder(RandomIDModel):
         return self.pex.pex_name == "StModer" or self.pex.pex_name == "gm" or self.pex.pex_name == "gd"
     def is_admin(self):
         return self.pex.pex_name == 'curator' or self.pex.pex_name == "techadmin" or self.pex.pex_name == "admin"
+    
+    def get_all_reprimands(self):
+        return Reprimand.objects.filter(moder=self)
 
 
 class EcoLog(models.Model):
@@ -59,6 +62,21 @@ class EcoLog(models.Model):
         ordering = ['-date']
         verbose_name = "Лог экономики"
         verbose_name_plural = "Логи экономики"
+
+
+class Reprimand(models.Model):
+    admin = models.ForeignKey("Moder", null=True, on_delete=models.CASCADE, related_name='modtmrpg.Reprimand.admin+')   
+    moder = models.ForeignKey("Moder", null=True, on_delete=models.CASCADE, related_name='modtmrpg.Reprimand.moder+')
+    reason = models.CharField('Причина', max_length=50)
+    date = models.DateTimeField(auto_now_add=True)
+    def getDate(self):
+        return self.date.strftime("%d %b %Y")
+    def __str__(self):
+        return f'[{self.admin.pex.display_name}] {self.admin.nickname} --> [{self.moder.pex.display_name}] {self.moder.nickname}'
+    class Meta:
+        ordering = ['-date']
+        verbose_name = "Выговор"
+        verbose_name_plural = "Выговоры"
 
 
 class Discord(models.Model):

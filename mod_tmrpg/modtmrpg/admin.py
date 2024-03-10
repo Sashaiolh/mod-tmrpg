@@ -70,6 +70,9 @@ class AuthorAdmin(admin.ModelAdmin):
 class AuthorAdmin(admin.ModelAdmin):
     pass
 
+@admin.register(Reprimand)
+class AuthorAdmin(admin.ModelAdmin):
+    pass
 
 
 
