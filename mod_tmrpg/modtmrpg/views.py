@@ -474,11 +474,11 @@ def buy_item(request, id):
             for discord in discords:
                 tapst.append(f'<@{discord.ds_id}>')              
 
-        if item.type == 0 or item.type == 1:
+        if int(item.type) == 0 or int(item.type) == 1:
             webhook.content=''.join(tapst)
-        elif item.type==2:
+        if item.type==2:
             webhook.content=''.join(tapcura)
-            
+        
 
         embed = DiscordEmbed(title="Покупка на сайте", description="", color="03b2f8")
         # embed.set_author(name="Author Name", url="https://github.com/lovvskillz", icon_url="https://avatars0.githubusercontent.com/u/14542790")
@@ -489,7 +489,7 @@ def buy_item(request, id):
         embed.add_embed_field(name=f"В количестве:", value=f"`{amount}шт.`")
         # embed.add_embed_field(name="Field 3", value="amet consetetur")
         # embed.add_embed_field(name="Field 4", value="sadipscing elitr")
-
+        webhook.remove_embeds()
         webhook.add_embed(embed)
         response = webhook.execute()
 
