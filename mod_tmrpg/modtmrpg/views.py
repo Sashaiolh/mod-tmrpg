@@ -321,7 +321,7 @@ def modsEdit(request):
                 embed.add_embed_field(name=f"Снял", value=f"`{moder.nickname}`")
                 embed.add_embed_field(name=f"С должности", value=f"{moder.pex.display_name}")
                 embed.add_embed_field(name=f"Накопленные баллы", value=f"{moder.balance}")
-                embed.add_embed_field(name=f"Выговоры", value=f"0/3")
+                embed.add_embed_field(name=f"Выговоры", value=f"{len(moder.get_all_reprimands())}/3")
                 # embed.add_embed_field(name="Field 3", value="amet consetetur")
                 # embed.add_embed_field(name="Field 4", value="sadipscing elitr")
 
