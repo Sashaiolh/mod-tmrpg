@@ -6,6 +6,8 @@ from django.shortcuts import redirect
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login
 
+import codecs
+
 
 from django import template
 register = template.Library()
@@ -593,11 +595,11 @@ def get_shop_items(request):
     if not request.user.is_authenticated:
         return HttpResponseRedirect('/')
     if request.user.is_superuser:
-        response = requests.get('https://mcskill.net/api/v2/shop/get_items?serverid=69&tabid=1')
+        
+        f = codecs.open('get_items.json', encoding='utf-8')
+        data = json.load(f)
 
-        json = response.json()
-
-        all_items = json['result']
+        all_items = data['result']
         
         for item in models.Item.objects.filter(is_auto=1):
             item.delete()
