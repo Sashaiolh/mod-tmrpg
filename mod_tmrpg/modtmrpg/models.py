@@ -112,7 +112,8 @@ class Item(models.Model):
     # image = models.CharField(max_length=100)
     image = models.ImageField('картинка',upload_to ='items/', blank=True,  null=True)
     image_url = models.TextField('Путь либо ссылка на картинку (не трогай, если вставил картинкой)',blank=True, null=True)
-    type = models.IntegerField('НЕ ТРОГАТЬ', default=0)
+    type = models.IntegerField('НЕ ТРОГАТЬ(type)', default=0)
+    is_auto = models.IntegerField('НЕ ТРОГАТЬ(auto)', default=0)
     # 0 - items
     # 1 - cases
     # 2 - privki

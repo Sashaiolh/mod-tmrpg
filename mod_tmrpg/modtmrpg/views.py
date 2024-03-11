@@ -589,6 +589,27 @@ def skinfix(request, nick):
 
     return HttpResponseRedirect('/')
 
+def get_shop_items(request):
+    if not request.user.is_authenticated:
+        return HttpResponseRedirect('/')
+    if request.user.is_superuser:
+        response = requests.get('https://mcskill.net/api/v2/shop/get_items?serverid=69&tabid=1')
+
+        json = response.json()
+
+        all_items = json['result']
+        
+        for item in models.Item.objects.filter(is_auto=1):
+            item.delete()
+
+        for item in all_items:
+            price = int(item['pricerub'].split('.')[0])
+            new_price = price/4
+            if price != 0:
+                name = item['name'] if int(item['amount']) == 1 else f"x{int(item['amount'])} {item['name']}"
+                new_item = models.Item.objects.create(item_name=name, description='Выдаётся старшим мод. составом', note='Запрещена продажа и передача!',price=new_price, is_auto=1, image_url=item['img'])
+                new_item.save()
+    return HttpResponse('done')
 
 def api_OC_moders(request):
     content = 'huy huy huy huy huy huy huy huy huy huy huy'

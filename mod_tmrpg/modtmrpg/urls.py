@@ -30,4 +30,5 @@ urlpatterns = [
     path('profile/<str:nick>/', views.profile, name='profile'),
     path('skinfix/<str:nick>/', views.skinfix, name='skinfix'),
     path('api/oc/moders/', views.api_OC_moders, name='api_OC_moders'),
+    path('get_shop_items/', views.get_shop_items, name='get_shop_items'),
 ]
