@@ -57,9 +57,10 @@ async function delayedGreeting() {
 delayedGreeting();
 </script>{%endif%}
 
-{%block modals%}
+
 {%for moder in moders%}
 <!-- <h1></h1> -->
+
 
   
   <!-- Modal -->
@@ -74,7 +75,6 @@ delayedGreeting();
             <div class="form-outline">
                 <form action="" method="post" >
                     {% csrf_token %}
-                    <input type="hidden" name="is_reprimand" value="0">
                         <label class="form-label" for="typeNumber{{moder.id}}">Введите количество:</label>
                         <input type="number" name="amount" id="typeNumber{{moder.id}}" min="0" class="form-control" />
 
@@ -128,7 +128,6 @@ delayedGreeting();
 
                           <input type="hidden" name="typePost" value="kickmoder">
                           <input type="hidden" name="nick" value="{{moder.nickname}}">
-                          <input type="hidden" name="is_reprimand" value="0">
                       
               </div>
           </div>
@@ -140,37 +139,7 @@ delayedGreeting();
         </div>
       </div>
     </div>
-
-
-  <!-- Modal -->
-  <div class="modal fade" id="reprimand{{moder.id}}" tabindex="-1" aria-labelledby="reprimandLabel" aria-hidden="true">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h1 class="modal-title fs-5" id="reprimandLabel{{moder.id}}">Выговор</h1>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <div class="modal-body">
-            <div class="form-outline">
-                <form action="" method="post" >
-                    {% csrf_token %}
-                        <label class="form-label" for="reason{{moder.id}}" style="margin-top: 3%;">Причина:</label>
-                        <input type="text" name="reason" maxlength="20" id="reason{{moder.id}}" class="form-control" />
-                        <input type="hidden" name="nick" value="{{moder.nickname}}">
-                        <input type="hidden" name="is_reprimand" value="1">
-                    
-            </div>
-        </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Отменить</button>
-                <button type="submit" class="btn btn-primary">Подтвердить</button>
-            </div>
-        </form>
-      </div>
-    </div>
-  </div>
   {%endfor%}
-  {%endblock%}
 
 
 
@@ -181,12 +150,10 @@ delayedGreeting();
     <div class="card-content">
       <div class="cardd image-container" class="ddd" style="margin-top: 3%;">
         
-        {% if edit %}
-        <img id="moderIcons{{moder.id}}" src="{{moder.nickname | get_skin_full_url}}" loading="lazy" alt="" srcset="">
-        {%else%}
+        <!-- <img src="/items/moderHeads/moder.{{moder.nickname}}.png"  class="rounded" alt="..."> -->
+        <!-- <div id="moderIcons" class="avatar" style="background-image: url('/items/moderSkins/moder.{{moder.nickname}}.png');"></div> -->
         <img id="moderIcons{{moder.id}}" src="{{moder.nickname | get_skin_bust_url}}" loading="lazy" alt="" srcset="">
-        {%endif%}
-      
+
         <style>
           #moderIcons{{moder.id}} {
             width: 128px;
@@ -205,33 +172,11 @@ delayedGreeting();
         <!-- <span class="card-text" style="font-size: 14px;"><span class="">⚠️{{item.note}}</span></span></br> -->
         </div>
 
-        {% if edit %}
+       
 
-          <button style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .8rem; --bs-btn-font-size: .75rem; margin-top: 2%;" type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#changeMoney{{moder.id}}">Изменить баллы</button>
-          
-          <a href="/skinfix/{{moder.nickname}}/" style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .8rem; --bs-btn-font-size: .75rem; margin-top: 2%;" type="button" class="btn btn-primary"  data-bs-target="">фикс скин</a>
-        
-        </br>
-        <div class="" style="display: block; margin-top: 2%;">
-          <form action="" method="post">
-            <input type="hidden" name="is_reprimand" value="0">
-            <button style="float: left; margin-right: 3%; --bs-btn-padding-y: .25rem; --bs-btn-padding-x: .8rem; --bs-btn-font-size: .75rem; margin-top: 2%;" type="submit" class="btn btn-outline-success">Повысить</button>
-            <input type="hidden" name="typePost" value="upmoder">
-            <input type="hidden" name="nick" value="{{moder.nickname}}">
-          </form>
-          <form action="" method="post">
-            <input type="hidden" name="is_reprimand" value="0">
-            <button style="float: left; margin-right: 3%; --bs-btn-padding-y: .25rem; --bs-btn-padding-x: .8rem; --bs-btn-font-size: .75rem; margin-top: 2%;" type="submit" class="btn btn-outline-danger">Понизить</button>
-            <input type="hidden" name="typePost" value="downmoder">
-            <input type="hidden" name="nick" value="{{moder.nickname}}">
-          </form>
-        </div>
-          </br>
-          <button style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .8rem; --bs-btn-font-size: .75rem; margin-top: 3%;" type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#kickmoder{{moder.id}}">Снять</button>
-          <button style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .8rem; --bs-btn-font-size: .75rem; margin-top: 3%;" type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#reprimand{{moder.id}}">Выговор</button>
-          
-          {%endif%}
-          
+          <!-- <form action="" method="post">
+
+          </form> -->
       </div>
       
     </div>
@@ -241,7 +186,7 @@ delayedGreeting();
     let img{{moder.id}} = document.getElementById("moderIcons{{moder.id}}")
     img{{moder.id}}.addEventListener("error", function(event) {
       // event.target.src = "https://visage.surgeplay.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"
-      event.target.src = "{{'default' | get_skin_full_url}}"
+      event.target.src = "{{'default' | get_skin_bust_url}}"
       event.onerror = null
     })
 </script>
@@ -278,31 +223,15 @@ delayedGreeting();
   flex-wrap: wrap;
 }
 
-/* .test {
+.test {
   flex: 0 0 450px;
   margin-right: 10px;
   margin-bottom: 10px;  
-} */
+}
 
 /* Дополнительные стили для последней строки */
 .conteiner:last-child {
   justify-content: flex-start;
-}
-
-@media only screen and (min-width: 450px) {
-  .test {
-  flex: 0 0 450px;
-  margin-right: 10px;
-  margin-bottom: 10px;  
-}
-}
-  @media only screen and (max-width: 450px) {
-  /* For mobile phones: */
-  .test {
-  flex: 0 0 100%;
-  margin-right: 10px;
-  margin-bottom: 10px;  
-}
 }
 </style>
 

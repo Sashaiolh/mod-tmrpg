@@ -266,11 +266,7 @@ d-flex flex-wrap" style="max-width: 540px;  float: left;">
   flex-wrap: wrap;
 }
 
-.test {
-  flex: 0 0 450px;
-  margin-right: 10px;
-  margin-bottom: 10px;  
-}
+
 
 /* Дополнительные стили для последней строки */
 .conteiner:last-child {
@@ -305,7 +301,6 @@ d-flex flex-wrap" style="max-width: 540px;  float: left;">
 
 <style>
 @media only screen and (min-width: 768px) {
-  /* For mobile phones: */
   .item_images {
     max-width: 176px;
   }
@@ -316,6 +311,31 @@ d-flex flex-wrap" style="max-width: 540px;  float: left;">
     max-width: 200px;
   }
 }
+
+
+
+
+@media only screen and (min-width: 450px) {
+  .test {
+  flex: 0 0 450px;
+  margin-right: 10px;
+  margin-bottom: 10px;  
+}
+}
+  @media only screen and (max-width: 450px) {
+  /* For mobile phones: */
+  .test {
+  flex: 0 0 100%;
+  margin-right: 10px;
+  margin-bottom: 10px;  
+}
+}
+
+
+
+
+
+
 </style>
 
 {%endblock%}

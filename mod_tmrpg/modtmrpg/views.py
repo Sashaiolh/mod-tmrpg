@@ -346,7 +346,7 @@ def modsEdit(request):
                 
 
 
-    return render(request, 'modtmrpg/modsEdit.html', {'data': data, 'moders': moders, 'test': test})
+    return render(request, 'modtmrpg/modsEdit.html', {'data': data, 'moders': moders, 'test': test, 'edit': True})
 
 @csrf_exempt
 def modsList(request):
@@ -415,7 +415,7 @@ def modsList(request):
                 
 
 
-    return render(request, 'modtmrpg/modsList.html', {'data': data, 'moders': moders, 'test': test})
+    return render(request, 'modtmrpg/modsList.html', {'data': data, 'moders': moders, 'test': test, 'edit': False, })
 
 @csrf_exempt
 def buy_item(request, id):

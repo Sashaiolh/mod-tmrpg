@@ -1,6 +1,5 @@
 {%extends 'base.html'%}
 {% load get_skin_full_url %}
-{% load get_skin_bust_url %}
 
 {%block content%}
 {%if data.success_text or data.alert_text%}
@@ -57,9 +56,10 @@ async function delayedGreeting() {
 delayedGreeting();
 </script>{%endif%}
 
-{%block modals%}
+
 {%for moder in moders%}
 <!-- <h1></h1> -->
+
 
   
   <!-- Modal -->
@@ -170,7 +170,6 @@ delayedGreeting();
     </div>
   </div>
   {%endfor%}
-  {%endblock%}
 
 
 
@@ -181,12 +180,10 @@ delayedGreeting();
     <div class="card-content">
       <div class="cardd image-container" class="ddd" style="margin-top: 3%;">
         
-        {% if edit %}
+        <!-- <img src="/items/moderHeads/moder.{{moder.nickname}}.png"  class="rounded" alt="..."> -->
+        <!-- <div id="moderIcons" class="avatar" style="background-image: url('/items/moderSkins/moder.{{moder.nickname}}.png');"></div> -->
         <img id="moderIcons{{moder.id}}" src="{{moder.nickname | get_skin_full_url}}" loading="lazy" alt="" srcset="">
-        {%else%}
-        <img id="moderIcons{{moder.id}}" src="{{moder.nickname | get_skin_bust_url}}" loading="lazy" alt="" srcset="">
-        {%endif%}
-      
+
         <style>
           #moderIcons{{moder.id}} {
             width: 128px;
@@ -204,8 +201,6 @@ delayedGreeting();
         <span class="card-text" style="font-size: 14px;">🛜Discord: <span style="color:{%if moder.discord %}white{%else%}tomato{%endif%}"><b>{%if moder.discord%}{{moder.discord.username}}{%else%}не привязан{%endif%}</span></b></span></br>
         <!-- <span class="card-text" style="font-size: 14px;"><span class="">⚠️{{item.note}}</span></span></br> -->
         </div>
-
-        {% if edit %}
 
           <button style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .8rem; --bs-btn-font-size: .75rem; margin-top: 2%;" type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#changeMoney{{moder.id}}">Изменить баллы</button>
           
@@ -229,9 +224,10 @@ delayedGreeting();
           </br>
           <button style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .8rem; --bs-btn-font-size: .75rem; margin-top: 3%;" type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#kickmoder{{moder.id}}">Снять</button>
           <button style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .8rem; --bs-btn-font-size: .75rem; margin-top: 3%;" type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#reprimand{{moder.id}}">Выговор</button>
-          
-          {%endif%}
-          
+
+          <!-- <form action="" method="post">
+
+          </form> -->
       </div>
       
     </div>
@@ -278,31 +274,15 @@ delayedGreeting();
   flex-wrap: wrap;
 }
 
-/* .test {
+.test {
   flex: 0 0 450px;
   margin-right: 10px;
   margin-bottom: 10px;  
-} */
+}
 
 /* Дополнительные стили для последней строки */
 .conteiner:last-child {
   justify-content: flex-start;
-}
-
-@media only screen and (min-width: 450px) {
-  .test {
-  flex: 0 0 450px;
-  margin-right: 10px;
-  margin-bottom: 10px;  
-}
-}
-  @media only screen and (max-width: 450px) {
-  /* For mobile phones: */
-  .test {
-  flex: 0 0 100%;
-  margin-right: 10px;
-  margin-bottom: 10px;  
-}
 }
 </style>
 
