@@ -424,7 +424,7 @@ def buy_item(request, id):
     item = models.Item.objects.get(id=id)
     amount = int(request.POST.get('amount'))
 
-    if amount <0:
+    if amount <1:
         return HttpResponseRedirect('/shop/')
 
 
