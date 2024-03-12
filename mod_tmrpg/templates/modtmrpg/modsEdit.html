@@ -205,7 +205,7 @@ delayedGreeting();
 
 <div class="conteiner rere row-equal" id="allCards">
   {% for moder in moders %}
-  <div class="card cardd test" id="card{{item.id}}">
+  <div class="card cardd test {% if moder.pex.hierarchy < 1 %}unknown{%endif%}" id="card{{item.id}}">
     <div class="card-content">
       <div class="cardd image-container" class="ddd" style="margin-top: 3%;">
         
@@ -268,7 +268,8 @@ delayedGreeting();
           
           <br>
           <button style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .8rem; --bs-btn-font-size: .75rem; margin-top: 2%;" type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#newModer{{moder.id}}">Добавить модератора</button>
-
+          <br>
+          <br>
           {%endif%}
 
           {%endif%}
@@ -387,7 +388,12 @@ delayedGreeting();
 }
 </style>
 
+{%block addscript %}{%endblock%}
+
+
 {%endblock%}
+
+
 
 
 
