@@ -297,7 +297,7 @@ def modsEdit(request):
         
         if request.POST.get('typePost') != None:
             moder = models.Moder.objects.get(nickname=request.POST.get('nick'))
-            if (request.POST.get('typePost') == 'downmoder' and (data['moder'].pex.hierarchy > moder.pex.hierarchy and (moder.pex.hierarchy > 1) or request.user.is_superuser)) or (request.POST.get('typePost') == 'upmoder' and (data['moder'].pex.hierarchy > moder.pex.hierarchy+1 ) or request.user.is_superuser): 
+            if ( (request.POST.get('typePost') == 'downmoder') and (data['moder'].pex.hierarchy > moder.pex.hierarchy and (moder.pex.hierarchy > 1) or request.user.is_superuser) ) or (request.POST.get('typePost') == 'upmoder' and (data['moder'].pex.hierarchy > moder.pex.hierarchy+1 or request.user.is_superuser)): 
                 new_hierarchy = moder.pex.hierarchy - 1 if request.POST.get('typePost') == 'downmoder' else moder.pex.hierarchy + 1
                 new_pex = models.Pex.objects.get(hierarchy=new_hierarchy)
                 moder.pex = new_pex
