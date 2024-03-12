@@ -474,9 +474,9 @@ def buy_item(request, id):
             for discord in discords:
                 tapst.append(f'<@{discord.ds_id}>')              
 
-        if int(item.type) == 0 or int(item.type) == 1:
+        if int(item.type) == 0 or int(item.type) == 1 or int(item.type) == 2:
             webhook.content=''.join(tapst)
-        if item.type==2:
+        if int(item.type)==3:
             webhook.content=''.join(tapcura)
         
 
