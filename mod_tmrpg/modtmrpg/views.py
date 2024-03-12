@@ -628,6 +628,12 @@ def oauth2(request):
     if not request.user.is_authenticated:
         return HttpResponseRedirect('/')
 
+    if data['domain'] == 'http://127.0.0.1:8000':
+        REDIRECT_URI = 'http://127.0.0.1:8000/oauth2/discord'
+    else:
+        REDIRECT_URI = 'http://modtmrpg.pythonanywhere.com/oauth2/discord'
+
+
     code = request.GET.get('code')
 
     url = 'https://discord.com/api/oauth2/token'
@@ -639,7 +645,7 @@ def oauth2(request):
         'client_secret': CLIENT_SECRET,
         'grant_type': 'authorization_code',
         'code': code,
-        'redirect_uri': 'http://127.0.0.1:8000/oauth2/discord',
+        'redirect_uri': REDIRECT_URI,
         'scope': 'identify guilds.join'
     }
     token_data = requests.post(url, headers=headers, data=data).json()
