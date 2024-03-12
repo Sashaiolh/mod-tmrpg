@@ -57,8 +57,6 @@ delayedGreeting();
 
 
 {%for item in items%}
-<!-- <h1></h1> -->
-
 
   
   <!-- Modal -->
@@ -91,127 +89,30 @@ delayedGreeting();
   </div>
   {%endfor%}
 
-<!-- 
-  <div style="" class="">
-  {%for item in items%}
-<div class="card row equal-height-row  
-d-flex flex-wrap" style="max-width: 540px;  float: left;">
-    <div class="row g-1">
-      <div class="col-md-4">
-
-      </div>
-
-    <div class="col-md-8">
-    <div class="card-body">
-      <h6 class="card-title">{{item.item_name}}</h6>
-      {%if item.description%}<span class="card-text">ℹ️{{item.description}}</span></br>{%endif%}
-      <span class="card-text">💵Цена: {{item.price}}</span></br>
-      <span class="card-text"><span class="text-muted">⚠️{{item.note}}</span></span></br>
-      {%if not item.description%}<span class="card-text"></span></br>{%endif%}
-      <button style="margin-top: 3%;" type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#exampleModal{{item.id}}">Купить</button>
-    </div>
-  </div> 
-    </div>
-  </div>
-
-{%endfor%}
-</div> -->
-
-
-
-<!-- <div class="container">
-  <div class="row">
-
-  {%for item in items%}
-  <div class="col-6 col-sm-4">
-
-
-
-
-
-
-      <h6 class="card-title">{{item.item_name}}</h6>
-      {%if item.description%}<span class="card-text">ℹ️{{item.description}}</span></br>{%endif%}
-      <span class="card-text">💵Цена: {{item.price}}</span></br>
-      <span class="card-text"><span class="text-muted">⚠️{{item.note}}</span></span></br>
-      {%if not item.description%}<span class="card-text"></span></br>{%endif%} COMMENT
-      <button style="margin-top: 3%;" type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#exampleModal{{item.id}}">Купить</button>
-
-</div>  
-{%endfor%}
-  </div>
-</div> -->
-
-  
-  <!-- <div class="conteiner row-equal" style="width: 100%;">
-    <div class="child" style="margin-left: auto; margin-right: auto; max-width: 70%;">
-  {%for item in items%}
-  <div class="card test h-50" style="width: 15rem; margin: 10px; float: left;">
-    <img src="" class="card-img-top" alt="...">
-    <div class="card-body">
-      <h6 class="card-title">{{item.item_name}}</h6>
-      {%if item.description%}<span class="card-text">ℹ️{{item.description}}</span></br>{%endif%}
-      <span class="card-text">💵Цена: {{item.price}}</span></br>
-      <span class="card-text"><span class="text-muted">⚠️{{item.note}}</span></span></br>
-      {%if not item.description%}<span class="card-text"></span></br>{%endif%}
-    </div>
-    
-    <div class="card-body">
-      <button style="" type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#exampleModal{{item.id}}">Купить</button>
-    </div>
-  </div>
-  {%endfor%}
-</div>
-</div> -->
-
-
-<!--  -->
-
-
-
-
-<!-- <div class="conteiner row-equal">
-{%for item in items%}
-
-<div class="card test h-50" id="card{{item.id}}" style="float: left; padding-right: 50px;">
-  <div class="card" style="float:left; object-fit: none; min-height: 128px; max-height: 128px;">
-    <h6 class="card-title">{{item.item_name}}</h6>
-    {%if item.description%}<span class="card-text">ℹ️{{item.description}}</span></br>{%endif%}
-    <span class="card-text">💵Цена: {{item.price}}</span></br>
-    <span class="card-text"><span class="text-muted">⚠️{{item.note}}</span></span></br>
-    {%if not item.description%}<span class="card-text"></span></br>{%endif%}
-  </div>
-</div>
-
-<style>
-  #card{{item.id}} {
-    background-repeat: no-repeat;
-    background-position: left;
-    padding-left: 128px; */
+<script>
+      divv = `<div class="form-group has-search" id="shop-search">
+  <span class="fa fa-search form-control-feedback"></span>
+  <input type="text" id="box" class="form-control" placeholder="Поиск">
+</div>`
+  if($(window).width() >= 941){
+$("body").append(divv)
   }
-</style>
+  else{
+    $("body").append(`<center>${divv}</center>`)
+  }
+</script>
 
-{%endfor%}
-</div> -->
-
-
-
-
-
-
-<!-- <script>
-  jQuery.fn.centerElement = function () {
-   this.css ("position", "absolute");
-   this.css ("top", ($ (window). height () - this.height ()) / 2 + $ (window). scrollTop () + "px");
-   this.css ("left", ($ (window). width () - this.width ()) / 2 + $ (window). scrollLeft () + "px")
-   return this;
-}
-</script> -->
+<script>
+  console.log($(window).width())
+  if($(window).width() > 990){
+    $("#shop-search").width(($("#profile-top-card").width()+$("#auth").width())+35)
+  }
+</script>
 
 
-<div class="conteiner rere row-equal" id="allCards">
+<div class="conteiner rere row-equal" id="allCards" >
   {% for item in items %}
-  <div class="cardr card test" id="card{{item.id}}">
+  <div class="cardr card test" id="card{{item.id}}" data-name="{{item.item_name}} ">
     <div class="card-content">
       <div class="card cardr image-container" style="margin-top: 3%;">
         
@@ -235,6 +136,16 @@ d-flex flex-wrap" style="max-width: 540px;  float: left;">
   </div>
   {% endfor %}
 </div>
+
+<script>
+  $("#box").on('keyup', function(){
+  var matcher = new RegExp($(this).val(), 'gi');
+  $('#allCards').children().hide().filter(function(){
+      return matcher.test($(this).text())
+  }).show();
+
+});
+</script>
 
 
 <style>
@@ -274,28 +185,6 @@ d-flex flex-wrap" style="max-width: 540px;  float: left;">
 }
 </style>
 
-  <!-- <style>
-    .rere {
-      display: grid;
-    grid-column-gap: 1%;
-    grid-template-columns: repeat(auto-fit, 300px);
-  }
-  </style>  -->
-<!-- #allCards -->
-  <script>
-// $('#allCards').css({ position:"absolute", 
-//      left: "50%", 
-//     transform: "translate(-50%, 0%)" 
-// })
-// $('#allCards').centerElement();
-  </script>
-
-
-
-
-
-
-
 
 
 
@@ -309,6 +198,32 @@ d-flex flex-wrap" style="max-width: 540px;  float: left;">
   /* For mobile phones: */
   .item_images {
     max-width: 200px;
+  }
+}
+
+
+
+@media only screen and (min-width: 940px) {
+  /* компы */
+  .has-search {
+    margin-top: 0.1%;
+    margin-right: 0.2%;
+    /* width: 12.6%; */
+    margin-left: auto;
+    margin-right: 0;
+  }
+}
+  @media only screen and (max-width: 940px) {
+  /* планшеты */
+  .has-search {
+    max-width: 450px;
+  }
+}
+
+@media only screen and (max-width: 450px) {
+  /* мобилы */
+  .has-search {
+    max-width: 100%;
   }
 }
 
