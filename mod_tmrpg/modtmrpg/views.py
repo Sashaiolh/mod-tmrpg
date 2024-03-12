@@ -176,11 +176,11 @@ def register_view(request):
                     print('------------------------------------')
                     data['alert_text'] = 'Введите корректный код!'
                 
-                
+    # return HttpResponseRedirect('/')       
+
+def newModer(request, id):
     form = forms.ModerRegForm()
-
-
-    return render(request, "reg.html", {"form": form, 'data': data})
+    return render(request, "reg.html", {"form": form, 'id':id, })
 
 @csrf_exempt
 def accounts_profile(request):
@@ -273,6 +273,9 @@ def modsEdit(request):
         print(f"https://mod-tmrpg.vercel.app/updateSkin/{data['updateModer']}/")
         return HttpResponseRedirect(f"https://mod-tmrpg.vercel.app/updateSkin/{data['updateModer']}/")
     
+    if not (data['moder'].is_st() or data['moder'].is_admin()):
+        return HttpResponseRedirect('/')
+    
     def test(str):
         print(str, 'world!')
 
@@ -296,8 +299,15 @@ def modsEdit(request):
                     new_log.save()
         
         if request.POST.get('typePost') != None:
+
+            if (request.POST.get('typePost') == 'newmoder'):
+                nickname = request.POST.get('nickname')
+                new_moder = models.Moder.objects.create(nickname = nickname)
+                new_moder.save()
+                return render(request, 'modtmrpg/newModer.html', {'data': data, 'moder': new_moder})
+
             moder = models.Moder.objects.get(nickname=request.POST.get('nick'))
-            if ( (request.POST.get('typePost') == 'downmoder') and (data['moder'].pex.hierarchy > moder.pex.hierarchy and (moder.pex.hierarchy > 1) or request.user.is_superuser) ) or (request.POST.get('typePost') == 'upmoder' and (data['moder'].pex.hierarchy > moder.pex.hierarchy+1 or request.user.is_superuser)): 
+            if ( (request.POST.get('typePost') == 'downmoder') and (data['moder'].pex.hierarchy > moder.pex.hierarchy and (moder.pex.hierarchy > 1) or (request.user.is_superuser and moder.pex.hierarchy > 0)) ) or (request.POST.get('typePost') == 'upmoder' and ((data['moder'].pex.hierarchy > moder.pex.hierarchy+1 and moder.pex.hierarchy > 0) or (request.user.is_superuser and moder.pex.hierarchy >= 0))): 
                 new_hierarchy = moder.pex.hierarchy - 1 if request.POST.get('typePost') == 'downmoder' else moder.pex.hierarchy + 1
                 new_pex = models.Pex.objects.get(hierarchy=new_hierarchy)
                 moder.pex = new_pex

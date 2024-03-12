@@ -169,6 +169,34 @@ delayedGreeting();
       </div>
     </div>
   </div>
+
+    <!-- Modal -->
+    <div class="modal fade" id="newModer{{moder.id}}" tabindex="-1" aria-labelledby="newModerLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h1 class="modal-title fs-5" id="newModer{{moder.id}}">Новый модератор</h1>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+              <div class="form-outline">
+                  <form action="" method="post" >
+                      {% csrf_token %}
+                          <label class="form-label" for="nickname{{moder.id}}" style="">Точный игровой ник (без пробелов и сторонних символов):</label>
+                          <input type="text" name="nickname" maxlength="20" id="nickname{{moder.id}}" class="form-control" />
+                          <input type="hidden" name="is_reprimand" value="0">
+                          <input type="hidden" name="typePost" value="newmoder">
+                      
+              </div>
+          </div>
+              <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Отменить</button>
+                  <button type="submit" class="btn btn-primary">Подтвердить</button>
+              </div>
+          </form>
+        </div>
+      </div>
+    </div>
   {%endfor%}
   {%endblock%}
 
@@ -197,7 +225,11 @@ delayedGreeting();
       <div class="text-container">
 
         <div style="">
-        <b><a href="/profile/{{moder.nickname}}/" style="font-size: 20px; color:royalblue" class="card-title">{{moder.nickname}}</a></b></br>
+        {% if moder.pex.hierarchy > 0 %}
+          <b><a href="/profile/{{moder.nickname}}/" style="font-size: 20px; color:royalblue" class="card-title">{{moder.nickname}}</a></b></br>
+        {%else%}
+          <b><span href="/profile/{{moder.nickname}}/" style="font-size: 20px; color:royalblue" class="card-title">Неизвестный</span></b></br>
+        {%endif%}
         <span style="font-size: 14px;" class="">♿Должность: <b>{{moder.pex.display_name}}</b></span></br>
         <span class="card-text" style="font-size: 14px;">💵Баланс: {{moder.balance}} баллов</span></br>
         <span class="card-text" style="font-size: 14px;">🛑Выговоров: {{moder.get_all_reprimands | length}}/3</span></br>
@@ -206,6 +238,7 @@ delayedGreeting();
         </div>
 
         {% if edit %}
+        {% if moder.pex.hierarchy > 0 %}
 
           <button style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .8rem; --bs-btn-font-size: .75rem; margin-top: 2%;" type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#changeMoney{{moder.id}}">Изменить баллы</button>
           
@@ -230,6 +263,14 @@ delayedGreeting();
           <button style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .8rem; --bs-btn-font-size: .75rem; margin-top: 3%;" type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#kickmoder{{moder.id}}">Снять</button>
           <button style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .8rem; --bs-btn-font-size: .75rem; margin-top: 3%;" type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#reprimand{{moder.id}}">Выговор</button>
           
+
+          {%else%}
+          
+          <br>
+          <button style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .8rem; --bs-btn-font-size: .75rem; margin-top: 2%;" type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#newModer{{moder.id}}">Добавить модератора</button>
+
+          {%endif%}
+
           {%endif%}
           
       </div>

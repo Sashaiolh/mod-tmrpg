@@ -32,24 +32,15 @@
 {% csrf_token %}
 {% csrf_token %}
 {{form|crispy}}
-<!-- <table>
 
-<tr>
-  <td>{{ form.username.label_tag }}</td>
-  <td>{{ form.username }}</td>
-</tr>
-
-<tr>
-  <td>{{ form.password.label_tag }}</td>
-  <td>{{ form.password }}</td>
-</tr>
-</table>-->
 
 <button class="btn btn-primary" type="submit" value="register">Регистрация</button>
 <input type="hidden" name="next" value="{{ next }}" />
 </form>
 
-<!-- {# Assumes you setup the password_reset view in your URLconf #}
-<p><a href="{% url 'password_reset' %}">Lost password?</a></p>  -->
+<script>
+  $('input[name="secret_code"]').val({{id}})
+  // $('input[name="secret_code"]').prop('disabled', true);
+</script>
 
 {% endblock %}
