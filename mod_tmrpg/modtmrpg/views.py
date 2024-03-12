@@ -124,17 +124,7 @@ def init_data(request):
 
     return data
 
-def get_token():
-  data = {
-    'grant_type': 'client_credentials',
-    'scope': 'identify connections'
-  }
-  headers = {
-    'Content-Type': 'application/x-www-form-urlencoded'
-  }
-  r = requests.post('%s/oauth2/token' % API_ENDPOINT, data=data, headers=headers, auth=(CLIENT_ID, CLIENT_SECRET))
-  r.raise_for_status()
-  return r.json()
+
 
 @csrf_exempt
 def logout_view(request):
@@ -618,54 +608,49 @@ def api_OC_moders(request):
     return HttpResponse(content, content_type='text/plain')
 
 
+# def get_token(code):
+#   data = {
+#     'client_id': '1213447548342116373',
+#     'client_secret': CLIENT_SECRET,
+#     'grant_type': 'authorization_code',
+#     'code': code,
+#   }
+#   headers = {
+#     'Content-Type': 'application/x-www-form-urlencoded'
+#   }
+#   r = requests.post('%s/oauth2/token' % API_ENDPOINT, data=data, headers=headers, auth=(CLIENT_ID, CLIENT_SECRET))
+#   r.raise_for_status()
+#   return r.json()
+
+
 @csrf_exempt
 def oauth2(request):
     if not request.user.is_authenticated:
         return HttpResponseRedirect('/')
-    try:
-        os.remove('data.json')
-    except:
-        pass
-    with open('data.json', 'w') as f:
-        json.dump(get_token(), f)
-    
-    dataJson = dict()
-    with open('data.json') as json_out:
-        dataJson = json.load(json_out)
-    # print(dataJson['token_type'])
 
-    # r=requests.get("https://discordapp.com/api/users/@m", headers={"Authorization":f"Bot {dataJson["access_token"]}"})
-    # r.raise_for_status()
+    code = request.GET.get('code')
 
-    # code = request.GET.get('code')
-
-    # url = 'https://discord.com/api/oauth2/token'
-    # headers = {
-    #     'Content-Type': 'application/x-www-form-urlencoded'
-    # }
-    # data = {
-    #     'client_id': REDIRECT_URI,
-    #     'client_secret': CLIENT_SECRET,
-    #     'grant_type': 'authorization_code',
-    #     'code': code,
-    #     'redirect_uri': REDIRECT_URI,
-    #     'scope': 'identify guilds.join'
-    # }
-    # response = requests.post(url, headers=headers, data=data).json()
-    # access_token = response['access_token']
+    url = 'https://discord.com/api/oauth2/token'
+    headers = {
+        'Content-Type': 'application/x-www-form-urlencoded'
+    }
+    data = {
+        'client_id': CLIENT_ID,
+        'client_secret': CLIENT_SECRET,
+        'grant_type': 'authorization_code',
+        'code': code,
+        'redirect_uri': 'http://127.0.0.1:8000/oauth2/discord',
+        'scope': 'identify guilds.join'
+    }
+    token_data = requests.post(url, headers=headers, data=data).json()
 
     # Get the user ID from the access token
     url = 'https://discord.com/api/users/@me'
     headers = {
-        'Authorization': f'Bearer {dataJson["access_token"]}'
+        'Authorization': f'Bearer {token_data["access_token"]}'
     }
-    try:
-        os.remove('user.json')
-    except:
-        pass
+
     response = requests.get(url, headers=headers).json()
-    with open('user.json', 'w') as f:
-        json.dump(response, f)
 
     ds = models.Discord.objects.create(ds_id=response['id'], username=response['username'], avatar=response['avatar'], global_name=response['global_name'],)
     ds.save()
