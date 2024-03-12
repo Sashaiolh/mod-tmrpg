@@ -628,7 +628,7 @@ def oauth2(request):
     if not request.user.is_authenticated:
         return HttpResponseRedirect('/')
 
-    if data['domain'] == 'http://127.0.0.1:8000':
+    if request.build_absolute_uri('/')[:-1] == 'http://127.0.0.1:8000':
         REDIRECT_URI = 'http://127.0.0.1:8000/oauth2/discord'
     else:
         REDIRECT_URI = 'http://modtmrpg.pythonanywhere.com/oauth2/discord'
