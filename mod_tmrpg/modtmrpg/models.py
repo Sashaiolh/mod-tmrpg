@@ -117,8 +117,9 @@ class Item(models.Model):
     # 0 - items
     # 1 - cases
     # 2 - privki
+    
     def __str__(self):
-        return self.item_name
+        return f'{self.item_name} | цена: {self.price}💵'
     class Meta:
         ordering = ['-type', '-price']
         verbose_name = "Предмет"
