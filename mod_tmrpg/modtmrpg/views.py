@@ -622,7 +622,10 @@ def api_OC_moders(request):
 def oauth2(request):
     if not request.user.is_authenticated:
         return HttpResponseRedirect('/')
-    os.remove('data.json')
+    try:
+        os.remove('data.json')
+    except:
+        pass
     with open('data.json', 'w') as f:
         json.dump(get_token(), f)
     
@@ -656,7 +659,10 @@ def oauth2(request):
     headers = {
         'Authorization': f'Bearer {dataJson["access_token"]}'
     }
-    os.remove('user.json')
+    try:
+        os.remove('user.json')
+    except:
+        pass
     response = requests.get(url, headers=headers).json()
     with open('user.json', 'w') as f:
         json.dump(response, f)
