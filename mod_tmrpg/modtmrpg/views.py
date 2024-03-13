@@ -92,6 +92,7 @@ def init_data(request):
     data['all_moders'] = models.Moder.objects.all()
     data['ecologs'] = models.EcoLog.objects.all()
     data['moder'] = models.Moder.objects.get(nickname=request.user.username)
+    data['profile_moder'] = data['moder']
     data['user'] = request.user
 
     data['updateSkin'] = False
