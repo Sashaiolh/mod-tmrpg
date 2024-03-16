@@ -41,8 +41,8 @@ CLIENT_SECRET = '11ZYkGhlOqRTLXl64oPxWBOETKdoQw0m'
 REDIRECT_URI = "http://128.0.0.1:8000/oauth2/discord/"
 
 
-webhook = DiscordWebhook(url="https://discord.com/api/webhooks/1213640643558117446/5dUk-tlebu7QfT6XJ35vM7Z0vGDjhPwgwjiWYRwbY7cAnHn6NrQD_E4vrdy7qlYq-zz3")   
-# webhook = DiscordWebhook(url="https://discord.com/api/webhooks/1217123338753933352/tFgGpj921OWFiEMmrbbsyHyEWGaCl7L3GbwM2fPeDcC43J8oBReFRKF7V1QJ-aJpnDW-") 
+# webhook = DiscordWebhook(url="https://discord.com/api/webhooks/1213640643558117446/5dUk-tlebu7QfT6XJ35vM7Z0vGDjhPwgwjiWYRwbY7cAnHn6NrQD_E4vrdy7qlYq-zz3")   
+webhook = DiscordWebhook(url="https://discord.com/api/webhooks/1217123338753933352/tFgGpj921OWFiEMmrbbsyHyEWGaCl7L3GbwM2fPeDcC43J8oBReFRKF7V1QJ-aJpnDW-") 
 
 # def exchange_code(code):
 #   data = {
