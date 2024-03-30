@@ -41,8 +41,43 @@ CLIENT_SECRET = '11ZYkGhlOqRTLXl64oPxWBOETKdoQw0m'
 REDIRECT_URI = "http://128.0.0.1:8000/oauth2/discord/"
 
 
-# webhook = DiscordWebhook(url="https://discord.com/api/webhooks/1213640643558117446/5dUk-tlebu7QfT6XJ35vM7Z0vGDjhPwgwjiWYRwbY7cAnHn6NrQD_E4vrdy7qlYq-zz3")   
-webhook = DiscordWebhook(url="https://discord.com/api/webhooks/1217123338753933352/tFgGpj921OWFiEMmrbbsyHyEWGaCl7L3GbwM2fPeDcC43J8oBReFRKF7V1QJ-aJpnDW-") 
+
+
+
+
+class Webhook():
+    def __init__(self, request):
+        self.request = request
+        self.domain = self.request.build_absolute_uri('/')[:-1]
+
+        if self.domain == 'http://127.0.0.1:8000':
+            self.webhook = DiscordWebhook(url="https://discord.com/api/webhooks/1213640643558117446/5dUk-tlebu7QfT6XJ35vM7Z0vGDjhPwgwjiWYRwbY7cAnHn6NrQD_E4vrdy7qlYq-zz3") 
+        else:
+            self.webhook = DiscordWebhook(url="https://discord.com/api/webhooks/1217123338753933352/tFgGpj921OWFiEMmrbbsyHyEWGaCl7L3GbwM2fPeDcC43J8oBReFRKF7V1QJ-aJpnDW-")
+    
+        self.content = []
+    
+    def addContent(self, content):
+        self.content.append(content)
+
+    def sendEmbedWithContent(self, title, color, data, description=""):
+        self.webhook.content=''.join(self.content)
+        embed = DiscordEmbed(title=title, description=description, color=color)
+        embed.set_timestamp()
+        for key in data:
+            embed.add_embed_field(name=key, value=data[key])
+
+        self.webhook.remove_embeds()
+        self.webhook.add_embed(embed)
+        response = self.webhook.execute()
+
+    
+        
+
+    
+
+
+
 
 # def exchange_code(code):
 #   data = {
@@ -167,9 +202,7 @@ def register_view(request):
                         # auto-login after registration
                         new_user = authenticate(username=moder.nickname, password=user_data['password1'],)
                         login(request, new_user)
-
-
-                        return HttpResponseRedirect('/')
+                    return HttpResponseRedirect('/')
                 except Exception as e:
                     print('не повезло')
                     print('------------------------------------')
@@ -292,7 +325,7 @@ def modsEdit(request):
                 if operator == '=':
                     moder.balance = amount
                     moder.save()
-                elif operator == '-' or operator == '+':
+                elif operator == '-' or operator == '+' and amount > 0:
                     amount = (-1)*amount if operator == '-' else amount
                     moder.balance += amount
                     moder.save()
@@ -314,20 +347,21 @@ def modsEdit(request):
                 moder.pex = new_pex
                 moder.save()
             if (request.POST.get('typePost') == 'kickmoder') and ((data['moder'].pex.hierarchy > moder.pex.hierarchy) or request.user.is_superuser):
-                embed = DiscordEmbed(title="Снятие модератора", description="", color="ff0000")
+                
                 # embed.set_author(name="Author Name", url="https://github.com/lovvskillz", icon_url="https://avatars0.githubusercontent.com/u/14542790")
                 # embed.set_footer(text="Embed Footer Text")
-                embed.set_timestamp()
-                embed.add_embed_field(name=f"Сотрудник", value=f"`{data['moder'].nickname}`")
-                embed.add_embed_field(name=f"Снял", value=f"`{moder.nickname}`")
-                embed.add_embed_field(name=f"С должности", value=f"{moder.pex.display_name}")
-                embed.add_embed_field(name=f"Накопленные баллы", value=f"{moder.balance}")
-                embed.add_embed_field(name=f"Выговоры", value=f"{len(moder.get_all_reprimands())}/3")
-                # embed.add_embed_field(name="Field 3", value="amet consetetur")
-                # embed.add_embed_field(name="Field 4", value="sadipscing elitr")
 
-                webhook.add_embed(embed)
-                response = webhook.execute()
+                newEmbedData = {
+                    'Сотрудник': f"`{data['moder'].nickname}`",
+                    'Снял': f"`{moder.nickname}`",
+                    'С должности': f"{moder.pex.display_name}",
+                    'Накопленные баллы': f"{moder.balance}",
+                    'Выговоры': f"{len(moder.get_all_reprimands())}/3",
+                }
+
+                webhook = Webhook(request)
+                webhook.sendEmbedWithContent(title="Снятие модератора", color="ff0000", data=newEmbedData)
+
 
                 try:
                     u = User.objects.get(username = moder.nickname)
@@ -457,45 +491,35 @@ def buy_item(request, id):
         StPex = models.Pex.objects.get(pex_name='StModer')
         StQuery = models.Moder.objects.filter(pex=StPex)
 
-        tapcura = []
-        tapst = []
 
-        for curator in curatorsQuery:
-            # for discord in models.Discord.objects.all():
-            discords = models.Discord.objects.filter(moder=curator)
-            for discord in discords:
-                tapcura.append(f'<@{discord.ds_id}>')  
+        webhook = Webhook(request)
 
-        for gm in GMQuery:
-            # for discord in models.Discord.objects.all():
-            discords = models.Discord.objects.filter(moder=gm)
-            for discord in discords:
-                tapst.append(f'<@{discord.ds_id}>')   
+
+        if int(item.type) < 3:
+            for StModer in StQuery:
+                discords = models.Discord.objects.filter(moder=StModer)
+                for discord in discords:
+                    webhook.addContent(f'<@{discord.ds_id}>') 
             
-        for StModer in StQuery:
-            # for discord in models.Discord.objects.all():
-            discords = models.Discord.objects.filter(moder=StModer)
-            for discord in discords:
-                tapst.append(f'<@{discord.ds_id}>')              
+            for gm in GMQuery:
+                discords = models.Discord.objects.filter(moder=gm)
+                for discord in discords:
+                    webhook.addContent(f'<@{discord.ds_id}>')    
 
-        if int(item.type) == 0 or int(item.type) == 1 or int(item.type) == 2:
-            webhook.content=''.join(tapst)
-        if int(item.type)==3:
-            webhook.content=''.join(tapcura)
-        
 
-        embed = DiscordEmbed(title="Покупка на сайте", description="", color="03b2f8")
-        # embed.set_author(name="Author Name", url="https://github.com/lovvskillz", icon_url="https://avatars0.githubusercontent.com/u/14542790")
-        # embed.set_footer(text="Embed Footer Text")
-        embed.set_timestamp()
-        embed.add_embed_field(name=f"Модератор:", value=f"`{moder.nickname}`")
-        embed.add_embed_field(name=f"Купил:", value=f"`{item.item_name}`")
-        embed.add_embed_field(name=f"В количестве:", value=f"`{amount}шт.`")
-        # embed.add_embed_field(name="Field 3", value="amet consetetur")
-        # embed.add_embed_field(name="Field 4", value="sadipscing elitr")
-        webhook.remove_embeds()
-        webhook.add_embed(embed)
-        response = webhook.execute()
+        if int(item.type) >= 3:
+            for curator in curatorsQuery:
+                discords = models.Discord.objects.filter(moder=curator)
+                for discord in discords:
+                    webhook.addContent(f'<@{discord.ds_id}>')
+
+        newEmbedData = {
+            'Модератор:': f"`{moder.nickname}`",
+            'Купил:': f"`{item.item_name}`",
+            'В количестве:': f"`{amount}шт.`",
+        }
+
+        webhook.sendEmbedWithContent(title="Покупка на сайте", color="03b2f8", data=newEmbedData)
 
 
         return HttpResponseRedirect(f'/shop/success')

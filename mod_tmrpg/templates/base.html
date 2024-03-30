@@ -60,7 +60,7 @@
               <li class="nav-item">
                 <a class="nav-link" href="/shop/">Магазин</a>
               </li>
-              {%if data.moder.is_st or data.moder.is_admin%}
+              {%if data.profile_moder.is_st or data.profile_moder.is_admin%}
               <li class="nav-item">
                 <a class="nav-link" href="/modsEdit/">Модерация</a>
               </li>
@@ -75,13 +75,13 @@
 
               <a class="nav-link" href="/ecoLogs/">Логи экономики</a>
 
-              {%if data.moder.is_st or data.moder.is_admin%}
+              {%if data.profile_moder.is_st or data.profile_moder.is_admin%}
               <li class="nav-item">
                 <a class="nav-link" href="/admin/">Админ-панель</a>
               </li>
               {%endif%}
 
-              {%if data.moder.is_admin%}
+              {%if data.profile_moder.is_admin%}
               <li class="nav-item dropdown" style="">
                 <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                   <!-- <img src="https://cdn.discordapp.com/avatars/{{data.user}}/cd4d6b1bd4736f50293048d7bb60f827.png" alt="" srcset=""> --> 

@@ -37,9 +37,9 @@ class Moder(RandomIDModel):
         verbose_name_plural = "Модераторы"
     
     def is_st(self):
-        return self.pex.pex_name == "StModer" or self.pex.pex_name == "gm" or self.pex.pex_name == "gd"
+        return self.pex.pex_name == "StModer" or self.pex.pex_name == "gm" or self.pex.pex_name == "gd" or self.pex.pex_name == "techadmin"
     def is_admin(self):
-        return self.pex.pex_name == 'curator' or self.pex.pex_name == "techadmin" or self.pex.pex_name == "admin"
+        return self.pex.pex_name == 'curator' or self.pex.pex_name == "admin"
     
     def get_all_reprimands(self):
         return Reprimand.objects.filter(moder=self)
@@ -49,7 +49,7 @@ class EcoLog(models.Model):
     admin = models.ForeignKey("Moder", null=True, blank=True, on_delete=models.CASCADE, related_name='admin')   
     moder = models.ForeignKey("Moder", null=True, on_delete=models.CASCADE, related_name='moder')   
     amount = models.IntegerField('Количество')
-    reason = models.CharField('Причина', max_length=50)
+    reason = models.TextField('Причина')
     date = models.DateTimeField(auto_now_add=True)
     def getDate(self):
         return self.date.strftime("%d %b %Y")
@@ -67,7 +67,7 @@ class EcoLog(models.Model):
 class Reprimand(models.Model):
     admin = models.ForeignKey("Moder", null=True, on_delete=models.CASCADE, related_name='modtmrpg.Reprimand.admin+')   
     moder = models.ForeignKey("Moder", null=True, on_delete=models.CASCADE, related_name='modtmrpg.Reprimand.moder+')
-    reason = models.CharField('Причина', max_length=50)
+    reason = models.TextField('Причина')
     date = models.DateTimeField(auto_now_add=True)
     def getDate(self):
         return self.date.strftime("%d %b %Y")

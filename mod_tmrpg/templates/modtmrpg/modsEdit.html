@@ -94,7 +94,7 @@ delayedGreeting();
                         </br>
                         
                         <label class="form-label" for="reason{{moder.id}}" style="margin-top: 3%;">Причина:</label>
-                        <input type="text" name="reason" maxlength="20" id="reason{{moder.id}}" class="form-control" />
+                        <input type="text" name="reason" id="reason{{moder.id}}" class="form-control" />
 
                         <input type="hidden" name="nick" value="{{moder.nickname}}">
                     
@@ -155,7 +155,7 @@ delayedGreeting();
                 <form action="" method="post" >
                     {% csrf_token %}
                         <label class="form-label" for="reason{{moder.id}}" style="margin-top: 3%;">Причина:</label>
-                        <input type="text" name="reason" maxlength="20" id="reason{{moder.id}}" class="form-control" />
+                        <input type="text" name="reason" id="reason{{moder.id}}" class="form-control" />
                         <input type="hidden" name="nick" value="{{moder.nickname}}">
                         <input type="hidden" name="is_reprimand" value="1">
                     

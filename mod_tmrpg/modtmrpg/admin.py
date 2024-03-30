@@ -40,7 +40,7 @@ from django.http import HttpResponse, HttpResponseRedirect
 
 @admin.register(Moder)
 class AuthorAdmin(admin.ModelAdmin):
-    readonly_fields = ('id', 'pex')
+    readonly_fields = ('id', )
 
 @admin.register(Pex)
 class AuthorAdmin(admin.ModelAdmin):
