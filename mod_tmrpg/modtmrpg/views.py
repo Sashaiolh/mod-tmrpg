@@ -47,30 +47,30 @@ REDIRECT_URI = "http://128.0.0.1:8000/oauth2/discord/"
 
 class Webhook():
     def __init__(self, request):
-        self.request = request
-        self.domain = self.request.build_absolute_uri('/')[:-1]
-
-        if self.domain == 'http://127.0.0.1:8000':
-            self.webhook = DiscordWebhook(url="https://discord.com/api/webhooks/1213640643558117446/5dUk-tlebu7QfT6XJ35vM7Z0vGDjhPwgwjiWYRwbY7cAnHn6NrQD_E4vrdy7qlYq-zz3") 
-        else:
-            self.webhook = DiscordWebhook(url="https://discord.com/api/webhooks/1217123338753933352/tFgGpj921OWFiEMmrbbsyHyEWGaCl7L3GbwM2fPeDcC43J8oBReFRKF7V1QJ-aJpnDW-")
+        # if request.build_absolute_uri('/')[:-1] == 'http://127.0.0.1:8000':
+        #     self.webhookUrl = 'https://discord.com/api/webhooks/1213640643558117446/5dUk-tlebu7QfT6XJ35vM7Z0vGDjhPwgwjiWYRwbY7cAnHn6NrQD_E4vrdy7qlYq-zz3'
+        # else:
+        #     pass
+        self.webhookUrl = 'https://discord.com/api/webhooks/1217123338753933352/tFgGpj921OWFiEMmrbbsyHyEWGaCl7L3GbwM2fPeDcC43J8oBReFRKF7V1QJ-aJpnDW-'
     
         self.content = []
+
+        self.webhook = DiscordWebhook(url=self.webhookUrl)
     
     def addContent(self, content):
         self.content.append(content)
 
     def sendEmbedWithContent(self, title, color, data, description=""):
-        self.webhook.content=''.join(self.content)
-        embed = DiscordEmbed(title=title, description=description, color=color)
-        embed.set_timestamp()
+        self.embed = DiscordEmbed(title=title, description=description, color=color)
+        # embed.set_timestamp()
         for key in data:
-            embed.add_embed_field(name=key, value=data[key])
+            print(f'{key} - {data[key]}')
+            self.embed.add_embed_field(name=key, value=data[key])
 
-        self.webhook.remove_embeds()
-        self.webhook.add_embed(embed)
-        response = self.webhook.execute()
-
+    # self.webhook.remove_embeds()
+        self.webhook.content = ''.join(self.content)
+        self.webhook.add_embed(self.embed)
+        self.webhook.execute()
     
         
 
@@ -359,9 +359,6 @@ def modsEdit(request):
                     'Выговоры': f"{len(moder.get_all_reprimands())}/3",
                 }
 
-                webhook = Webhook(request)
-                webhook.sendEmbedWithContent(title="Снятие модератора", color="ff0000", data=newEmbedData)
-
 
                 try:
                     u = User.objects.get(username = moder.nickname)
@@ -369,6 +366,9 @@ def modsEdit(request):
                 except:
                     pass
                 moder.delete()
+                
+                webhook = Webhook(request)
+                webhook.sendEmbedWithContent(title="Снятие модератора", color="ff0000", data=newEmbedData)
             
         if int(request.POST.get('is_reprimand')) == 1:
             moder = models.Moder.objects.get(nickname=request.POST.get('nick'))
