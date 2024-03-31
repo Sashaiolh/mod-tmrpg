@@ -61,7 +61,7 @@ class Webhook():
 
     def sendEmbedWithContent(self, title, color, data, description=""):
         self.embed = DiscordEmbed(title=title, description=description, color=color)
-        # embed.set_timestamp()
+        self.embed.set_timestamp()
         for key in data:
             print(f'{key} - {data[key]}')
             self.embed.add_embed_field(name=key, value=data[key])
@@ -118,6 +118,7 @@ def get_amount_of_reprimands(nick):
     return len(models.Reprimand.objects.filter(moder=moder))
 
 def init_data(request):
+
     data = {}
 
     data['categories'] = models.MediaCategory.objects.all()
