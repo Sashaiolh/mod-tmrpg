@@ -1,14 +1,14 @@
 {%extends 'modtmrpg/profile.html'%}
 
+{%block asd%}{% endblock %}
 
 {% block manage_profile %}
-    <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap mt-2">
     
-    <a href="/skinfix/{{data.moder.nickname}}/" style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .8rem; --bs-btn-font-size: .75rem;" type="button" class="btn btn-primary "  data-bs-target="">Починить скин</a>
+    <!-- <a href="/skinfix/{{data.moder.nickname}}/" style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .8rem; --bs-btn-font-size: .75rem;" type="button" class="btn btn-primary "  data-bs-target="">Починить скин</a> -->
     {%if data.moder.discord%}
-        <a href="/oauth2/discord/remove/" style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .8rem; --bs-btn-font-size: .75rem;" type="button" class="btn btn-danger"  data-bs-target="">Отвязать discord</a>
+        <a href="/oauth2/discord/remove/" style="--bs-btn-padding-y: .10rem; --bs-btn-padding-x: .8rem; --bs-btn-font-size: .75rem; " type="button" class="btn btn-outline-danger"  data-bs-target="">Отвязать</a>
     {%else%}
-    <a href="{{ds_url}}" style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .8rem; --bs-btn-font-size: .75rem;" type="button" class="btn btn-success"  data-bs-target="">Привязать discord</a>
+    <a href="{{ds_url}}"" style="--bs-btn-padding-y: .10rem; --bs-btn-padding-x: .8rem; --bs-btn-font-size: .75rem;" type="button" class="btn btn-outline-success"  data-bs-target="">Привязать</a>
+    <!-- <a href="{{ds_url}}" style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .8rem; --bs-btn-font-size: .75rem;" type="button" class="btn btn-success"  data-bs-target="">Привязать discord</a> -->
     {%endif%}
-    </li>
 {% endblock %}

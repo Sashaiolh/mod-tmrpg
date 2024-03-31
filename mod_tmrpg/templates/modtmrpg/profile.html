@@ -62,19 +62,22 @@
                 <span class=""><b>{{data.moder.balance}} б.</b></span>
               </li>
               <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
-                <h6 class="mb-0">🛑Выговоров</h6>
+                <h6 class="mb-0">🛑Выговоров</h6> 
                 <span class=""><b>{{data.moder.get_all_reprimands | length}}/3</b></span>
               </li>
               <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
                 <h6 class="mb-0">🛜Discord</h6>
+                {%block asd%}
                 {%if data.moder.discord%}
-                  <span class="" style="color:green">Привязан</span>
+                  <span class="" style=""><b>{{data.moder.discord.username}}</b></span>
                 {%else%}
                   <span class="" style="color:tomato">Не привязан</span>
                 {%endif%}
+                {%endblock%}
+                {%block manage_profile%}{%endblock%}
               </li>
-              {%block manage_profile%}
-              {%endblock%}
+              
+              
             </ul>
           </div>
         </div>
@@ -122,9 +125,9 @@
 
 
       
-        <div class="row" style="">
+        <div class="row overflow-auto" style="max-height: 100%;">
           <center><h2 class="">История</h2></center>
-          <div class="col-sm-12">
+          <div class="col-sm-12 overflow-auto" style="max-height:88vh;">
             <div class="card">
               <div class="card-body">
 

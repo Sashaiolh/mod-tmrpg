@@ -338,7 +338,8 @@ def modsEdit(request):
                 nickname = request.POST.get('nickname')
                 new_moder = models.Moder.objects.create(nickname = nickname)
                 new_moder.save()
-                return render(request, 'modtmrpg/newModer.html', {'data': data, 'moder': new_moder})
+                return HttpResponseRedirect('/modsEdit/')
+                # return render(request, 'modtmrpg/newModer.html', {'data': data, 'moder': new_moder})
 
             moder = models.Moder.objects.get(nickname=request.POST.get('nick'))
             if ( (request.POST.get('typePost') == 'downmoder') and (data['moder'].pex.hierarchy > moder.pex.hierarchy and (moder.pex.hierarchy > 1) or (request.user.is_superuser and moder.pex.hierarchy > 0)) ) or (request.POST.get('typePost') == 'upmoder' and ((data['moder'].pex.hierarchy > moder.pex.hierarchy+1 and moder.pex.hierarchy > 0) or (request.user.is_superuser and moder.pex.hierarchy >= 0))): 

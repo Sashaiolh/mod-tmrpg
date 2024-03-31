@@ -239,29 +239,22 @@ delayedGreeting();
 
         {% if edit %}
         {% if moder.pex.hierarchy > 0 %}
-
-          <button style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .8rem; --bs-btn-font-size: .75rem; margin-top: 2%;" type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#changeMoney{{moder.id}}">Изменить баллы</button>
-          
-          <a href="/skinfix/{{moder.nickname}}/" style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .8rem; --bs-btn-font-size: .75rem; margin-top: 2%;" type="button" class="btn btn-primary"  data-bs-target="">фикс скин</a>
+        <div class="btn-group btn-group-sm" role="group" aria-label="...">
+          <button style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .8rem; --bs-btn-font-size: .75rem; margin-top: 3%;" type="button" class="btn btn-outline-success" data-bs-toggle="modal" data-bs-target="#changeMoney{{moder.id}}">Изменить баллы</button>
+          </div>
+            <form action="" method="post">
+              <input type="hidden" name="is_reprimand" value="0">
+              <div class="btn-group btn-group-sm" role="group" aria-label="...">
+                <button style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .8rem; --bs-btn-font-size: .75rem; margin-top: 3%;" type="submit" name="typePost" value="downmoder" class="btn btn-outline-secondary">Понизить</button>
+                <button style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .8rem; --bs-btn-font-size: .75rem; margin-top: 3%;" type="submit" name="typePost" value="upmoder"  class="btn btn-outline-secondary">Повысить</button>
+              </div>
+              <input type="hidden" name="nick" value="{{moder.nickname}}">
+            </form>
         
-        </br>
-        <div class="" style="display: block; margin-top: 2%;">
-          <form action="" method="post">
-            <input type="hidden" name="is_reprimand" value="0">
-            <button style="float: left; margin-right: 3%; --bs-btn-padding-y: .25rem; --bs-btn-padding-x: .8rem; --bs-btn-font-size: .75rem; margin-top: 2%;" type="submit" class="btn btn-outline-success">Повысить</button>
-            <input type="hidden" name="typePost" value="upmoder">
-            <input type="hidden" name="nick" value="{{moder.nickname}}">
-          </form>
-          <form action="" method="post">
-            <input type="hidden" name="is_reprimand" value="0">
-            <button style="float: left; margin-right: 3%; --bs-btn-padding-y: .25rem; --bs-btn-padding-x: .8rem; --bs-btn-font-size: .75rem; margin-top: 2%;" type="submit" class="btn btn-outline-danger">Понизить</button>
-            <input type="hidden" name="typePost" value="downmoder">
-            <input type="hidden" name="nick" value="{{moder.nickname}}">
-          </form>
+          <div class="btn-group btn-group-sm" role="group" aria-label="...">
+          <button style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .8rem; --bs-btn-font-size: .75rem; margin-top: 3%;" type="button" class="btn btn-outline-danger" data-bs-toggle="modal" data-bs-target="#kickmoder{{moder.id}}">Снять</button>
+          <button style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .8rem; --bs-btn-font-size: .75rem; margin-top: 3%;" type="button" class="btn btn-outline-danger" data-bs-toggle="modal" data-bs-target="#reprimand{{moder.id}}">Выговор</button>
         </div>
-          </br>
-          <button style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .8rem; --bs-btn-font-size: .75rem; margin-top: 3%;" type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#kickmoder{{moder.id}}">Снять</button>
-          <button style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .8rem; --bs-btn-font-size: .75rem; margin-top: 3%;" type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#reprimand{{moder.id}}">Выговор</button>
           
 
           {%else%}
