@@ -1,0 +1,381 @@
+* {
+	border: 0;
+	box-sizing: border-box;
+	margin: 0;
+	padding: 0;
+}
+:root {
+	font-size: calc(16px + (24 - 16)*(100vw - 320px)/ (1920 - 320));
+}
+body {
+	background: #f1f1f1;
+	font: 1em "Titillium Web", sans-serif;
+	color: #171717;
+	line-height: 1.5;
+}
+
+
+/** Container **/
+main {
+	display: flex;
+	flex-wrap: wrap;
+}
+.cell {
+	flex-basis: 50%;
+	padding: 1.5em;
+}
+
+/** Global preloader styles **/
+.pl, .pl:before, .pl:after {
+	animation-duration: 2s;
+	animation-timing-function: linear;
+	animation-iteration-count: infinite;
+}
+.pl {
+	margin: 0 auto 1.5em auto;
+	position: relative;
+	width: 3em;
+	height: 3em;
+}
+.pl:before, .pl:after {
+	background: currentColor;
+	content: "";
+	display: block;
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 50%;
+	transform-origin: 50% 100%;	
+	clip-path: polygon(0 0,100% 0,50% 100%);
+	-webkit-clip-path: polygon(0 0,100% 0,50% 100%);
+}
+.pl-name {
+	text-align: center;
+}
+
+/** Styles for individual preloaders **/
+/* Bow */
+.pl-bow {
+	animation-name: bowA;
+}
+.pl-bow:after {
+	transform: rotate(180deg);
+}
+@keyframes bowA {
+	from { transform: scale(1,1) rotate(0turn) }
+	25%, 35%, 50% { transform: scale(1,1) rotate(0.75turn) }
+	30% { transform: scale(1.25,1) rotate(0.75turn) }
+	75%, 85%, to { transform: scale(1,1) rotate(1.5turn) }
+	80% { transform: scale(1,1.25) rotate(1.5turn) }
+}
+
+/* Butterfly */
+.pl-butterfly {
+	animation-name: butterflyA;
+}
+.pl-butterfly:before {
+	animation-name: butterflyB;
+}
+.pl-butterfly:after {
+	animation-name: butterflyC;
+}
+@keyframes butterflyA {
+	from, to { transform: translateY(0) }
+	50% { transform: translateY(25%) }
+}
+@keyframes butterflyB {
+	from, 50%, to { transform: rotate(60deg) }
+	25%, 75% { transform: rotate(120deg) }
+}
+@keyframes butterflyC {
+	from, 50%, to { transform: rotate(300deg) }
+	25%, 75% { transform: rotate(240deg) }
+}
+
+/* Fade */
+.pl-fade:before {
+	animation-name: fadeA;
+}
+.pl-fade:after {
+	animation-name: fadeB;
+}
+@keyframes fadeA {
+	from, to { opacity: 1; transform: rotate(0deg) }
+	25%, 75.1% { opacity: 0; transform: rotate(0deg) }
+	25.1%, 75% { opacity: 0; transform: rotate(180deg) }
+	50% { opacity: 1; transform: rotate(180deg) }
+}
+@keyframes fadeB {
+	from, 50% { opacity: 0; transform: rotate(90deg) }
+	25% { opacity: 1; transform: rotate(90deg) }
+	50.1%, to { opacity: 0; transform: rotate(270deg) }
+	75% { opacity: 1; transform: rotate(270deg) }
+}
+
+/* Flip */
+.pl-flip {
+	animation-name: flipA;
+	animation-timing-function: steps(1);
+}
+.pl-flip:before, .pl-flip:after {
+	transform-origin: 50% 50%;
+}
+.pl-flip:before {
+	animation-name: flipB;
+}
+.pl-flip:after {
+	animation-name: flipC;
+}
+@keyframes flipA {
+	from, 75%, to { transform: rotate(0) }
+	25%, 50% { transform: rotate(90deg) }
+}
+@keyframes flipB {
+	from { transform: translateY(0) rotateX(0deg) }
+	6.25% { transform: translateY(0) rotateX(0deg) }
+	12.5% { transform: translateY(-50%) rotateX(90deg) }
+	18.75% { transform: translateY(0) rotateX(180deg) }
+	31.25% { transform: translateY(0) rotateX(180deg) }
+	37.5% { transform: translateY(-50%) rotateX(270deg) }
+	43.75% { transform: translateY(0) rotateX(360deg) }
+	50% { transform: translateY(0) rotateX(360deg) }
+	56.25% { transform: translateY(0) rotateX(360deg) }
+	62.5% { transform: translateY(-50%) rotateX(450deg) }
+	68.75% { transform: translateY(0) rotateX(540deg) }
+	81.25% { transform: translateY(0) rotateX(540deg) }
+	87.5% { transform: translateY(-50%) rotateX(630deg) }
+	93.75% { transform: translateY(0) rotateX(720deg) }
+	to { transform: translateY(0) rotateX(720deg) }
+}
+@keyframes flipC {
+	from { transform: translateY(100%) rotateZ(180deg) rotateX(0deg) }
+	6.25% { transform: translateY(100%) rotateZ(180deg) rotateX(0deg) }
+	12.5% { transform: translateY(150%) rotateZ(180deg) rotateX(90deg) }
+	18.75% { transform: translateY(100%) rotateZ(180deg) rotateX(180deg) }
+	31.25% { transform: translateY(100%) rotateZ(180deg) rotateX(180deg) }
+	37.5% { transform: translateY(150%) rotateZ(180deg) rotateX(270deg) }
+	43.75% { transform: translateY(100%) rotateZ(180deg) rotateX(360deg) }
+	50% { transform: translateY(100%) rotateZ(180deg) rotateX(360deg) }
+	56.25% { transform: translateY(100%) rotateZ(180deg) rotateX(360deg) }
+	62.5% { transform: translateY(150%) rotateZ(180deg) rotateX(450deg) }
+	68.75% { transform: translateY(100%) rotateZ(180deg) rotateX(540deg) }
+	81.25% { transform: translateY(100%) rotateZ(180deg) rotateX(540deg) }
+	87.5% { transform: translateY(150%) rotateZ(180deg) rotateX(630deg) }
+	93.75% { transform: translateY(100%) rotateZ(180deg) rotateX(720deg) }
+	to { transform: translateY(100%) rotateZ(180deg) rotateX(720deg) }
+}
+
+/* Hourglass */
+.pl-hourglass {
+	animation-name: hourglassA;
+	background: #a3a3a3;
+	clip-path: polygon(0 0,100% 0,50% 50%,100% 100%,0 100%,50% 50%);
+	-webkit-clip-path: polygon(0 0,100% 0,50% 50%,100% 100%,0 100%,50% 50%);
+}
+.pl-hourglass:before, .pl-hourglass:after {
+	position: static;
+	clip-path: none;
+	-webkit-clip-path: none;
+}
+.pl-hourglass:before {
+	animation-name: hourglassB;
+}
+.pl-hourglass:after {
+	animation-name: hourglassC;
+}
+@keyframes hourglassA {
+	from, 75% { transform: rotate(0) }
+	to { transform: rotate(180deg) }
+}
+@keyframes hourglassB {
+	from { transform: scaleY(1) }
+	50%, to { transform: scaleY(0) }
+}
+@keyframes hourglassC {
+	from { transform: scaleY(0) }
+	50%, to { transform: scaleY(1) }
+}
+
+/* Kinetic */
+.pl-kinetic:before {
+	animation-name: kineticA;
+}
+.pl-kinetic:after {
+	animation-name: kineticB;
+}
+@keyframes kineticA {
+	from, 25% { transform: rotate(0deg) }
+	50%, 75% { transform: rotate(180deg) }
+	to { transform: rotate(360deg) }
+}
+@keyframes kineticB {
+	from { transform: rotate(90deg) }
+	25%, 50% { transform: rotate(270deg) }
+	75%, to { transform: rotate(450deg) }
+}
+
+/* Leap Frog */
+.pl-leapfrog:before, .pl-leapfrog:after {
+	clip-path: polygon(0 0,100% 0,0 100%);
+	-webkit-clip-path: polygon(0 0,100% 0,0 100%);
+	top: 50%;
+	left: 50%;
+	width: 70.71%;
+	height: 70.71%;
+	transform-origin: 0 0;
+}
+.pl-leapfrog:before {
+	animation-name: leapFrogA;
+}
+.pl-leapfrog:after {
+	animation-name: leapFrogB;
+	background: #a3a3a3;
+}
+@keyframes leapFrogA {
+	from { transform: rotateZ(-135deg) rotateY(0deg) rotateX(0deg); z-index: 0 }
+	12.5% { transform: rotateZ(-135deg) rotateY(-180deg) rotateX(0deg); z-index: 1 }
+	25%, 50% { transform: rotateZ(-135deg) rotateY(-180deg) rotateX(-180deg); z-index: 0 }
+	62.5% { transform: rotateZ(-135deg) rotateY(0deg) rotateX(-180deg); z-index: 1 }
+	75%, to { transform: rotateZ(-135deg) rotateY(0deg) rotateX(-360deg); z-index: 0 }
+}
+@keyframes leapFrogB {
+	from, 25% { transform: rotateZ(-45deg) rotateY(0deg) rotateX(0deg); z-index: 0 }
+	37.5% { transform: rotateZ(-45deg) rotateY(-180deg) rotateX(0deg); z-index: 1 }
+	50%, 75% { transform: rotateZ(-45deg) rotateY(-180deg) rotateX(-180deg); z-index: 0 }
+	87.5% { transform: rotateZ(-45deg) rotateY(0deg) rotateX(-180deg); z-index: 1 }
+	to { transform: rotateZ(-45deg) rotateY(0deg) rotateX(-360deg); z-index: 0 }
+}
+
+/* Origami */
+.pl-origami {
+	animation-name: origamiA;
+	animation-timing-function: steps(4);
+}
+.pl-origami:before, .pl-origami:after {
+	clip-path: polygon(50% 0,100% 100%,0% 100%);
+	-webkit-clip-path: polygon(50% 0,100% 100%,0% 100%);
+}
+.pl-origami:before {
+	animation-name: origamiB;
+}
+.pl-origami:after {
+	animation-name: origamiC;
+	transform: rotate(180deg);
+}
+@keyframes origamiA {
+	from { transform: rotate(0) }
+	to { transform: rotate(-360deg) }
+}
+@keyframes origamiB {
+	from, 25%, 50%, 75%, to { opacity: 1; transform: translateZ(0) rotateX(0deg) }
+	12.5%, 62.5% { opacity: 1; transform: translateZ(1px) rotateX(-180deg) }
+	37.5%, 87.5% { opacity: 0; transform: translateZ(0) rotateX(0deg) }
+}
+@keyframes origamiC {
+	from, 25%, 50%, 75%, to { opacity: 1; transform: translateZ(0) rotateZ(180deg) rotateX(0deg) }
+	12.5%, 62.5% { opacity: 0; transform: translateZ(0) rotateZ(180deg) rotateX(0deg) }
+	37.5%, 87.5% { opacity: 1; transform: translateZ(1px) rotateZ(180deg) rotateX(-180deg) }
+}
+
+/* Puzzle */
+.pl-puzzle:before, .pl-puzzle:after {
+	transform-origin: 50% 50%;
+}
+.pl-puzzle:before {
+	animation-name: puzzleA;
+}
+.pl-puzzle:after {
+	animation-name: puzzleB;
+	background: #a3a3a3;
+}
+@keyframes puzzleA {
+	from { transform: translate(0,0) scale(1) rotate(0deg); z-index: 1 }
+	12.5% { transform: translate(0,50%) scale(1.5) rotate(-90deg); z-index: 1 }
+	25%, 50.1% { transform: translate(0,100%) scale(1) rotate(-180deg); z-index: 1 }
+	25.1%, 50% { transform: translate(0,100%) scale(1) rotate(-180deg); z-index: 0 }
+	62.5% { transform: translate(0,50%) scale(1.5) rotate(-270deg); z-index: 1 }
+	75% { transform: translate(0,0) scale(1) rotate(-360deg); z-index: 1 }
+	to { transform: translate(0,0) scale(1) rotate(-360deg); z-index: 0 }
+}
+@keyframes puzzleB {
+	from { transform: translate(25%,50%) scale(1) rotate(90deg); z-index: 0 }
+	25% { transform: translate(25%,50%) scale(1) rotate(90deg); z-index: 0 }
+	25.1% { transform: translate(25%,50%) scale(1) rotate(90deg); z-index: 1 }
+	37.5% { transform: translate(0,50%) scale(1.5) rotate(0deg); z-index: 1 }
+	50%, 75.1% { transform: translate(-25%,50%) scale(1) rotate(-90deg); z-index: 1 }
+	50.1%, 75% { transform: translate(-25%,50%) scale(1) rotate(-90deg); z-index: 0 }
+	87.5% { transform: translate(0,50%) scale(1.5) rotate(-180deg); z-index: 1 }
+	to { transform: translate(25%,50%) scale(1) rotate(-270deg); z-index: 1 }
+}
+
+/* Spark */
+.pl-spark:before {
+	animation-name: scaleA;
+}
+.pl-spark:after {
+	animation-name: scaleB;
+}
+@keyframes scaleA {
+	from, 50%, to { transform: scale(1) }
+	25%, 75% { transform: scale(-1) }
+}
+@keyframes scaleB {
+	from, 50%, to { transform: rotate(90deg) scale(0) }
+	12.5%, 62.5% { transform: rotate(90deg) scale(1) }
+	37.5%, 87.5% { transform: rotate(90deg) scale(-1) }
+}
+
+/* Star */
+.pl-star {
+	animation-name: starA;
+}
+.pl-star:after {
+	transform: rotate(180deg);
+}
+@keyframes starA {
+	from, to { opacity: 1; transform: rotate(0deg) scale(1) }
+	25%, 75.1% { opacity: 0; transform: rotate(0deg) scale(0) }
+	25.1%, 75% { opacity: 0; transform: rotate(90deg) scale(0) }
+	50% { opacity: 1; transform: rotate(90deg) scale(1) }
+}
+
+/* Tuck Behind */
+.pl-tuckbehind:before {
+	animation-name: tuckBehindA;
+}
+.pl-tuckbehind:after {
+	animation-name: tuckBehindB;
+	background: #a3a3a3;
+}
+@keyframes tuckBehindA {
+	from { transform: rotate(0); z-index: 1 }
+	25% { transform: rotate(180deg); z-index: 0 }
+	50%, to { transform: rotate(360deg); z-index: 0 }
+}
+@keyframes tuckBehindB {
+	from, 50% { transform: rotate(0); z-index: 0 }
+	75% { transform: rotate(180deg); z-index: -1 }
+	to { transform: rotate(360deg); z-index: -1 }
+}
+
+/** Media queries **/
+@media (prefers-color-scheme: dark) {
+	body {
+		background: #171717;
+		color: #f1f1f1;
+	}
+	.pl-hourglass, .pl-leapfrog:after, .pl-puzzle:after, .pl-tuckbehind:after {
+		background: #575757;
+	}
+}
+@media screen and (min-width: 768px) {
+	.cell {
+		flex-basis: 33.33%;
+	}
+}
+@media screen and (min-width: 1280px) {
+	.cell {
+		flex-basis: 25%;
+	}
+}

@@ -90,7 +90,7 @@ delayedGreeting();
   {%endfor%}
 
 <script>
-      divv = `<div class="form-group has-search" id="shop-search">
+      divv = `<div class="form-group has-search" style="display: none;" id="shop-search">
   <span class="fa fa-search form-control-feedback"></span>
   <input type="text" id="box" class="form-control" placeholder="Поиск">
 </div>`
@@ -104,15 +104,19 @@ $("body").append(divv)
 
 <script>
   console.log($(window).width())
-  if($(window).width() > 990){
+  $('body').ready(function(){
+    setTimeout(function(){
+      if($(window).width() > 990){
     $("#shop-search").width(($("#profile-top-card").width()+$("#auth").width())+35)
   }
+},1); 
+  
+})
+
 </script>
-
-
-<div class="conteiner rere row-equal" id="allCards" >
+<div class="conteiner rere row-equal" style="display: none;" id="allCards">
   {% for item in items %}
-  <div class="cardr card test" id="card{{item.id}}" data-name="{{item.item_name}} ">
+  <div class="cardr card test eachCard" style="" id="card{{item.id}}" data-name="{{item.item_name}} ">
     <div class="card-content">
       <div class="card cardr image-container" style="margin-top: 3%;">
         
@@ -143,7 +147,11 @@ $("body").append(divv)
   $('#allCards').children().hide().filter(function(){
       return matcher.test($(this).text())
   }).show();
+});
 
+  $('#allCards').ready(function() {
+    $('#allCards').css("display", "");
+    $('#shop-search').css("display", "");
 });
 </script>
 

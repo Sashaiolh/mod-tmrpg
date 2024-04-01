@@ -203,7 +203,7 @@ delayedGreeting();
 
 
 
-<div class="conteiner rere row-equal" id="allCards">
+<div class="conteiner rere row-equal" style="display: none;" id="allCards">
   {% for moder in moders %}
   <div class="card cardd test {% if moder.pex.hierarchy < 1 %}unknown{%endif%}" id="card{{item.id}}">
     <div class="card-content">
@@ -282,6 +282,13 @@ delayedGreeting();
 </script>
   {% endfor %}
 </div>
+
+<script>
+    $('#allCards').ready(function() {
+    $('#allCards').css("display", "");
+    $('#shop-search').css("display", "");
+});
+</script>
 
 
 <style>
