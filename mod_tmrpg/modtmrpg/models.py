@@ -82,9 +82,9 @@ class Reprimand(models.Model):
 
 class Discord(models.Model):
     ds_id = models.IntegerField()
-    username = models.CharField(max_length=12)
+    username = models.CharField(max_length=32)
     avatar = models.TextField('аватарка', blank=True, default='')
-    global_name = models.CharField(max_length=12)
+    global_name = models.CharField(max_length=32)
 
     def __str__(self):
         return self.global_name
