@@ -11,7 +11,7 @@ class Pex(models.Model):
     display_name = models.CharField('display_name', max_length=15)
     prefix_color = models.CharField('цвет префикса', max_length=12)
     nickname_color = models.CharField('цвет ника',max_length=12)
-    OC_nickname_color = models.CharField('Цвет ника в компе',max_length=12)
+    OC_nickname_color = models.CharField('Цвет ника в компе', default='#383838',max_length=12)
 
     class Meta:
         verbose_name = "Должность"
@@ -144,3 +144,13 @@ class MediaItem(models.Model):
     class Meta:
         verbose_name = "Предмет медиа"
         verbose_name_plural = "Предметы медиа"
+
+class Config(models.Model):
+    config_name = models.CharField('Название',max_length=31)
+    config = models.TextField('Конфиг', blank=True)
+    
+    def __str__(self):
+        return f'{self.config_name}'
+    class Meta:
+        verbose_name = "Конфиг"
+        verbose_name_plural = "Конфиги"

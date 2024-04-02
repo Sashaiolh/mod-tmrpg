@@ -74,5 +74,9 @@ class AuthorAdmin(admin.ModelAdmin):
 class AuthorAdmin(admin.ModelAdmin):
     pass
 
+@admin.register(Config)
+class AuthorAdmin(admin.ModelAdmin):
+    pass
+
 
 
