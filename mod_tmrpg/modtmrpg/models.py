@@ -11,13 +11,14 @@ class Pex(models.Model):
     display_name = models.CharField('display_name', max_length=15)
     prefix_color = models.CharField('цвет префикса', max_length=12)
     nickname_color = models.CharField('цвет ника',max_length=12)
+    OC_nickname_color = models.CharField('Цвет ника в компе',max_length=12)
 
     class Meta:
         verbose_name = "Должность"
         verbose_name_plural = "Должности"
 
     def __str__(self):
-        return self.display_name
+        return f'{self.pex_name} | {self.display_name} | {self.prefix_color}'
     
 class Moder(RandomIDModel):
     nickname = models.CharField('никнейм', unique=True, max_length=12)
