@@ -17,7 +17,7 @@ class Pex(models.Model):
         verbose_name_plural = "Должности"
 
     def __str__(self):
-        return self.display_name
+        return f'{self.pex_name} | {self.display_name} | {self.prefix_color}'
     
 class Moder(RandomIDModel):
     nickname = models.CharField('никнейм', unique=True, max_length=12)

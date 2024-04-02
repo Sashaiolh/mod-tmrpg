@@ -643,8 +643,19 @@ def get_shop_items(request):
     return HttpResponse('done')
 
 def api_OC_moders(request):
-    content = 'huy huy huy huy huy huy huy huy huy huy huy'
-    return HttpResponse(content, content_type='text/plain')
+    startOfFile = 'local moders = '
+    content = []
+    for moder in list(models.Moder.objects.all())[:-1]:
+        print(moder.nickname)
+        moderContent = {
+            'nickname': moder.nickname,
+            'discord': moder.discord.username if moder.discord else 0,
+            'pex': moder.pex.display_name,
+            'prefix_color': hex(int(moder.pex.prefix_color[1:], 16)),
+        }
+        content.append(moderContent)
+    # content = [{'test': 123, 'test2': 1234}]
+    return HttpResponse(startOfFile + str(content).replace("'", '"'), content_type='text/plain; charset=utf-8')
 
 
 # def get_token(code):
