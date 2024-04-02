@@ -21,7 +21,7 @@ class Pex(models.Model):
         return f'{self.pex_name} | {self.display_name} | {self.prefix_color}'
     
 class Moder(RandomIDModel):
-    nickname = models.CharField('никнейм', unique=True, max_length=12)
+    nickname = models.CharField('никнейм', unique=True, max_length=32)
     pex = models.ForeignKey("Pex", to_field='pex_name', default='helper1' , on_delete=models.CASCADE)
     balance = models.IntegerField('баланс', default=0)
     discord = models.ForeignKey("Discord", on_delete=models.SET_NULL, blank=True, null=True)
