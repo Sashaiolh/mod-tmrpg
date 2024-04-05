@@ -1,11 +1,14 @@
 from django.http import HttpResponse, HttpResponseRedirect
-from modtmrpg.models import Moder
+from modtmrpg.models import Moder, Config
 from django.views.decorators.csrf import csrf_exempt
 
 @csrf_exempt
 def api_macrokb_playtimereport(request):
-    # if request.method == 'POST':
-    #     text = 'Raw Data: "%s"' % request.raw_post_data
+    if request.method == 'POST':
+        text = 'Raw Data: "%s"' % request.raw_post_data
+        config = Config.objects.get(config_name='playtimeTest')
+        config.config = text
+        config.save()
     return HttpResponse('huy huy huy huy', content_type='text/plain; charset=utf-8')
 
 def api_macrokb_getPlayTimeReport(request):
