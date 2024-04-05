@@ -6,7 +6,7 @@ from django.views.decorators.csrf import csrf_exempt
 def api_macrokb_playtimereport(request):
     # if request.method == 'POST':
     #     text = 'Raw Data: "%s"' % request.raw_post_data
-    return HttpResponse('пися попа член', content_type='text/plain; charset=utf-8')
+    return HttpResponse('huy huy huy huy', content_type='text/plain; charset=utf-8')
 
 def api_macrokb_getPlayTimeReport(request):
     content = []
