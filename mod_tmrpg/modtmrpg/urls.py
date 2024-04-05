@@ -16,6 +16,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import include, path
 from modtmrpg import views
+from modtmrpg.api.MacroKeyBind import api_mkb
 
 urlpatterns = [
     path('', views.index, name='index'),
@@ -33,3 +34,10 @@ urlpatterns = [
     path('api/oc/config/<str:configName>/', views.api_OC_config, name='api_OC_config'),
     path('get_shop_items/', views.get_shop_items, name='get_shop_items'),
 ]
+
+apiUrls = [
+    path('api/macrokb/playtimereport/', api_mkb.api_macrokb_playtimereport, name='api_macrokb_playtimereport'),
+    path('api/macrokb/getplaytimereport/', api_mkb.api_macrokb_getPlayTimeReport, name='api_macrokb_getPlayTimeReport'),
+    ]
+
+[urlpatterns.append(urlpattern) for urlpattern in apiUrls]

@@ -63,7 +63,6 @@ class Webhook():
         self.embed = DiscordEmbed(title=title, description=description, color=color)
         self.embed.set_timestamp()
         for key in data:
-            print(f'{key} - {data[key]}')
             self.embed.add_embed_field(name=key, value=data[key])
 
     # self.webhook.remove_embeds()
@@ -176,7 +175,6 @@ def register_view(request):
             moder = form.save(commit=False)
             # moder.user = request.user
             moder.save()
-            print(moder.secret_code)
             user_data = {
                 'secret_code': moder.secret_code,
                 'password1': moder.password1,
@@ -191,11 +189,9 @@ def register_view(request):
                     if moder.is_registered:
                         data['alert_text'] = 'Вы уже зарегистрированы!'
                     elif moder and not moder.is_registered:
-                        print(moder.nickname)
                         user = User.objects.create_user(username=moder.nickname)
                         user.set_password(user_data['password1'])
                         user.save()
-                        print('Всё заебись брат')
                         moder.is_registered = True
                         moder.save()
 
@@ -204,10 +200,6 @@ def register_view(request):
                         login(request, new_user)
                     return HttpResponseRedirect('/')
                 except Exception as e:
-                    print('не повезло')
-                    print('------------------------------------')
-                    print(e)
-                    print('------------------------------------')
                     data['alert_text'] = 'Введите корректный код!'
                 
     # return HttpResponseRedirect('/')       
@@ -227,8 +219,6 @@ def index(request):
     
     data = init_data(request)
     if data['updateSkin']:
-        print(3509250948509, data['updateModer'])
-        print(f"https://mod-tmrpg.vercel.app/updateSkin/{data['updateModer']}/")
         return HttpResponseRedirect(f"https://mod-tmrpg.vercel.app/updateSkin/{data['updateModer']}/")
 
     if data['domain'] == 'http://127.0.0.1:8000':
@@ -246,8 +236,6 @@ def profile(request, nick=None):
     
     data = init_data(request)
     if data['updateSkin']:
-        print(3509250948509, data['updateModer'])
-        print(f"https://mod-tmrpg.vercel.app/updateSkin/{data['updateModer']}/")
         return HttpResponseRedirect(f"https://mod-tmrpg.vercel.app/updateSkin/{data['updateModer']}/")
 
     if data['domain'] == 'http://127.0.0.1:8000':
@@ -265,8 +253,6 @@ def ecoLogs(request, nick=None):
     
     data = init_data(request)
     if data['updateSkin']:
-        print(3509250948509, data['updateModer'])
-        print(f"https://mod-tmrpg.vercel.app/updateSkin/{data['updateModer']}/")
         return HttpResponseRedirect(f"https://mod-tmrpg.vercel.app/updateSkin/{data['updateModer']}/")
 
     if data['domain'] == 'http://127.0.0.1:8000':
@@ -283,8 +269,6 @@ def shop(request, status=''):
     
     data = init_data(request)
     if data['updateSkin']:
-        print(3509250948509, data['updateModer'])
-        print(f"https://mod-tmrpg.vercel.app/updateSkin/{data['updateModer']}/")
         return HttpResponseRedirect(f"https://mod-tmrpg.vercel.app/updateSkin/{data['updateModer']}/")
 
     items = models.Item.objects.all()
@@ -303,8 +287,6 @@ def modsEdit(request):
     
     data = init_data(request)
     if data['updateSkin']:
-        print(3509250948509, data['updateModer'])
-        print(f"https://mod-tmrpg.vercel.app/updateSkin/{data['updateModer']}/")
         return HttpResponseRedirect(f"https://mod-tmrpg.vercel.app/updateSkin/{data['updateModer']}/")
     
     if not (data['moder'].is_st() or data['moder'].is_admin()):
@@ -391,8 +373,6 @@ def modsList(request):
     
     data = init_data(request)
     if data['updateSkin']:
-        print(3509250948509, data['updateModer'])
-        print(f"https://mod-tmrpg.vercel.app/updateSkin/{data['updateModer']}/")
         return HttpResponseRedirect(f"https://mod-tmrpg.vercel.app/updateSkin/{data['updateModer']}/")
     
     def test(str):
@@ -460,13 +440,10 @@ def buy_item(request, id):
     
     data = init_data(request)
     if data['updateSkin']:
-        print(3509250948509, data['updateModer'])
-        print(f"https://mod-tmrpg.vercel.app/updateSkin/{data['updateModer']}/")
         return HttpResponseRedirect(f"https://mod-tmrpg.vercel.app/updateSkin/{data['updateModer']}/")
 
     username = request.user.username
     moder = models.Moder.objects.get(nickname=username)
-    print(id)
     item = models.Item.objects.get(id=id)
     amount = int(request.POST.get('amount'))
 
@@ -532,8 +509,6 @@ def buy_item_success(request):
     
     data = init_data(request)
     if data['updateSkin']:
-        print(3509250948509, data['updateModer'])
-        print(f"https://mod-tmrpg.vercel.app/updateSkin/{data['updateModer']}/")
         return HttpResponseRedirect(f"https://mod-tmrpg.vercel.app/updateSkin/{data['updateModer']}/")
 
     data['success_text'] = 'Покупка успешна!'
@@ -546,8 +521,6 @@ def buy_item_error(request):
     
     data = init_data(request)
     if data['updateSkin']:
-        print(3509250948509, data['updateModer'])
-        print(f"https://mod-tmrpg.vercel.app/updateSkin/{data['updateModer']}/")
         return HttpResponseRedirect(f"https://mod-tmrpg.vercel.app/updateSkin/{data['updateModer']}/")
 
     data['success_text'] = 'Недостаточно баллов!'
@@ -560,8 +533,6 @@ def media_view(request, category):
     
     data = init_data(request)
     if data['updateSkin']:
-        print(3509250948509, data['updateModer'])
-        print(f"https://mod-tmrpg.vercel.app/updateSkin/{data['updateModer']}/")
         return HttpResponseRedirect(f"https://mod-tmrpg.vercel.app/updateSkin/{data['updateModer']}/")
 
     if not data['moder'].is_st() and not data['moder'].is_admin():
@@ -589,13 +560,10 @@ def new_file(request):
     # amount = int(request.POST.get('amount'))
     if request.method == "POST":
         form = forms.AddItem(request.POST,request.FILES)
-        print('хуй1')
         if form.is_valid():
-            print('хуй2')
             item = form.save(commit=False)
             # moder.user = request.user
             item.save()
-            print(item.media_name)
             data['success'] = True
            
     form = forms.AddItem()
@@ -656,7 +624,6 @@ def api_OC_moders(request):
             'nickname_color': hex(int(moder.pex.OC_nickname_color[1:], 16)),
         }
         for key in moderContent:
-            print(print(moderContent['prefix_color']))
             value = f'"{moderContent[key]}"' if (type(moderContent[key]) is str and (str(moderContent[key])[:2]!='0x')) else f'{moderContent[key]}'
             string += '{key} = {value}, '.format(key=key, value=value)
         resultString = '{' + string + '}, '
@@ -759,7 +726,6 @@ def oauth2(request):
 
     ds = models.Discord.objects.create(ds_id=response['id'], username=response['username'], avatar=response['avatar'], global_name=response['global_name'],)
     ds.save()
-    print(request.user.username)
     current_user = models.Moder.objects.get(nickname=request.user.username)
     current_user.discord = ds
     current_user.save()
@@ -774,8 +740,6 @@ def oauth2Remove(request):
     
     data = init_data(request)
     if data['updateSkin']:
-        print(3509250948509, data['updateModer'])
-        print(f"https://mod-tmrpg.vercel.app/updateSkin/{data['updateModer']}/")
         return HttpResponseRedirect(f"https://mod-tmrpg.vercel.app/updateSkin/{data['updateModer']}/")
 
     if data['moder'].discord:
