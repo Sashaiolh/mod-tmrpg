@@ -1,19 +1,12 @@
 from django.http import HttpResponse, HttpResponseRedirect
 from modtmrpg.models import Moder
-from modtmrpg.views import Webhook
 from django.views.decorators.csrf import csrf_exempt
 
 @csrf_exempt
 def api_macrokb_playtimereport(request):
     if request.method == 'POST':
         text = 'Raw Data: "%s"' % request.raw_post_data
-        newEmbedData = {
-            'type:': 'POST'
-        }
-        webhook = Webhook(request)
-        webhook.addContent('Raw Data: "%s"' % request.raw_post_data)
-        webhook.sendEmbedWithContent(title="Покупка на сайте", color="03b2f8", data=newEmbedData)
-    return HttpResponse('пися попа член', content_type='text/plain; charset=utf-8')
+    return HttpResponse('пися попа член'+str(text), content_type='text/plain; charset=utf-8')
 
 def api_macrokb_getPlayTimeReport(request):
     content = []
