@@ -5,7 +5,7 @@ from django.views.decorators.csrf import csrf_exempt
 @csrf_exempt
 def api_macrokb_playtimereport(request):
     if request.method == 'POST':
-        text = "%s %s" % (request.method, request.body)
+        text = request.body
         config = Config.objects.get(config_name='playtimeTest')
         config.config = text
         config.save()
