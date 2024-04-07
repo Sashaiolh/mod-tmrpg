@@ -457,7 +457,9 @@ def buy_item(request, id):
         moder.balance -= item.price*amount
         moder.save()
 
-        new_log = models.EcoLog.objects.create(moder=moder, amount=item.price*-1, reason=f'Покупка {item.item_name}')
+        cost = item.price*amount
+
+        new_log = models.EcoLog.objects.create(moder=moder, amount=cost*(-1), reason=f'Покупка {"x"+str(amount) if amount != 1 else ""} {item.item_name}')
         new_log.save()
 
         curatorPex = models.Pex.objects.get(pex_name='curator')
