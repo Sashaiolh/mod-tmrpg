@@ -13,7 +13,7 @@ pexs = {
     'Стажер': 'helper1',
 }
 class Moder():
-    def __init__(self, data):
+    def __init__(self, data, playtimeMins):
         self.nickname = data['nickname']
         if data['prefix'] in pexs.keys():
             self.pex = data['prefix']
@@ -22,7 +22,7 @@ class Moder():
         else:
             self.pex = None
         self.minutesStart = data['playtime1']*60 + (data['playtime2']/100)*60
-        self.minutesEnd = data['hours']*60 + data['minutes']
+        self.minutesEnd = playtimeMins
 
     def getCurrentPlaytime(self):
         return round(float((self.minutesEnd-self.minutesStart)/60), 2)
@@ -61,8 +61,14 @@ def api_macrokb_oc_pushplaytimes(request):
 
 def api_macrokb_getPlayTimeReport(request):
     config = Config.objects.get(config_name='playtimeTest')
+    playtimeConfig = Config.objects.get(config_name='playtimes')
     allModersJsons = config.config.split('|')[:-1]
     content = []
+
+    playtimes = {}
+    for moder in playtimeConfig.config.split('|')[:-1]:
+        playtimes[moder.split(';')[0]] = [moder.split(';')[1], moder.split(';')[2]]
+
     for moderJson in allModersJsons:
         print('-----')
         dictionary = ast.literal_eval(moderJson)
@@ -75,7 +81,8 @@ def api_macrokb_getPlayTimeReport(request):
 
         print(dictionary)
 
-        newModer = Moder(dictionary).getModer()
+        playtimemins = playtimes[dictionary['nickname']][0]*60 + playtimes[dictionary['nickname']][1]
+        newModer = Moder(dictionary, playtimemins).getModer()
         print(newModer)
 
         string = str()
