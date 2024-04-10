@@ -86,7 +86,7 @@ def api_macrokb_oc_moderslist(request):
                 string += '{key} = {value}, '.format(key=key, value=value)
             resultString = '{' + string + '}, '
             content.append(resultString)
-    result = 'moders = {\n' + '\n'.join(content) + '\n' + '}'
+    result = 'moderslist = {\n' + '\n'.join(content) + '\n' + '}'
     return HttpResponse(result, content_type='text/plain; charset=utf-8')
 
 def api_macrokb_getPlayTimeReport(request):
