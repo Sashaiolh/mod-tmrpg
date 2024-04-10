@@ -21,7 +21,7 @@ class Moder():
             self.pexObj = Pex.objects.get(pex_name=pexs[data['prefix']])
         else:
             self.pex = None
-        self.minutesStart = int(data['playtime1'])*60 + (int(data['playtime2'])/100)*60
+        self.minutesStart = data['playtime1']*60 + (data['playtime2']/100)*60
         self.minutesEnd = playtimeMins
 
     def getCurrentPlaytime(self):
@@ -112,7 +112,7 @@ def api_macrokb_getPlayTimeReport(request):
 
         print(dictionary)
 
-        playtimemins = playtimes[dictionary['nickname']][0]*60 + playtimes[dictionary['nickname']][1]
+        playtimemins = int(playtimes[dictionary['nickname']][0])*60 + int(playtimes[dictionary['nickname']][1])
 
         newModer = Moder(dictionary, playtimemins).getModer()
         print(newModer)
