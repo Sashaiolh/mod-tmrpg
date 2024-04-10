@@ -39,6 +39,7 @@ apiUrls = [
     path('api/mkb/playtimereport/', api_mkb.api_macrokb_playtimereport, name='api_macrokb_playtimereport'),
     path('api/mkb/getplaytimereport/', api_mkb.api_macrokb_getPlayTimeReport, name='api_macrokb_getPlayTimeReport'),
     path('api/oc/pushplaytimes/', api_mkb.api_macrokb_oc_pushplaytimes, name='api_macrokb_oc_pushplaytimes'),
+    path('api/mkb/moderslist/', api_mkb.api_macrokb_oc_moderslist, name='api_macrokb_oc_moderslist'),
     ]
 
 [urlpatterns.append(urlpattern) for urlpattern in apiUrls]

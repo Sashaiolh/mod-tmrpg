@@ -59,6 +59,36 @@ def api_macrokb_oc_pushplaytimes(request):
         config.save()
     return HttpResponse('huy huy huy huy', content_type='text/plain; charset=utf-8')
 
+@csrf_exempt
+def api_macrokb_oc_moderslist(request):
+    config = Config.objects.get(config_name='playtimeTest')
+    allModersJsons = config.config.split('|')[:-1]
+    content = []
+
+
+    for moderJson in allModersJsons:
+        dictionary = ast.literal_eval(moderJson)
+        # Декодирование поля prefix с учетом предполагаемой кодировки UTF-8
+        decoded_prefix = dictionary['prefix'].encode('latin1').decode('utf-8')
+        # Замена декодированного значения в словаре
+        dictionary['prefix'] = decoded_prefix.replace('[', '').replace(']', '')
+
+        newModer = {
+            'nickname': dictionary['nickname']
+        }
+
+        string = str()
+
+        if newModer:
+            for key in newModer:
+                value = f'"{newModer[key]}"' if (type(newModer[key]) is str and (
+                        str(newModer[key])[:2] != '0x')) else f'{newModer[key]}'
+                string += '{key} = {value}, '.format(key=key, value=value)
+            resultString = '{' + string + '}, '
+            content.append(resultString)
+    result = 'moders = {\n' + '\n'.join(content) + '\n' + '}'
+    return HttpResponse(result, content_type='text/plain; charset=utf-8')
+
 def api_macrokb_getPlayTimeReport(request):
     config = Config.objects.get(config_name='playtimeTest')
     playtimeConfig = Config.objects.get(config_name='playtimes')
