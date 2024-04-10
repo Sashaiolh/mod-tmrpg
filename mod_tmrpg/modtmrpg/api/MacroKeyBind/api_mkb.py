@@ -34,7 +34,7 @@ class Moder():
                 'pex': self.pex,
                 'currentplaytime': str(self.getCurrentPlaytime()),
                 'prefix_color': hex(int(self.pexObj.prefix_color[1:], 16)),
-                'nickname_color': hex(int(self.pexObj.nickname_color[1:], 16)),
+                'nickname_color': hex(int(self.pexObj.OC_nickname_color[1:], 16)),
             }
         else:
             return None
