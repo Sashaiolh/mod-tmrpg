@@ -21,7 +21,7 @@ class Moder():
             self.pexObj = Pex.objects.get(pex_name=pexs[data['prefix']])
         else:
             self.pex = None
-        self.minutesStart = data['playtime1']*60 + (data['playtime2']/100)*60
+        self.minutesStart = int(data['playtime1'])*60 + (int(data['playtime2'])/100)*60
         self.minutesEnd = playtimeMins
 
     def getCurrentPlaytime(self):
