@@ -32,7 +32,6 @@ class Moder():
             return {
                 'nickname': self.nickname,
                 'pex': self.pex,
-                'currentplaytime': str(self.getCurrentPlaytime()),
                 'prefix_color': hex(int(self.pexObj.prefix_color[1:], 16)),
                 'nickname_color': hex(int(self.pexObj.OC_nickname_color[1:], 16)),
             }
@@ -48,8 +47,16 @@ def api_macrokb_playtimereport(request):
         text = text1[:-1]
         config.config = text
         config.save()
+    return HttpResponse('huy huy huy huy', content_type='text/plain; charset=utf-8')
 
-
+@csrf_exempt
+def api_macrokb_oc_pushplaytimes(request):
+    config = Config.objects.get(config_name='playtimes')
+    if request.method == 'POST':
+        text1 = str(request.body)[2:]
+        text = text1[:-1]
+        config.config = text
+        config.save()
     return HttpResponse('huy huy huy huy', content_type='text/plain; charset=utf-8')
 
 def api_macrokb_getPlayTimeReport(request):
