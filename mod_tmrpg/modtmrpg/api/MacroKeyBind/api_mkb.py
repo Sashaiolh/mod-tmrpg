@@ -34,6 +34,7 @@ class Moder():
                 'pex': self.pex,
                 'prefix_color': hex(int(self.pexObj.prefix_color[1:], 16)),
                 'nickname_color': hex(int(self.pexObj.OC_nickname_color[1:], 16)),
+                'currentplaytime': self.getCurrentPlaytime()
             }
         else:
             return None
@@ -112,6 +113,7 @@ def api_macrokb_getPlayTimeReport(request):
         print(dictionary)
 
         playtimemins = playtimes[dictionary['nickname']][0]*60 + playtimes[dictionary['nickname']][1]
+
         newModer = Moder(dictionary, playtimemins).getModer()
         print(newModer)
 
