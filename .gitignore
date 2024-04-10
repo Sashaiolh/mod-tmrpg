@@ -1,2 +1,4 @@
 
 mod_tmrpg/db.sqlite3
+*.pyc
+*.pyc
