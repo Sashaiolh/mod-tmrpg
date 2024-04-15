@@ -26,7 +26,7 @@ class Moder():
 
     def getCurrentPlaytime(self):
         num = round(float((self.minutesEnd - self.minutesStart) / 60), 2)
-        return num if num is not 0 else 0
+        return num if num > 0 else 0
 
     def getModer(self):
         if self.pex:
