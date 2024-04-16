@@ -640,6 +640,11 @@ def api_OC_config(request, configName):
     config = models.Config.objects.get(config_name=configName)
     return HttpResponse(config.config, content_type='text/plain; charset=utf-8')
 
+def EnigmaConfig(request, configName):
+    config = models.EnigmaConfig.objects.get(config_name=configName)
+    return HttpResponse(config.config, content_type='text/plain; charset=utf-8')
+
+
 
 
 
