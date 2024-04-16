@@ -155,3 +155,16 @@ class Config(models.Model):
     class Meta:
         verbose_name = "Конфиг"
         verbose_name_plural = "Конфиги"
+
+
+class EnigmaConfig(models.Model):
+    config_name = models.CharField('Название', max_length=31)
+    config = models.TextField('Конфиг', blank=True)
+    description = models.TextField('Заметки/описание', blank=True)
+
+    def __str__(self):
+        return f'{self.config_name}'
+
+    class Meta:
+        verbose_name = "Конфиг EnigmaRPG"
+        verbose_name_plural = "Конфиги EnigmaRPG"

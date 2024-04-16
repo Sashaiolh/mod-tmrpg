@@ -77,6 +77,9 @@ class AuthorAdmin(admin.ModelAdmin):
 @admin.register(Config)
 class AuthorAdmin(admin.ModelAdmin):
     pass
+@admin.register(EnigmaConfig)
+class AuthorAdmin(admin.ModelAdmin):
+    pass
 
 
 
