@@ -29,4 +29,17 @@
 <!-- {# Assumes you setup the password_reset view in your URLconf #}
 <p><a href="{% url 'password_reset' %}">Lost password?</a></p>  -->
 
+<script type="text/javascript">
+$(document).ready(function()
+{
+$("label[for*='id_username']").html("ИГРОВОЙ никнейм*");
+});
+</script>
+
+<style>
+  body{
+  margin: 10px;
+  }
+</style>
+
 {% endblock %}
