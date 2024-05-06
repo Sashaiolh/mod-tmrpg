@@ -1,3 +1,4 @@
+from django.core.validators import MinValueValidator
 from django.db import models
 from django.db.models.signals import post_init
 from django_random_id_model import RandomIDModel
@@ -109,7 +110,7 @@ class Item(models.Model):
     item_name = models.CharField('название',max_length=31)
     description = models.CharField('описание', blank=True, max_length=30)
     note = models.CharField('примечание', blank=True, max_length=35)
-    price = models.IntegerField('цена')
+    price = models.IntegerField('цена', validators=[MinValueValidator(1)])
     # image = models.CharField(max_length=100)
     image = models.ImageField('картинка',upload_to ='items/', blank=True,  null=True)
     image_url = models.TextField('Путь либо ссылка на картинку (не трогай, если вставил картинкой)',blank=True, null=True)
