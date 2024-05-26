@@ -356,6 +356,8 @@ def modsEdit(request):
         if int(request.POST.get('is_reprimand')) == 1:
             moder = models.Moder.objects.get(nickname=request.POST.get('nick'))
             admin = data['moder']
+            if admin.pex.hierarchy <= moder.pex.hierarchy:
+                return redirect(f'{data["current_url"]}modsEdit/')
             reason = request.POST.get('reason')  
             new_reprimand = models.Reprimand.objects.create(admin=admin, moder=moder, reason=reason)
             new_reprimand.save()
