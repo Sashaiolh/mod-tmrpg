@@ -2,6 +2,10 @@
 {% load get_skin_full_url %}
 {% load get_skin_bust_url %}
 
+<script>
+    let is_edit = true
+</script>
+
 {%block content%}
 {%if data.success_text or data.alert_text%}
 <div class="alerts" style="">
@@ -233,7 +237,7 @@ delayedGreeting();
         <span style="font-size: 14px;" class="">♿Должность: <b>{{moder.pex.display_name}}</b></span></br>
         <span class="card-text" style="font-size: 14px;">💵Баланс: {{moder.balance}} баллов</span></br>
         <span class="card-text" style="font-size: 14px;">🛑Выговоров: {{moder.get_all_reprimands | length}}/3</span></br>
-        <span class="card-text" style="font-size: 14px;">🛜Discord: <span style="color:{%if moder.discord %}white{%else%}tomato{%endif%}"><b>{%if moder.discord%}{{moder.discord.username}}{%else%}не привязан{%endif%}</span></b></span></br>
+        <span class="card-text" style="font-size: 14px;">📶Discord: <span style="color:{%if moder.discord %}white{%else%}tomato{%endif%}"><b>{%if moder.discord%}{{moder.discord.username}}{%else%}не привязан{%endif%}</span></b></span></br>
         <!-- <span class="card-text" style="font-size: 14px;"><span class="">⚠️{{item.note}}</span></span></br> -->
         </div>
 
@@ -276,7 +280,12 @@ delayedGreeting();
     let img{{moder.id}} = document.getElementById("moderIcons{{moder.id}}")
     img{{moder.id}}.addEventListener("error", function(event) {
       // event.target.src = "https://visage.surgeplay.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"
+      if(is_edit==true){
       event.target.src = "{{'default' | get_skin_full_url}}"
+      }
+      else{
+      event.target.src = "{{'default' | get_skin_bust_url}}"
+      }
       event.onerror = null
     })
 </script>
