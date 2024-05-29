@@ -210,9 +210,9 @@ delayedGreeting();
       <div class="cardd image-container" class="ddd" style="margin-top: 3%;">
         
         {% if edit %}
-        <img id="moderIcons{{moder.id}}" src="{{moder.nickname | get_skin_full_url}}" loading="lazy" alt="" srcset="">
+        <img id="moderIcons{{moder.id}}" src="{{moder.nickname | get_skin_full_url}}" alt="" srcset="">
         {%else%}
-        <img id="moderIcons{{moder.id}}" src="{{moder.nickname | get_skin_bust_url}}" loading="lazy" alt="" srcset="">
+        <img id="moderIcons{{moder.id}}" src="{{moder.nickname | get_skin_bust_url}}" alt="" srcset="">
         {%endif%}
       
         <style>
