@@ -499,6 +499,8 @@ def buy_item(request, id):
             'Модератор:': f"`{moder.nickname}`",
             'Купил:': f"`{item.item_name}`",
             'В количестве:': f"`{amount}шт.`",
+            'Цена:': f"`{item.price}б.`",
+            'Общая стоимость:': f"`{cost}б.`",
         }
 
         webhook.sendEmbedWithContent(title="Покупка на сайте", color="03b2f8", data=newEmbedData)
