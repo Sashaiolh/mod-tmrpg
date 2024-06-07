@@ -660,7 +660,7 @@ def bonus(request):
         if request.POST.get('postType') == 'change_amount':
             new_amount = request.POST.get('amount')
             bonus_request_id = request.POST.get('bonus_request_id')
-            if data['moder'].is_st() or data['moder'].is_st() or request.user.is_superuser():
+            if data['moder'].is_st() or data['moder'].is_admin() or request.user.is_superuser:
                 bonus_request = models.BonusRequest.objects.get(id=bonus_request_id)
                 if not new_amount:
                     new_amount = None
@@ -669,7 +669,7 @@ def bonus(request):
 
         if request.POST.get('postType') == 'process_request':
             bonus_request_id = request.POST.get('bonus_request_id')
-            if data['moder'].is_st() or data['moder'].is_st() or request.user.is_superuser():
+            if data['moder'].is_st() or data['moder'].is_admin() or request.user.is_superuser:
                 bonus_request = models.BonusRequest.objects.get(id=bonus_request_id)
                 if bonus_request.is_accepted() == False:
                     if request.POST.get('request_action') == 'cancel':
