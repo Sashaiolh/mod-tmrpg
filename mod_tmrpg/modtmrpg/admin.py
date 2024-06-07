@@ -80,6 +80,9 @@ class AuthorAdmin(admin.ModelAdmin):
 @admin.register(EnigmaConfig)
 class AuthorAdmin(admin.ModelAdmin):
     pass
+@admin.register(BonusRequest)
+class AuthorAdmin(admin.ModelAdmin):
+    pass
 
 
 

@@ -34,6 +34,9 @@ urlpatterns = [
     path('api/oc/config/<str:configName>/', views.api_OC_config, name='api_OC_config'),
     path('get_shop_items/', views.get_shop_items, name='get_shop_items'),
 
+    path('bonus/', views.bonus, name='bonus'),
+    path('bonus/add/', views.add_bonus_request, name='add_bonus_request'),
+
 
     path('api/enigma/config/<str:configName>/', views.EnigmaConfig, name='EnigmaConfig'),
 ]

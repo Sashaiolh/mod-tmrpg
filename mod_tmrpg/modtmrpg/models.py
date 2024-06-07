@@ -169,3 +169,30 @@ class EnigmaConfig(models.Model):
     class Meta:
         verbose_name = "Конфиг EnigmaRPG"
         verbose_name_plural = "Конфиги EnigmaRPG"
+
+
+class BonusRequest(models.Model):
+    title = models.CharField("Заголовок", max_length=30)
+    moder = models.ForeignKey("Moder", null=True, on_delete=models.CASCADE, related_name='bonus_moder')
+    description = models.TextField("Описание")
+
+    request_amount = models.IntegerField(validators=[MinValueValidator(1)])
+    final_amount = models.IntegerField(validators=[MinValueValidator(1)], blank=True, null=True)
+
+    who_accepted = models.ForeignKey("Moder", null=True, blank=True, on_delete=models.CASCADE, related_name='bonus_admin')
+    is_canceled = models.BooleanField('Отклонен', default=False, blank=True, null=True)
+
+    date = models.DateTimeField(auto_now_add=True)
+    def is_accepted(self):
+        return self.who_accepted is not None
+
+    def getDate(self):
+        return self.date.strftime("%d %b %Y")\
+
+    def __str__(self):
+        return f'id:{self.id} | {self.moder.nickname} | {self.title} | {self.request_amount} | {self.is_accepted()}'
+
+    class Meta:
+        ordering = ['date']
+        verbose_name = "Запрос на надбавку"
+        verbose_name_plural = "Запросы на надбавку"

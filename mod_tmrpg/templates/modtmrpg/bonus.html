@@ -1,0 +1,207 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+
+{% for bonus_request in all_bonus_requests %}
+  <!-- Modal -->
+  <div class="modal fade" id="changeAmount{{bonus_request.id}}" tabindex="-1" aria-labelledby="changeAmountLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="changeAmountLabel{{bonus_request.id}}">Изменение бонуса</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+            <div class="form-outline">
+                <form action="" method="post" >
+                    {% csrf_token %}
+                        <label class="form-label" for="typeNumber{{bonus_request.id}}">Введите сумму:</label>
+                        <input type="number" name="amount" id="typeNumber{{bonus_request.id}}" min="1" class="form-control" />
+                        <input type="hidden" name="bonus_request_id" value="{{bonus_request.id}}">
+                        <input type="hidden" name="postType" value="change_amount">
+            </div>
+        </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Отменить</button>
+                <button type="submit" class="btn btn-primary">Подтвердить</button>
+            </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+
+
+    <!-- Modal -->
+    <div class="modal fade" id="accept_request{{bonus_request.id}}" tabindex="-1" aria-labelledby="acceptRequestLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h1 class="modal-title fs-5" id="acceptRequestLabel{{bonus_request.id}}">Подтверждение запроса</h1>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+              <div class="form-outline">
+                  <form action="" method="post" >
+                      {% csrf_token %}
+
+                        <h6>Вы уверены, что хотите подтвердить этот запрос?</h6>
+
+                          <input type="hidden" name="postType" value="process_request">
+                          <input type="hidden" name="request_action" value="accept">
+                          <input type="hidden" name="bonus_request_id" value="{{bonus_request.id}}">
+
+              </div>
+          </div>
+              <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Отменить</button>
+                  <button type="submit" class="btn btn-primary">Подтвердить</button>
+              </div>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <!-- Modal -->
+    <div class="modal fade" id="cancel_request{{bonus_request.id}}" tabindex="-1" aria-labelledby="cancelRequestLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h1 class="modal-title fs-5" id="cancelRequestLabel{{bonus_request.id}}">Отклонение запроса</h1>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+              <div class="form-outline">
+                  <form action="" method="post" >
+                      {% csrf_token %}
+
+                        <h6>Вы уверены, что хотите отклонить этот запрос?</h6>
+
+                          <input type="hidden" name="postType" value="process_request">
+                      <input type="hidden" name="request_action" value="cancel">
+                          <input type="hidden" name="bonus_request_id" value="{{bonus_request.id}}">
+
+              </div>
+          </div>
+              <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Отменить</button>
+                  <button type="submit" class="btn btn-primary">Подтвердить</button>
+              </div>
+          </form>
+        </div>
+      </div>
+    </div>
+
+
+
+{% endfor %}
+
+    <!-- Modal -->
+    <div class="modal fade" id="add_request" tabindex="-1" aria-labelledby="addRequestLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h1 class="modal-title fs-5" id="addRequestLabel">Создание запроса</h1>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+              <div class="form-outline">
+                  <form action="add/" method="get" >
+                      {% csrf_token %}
+
+                      <label class="form-label" for="title" style="margin-top: 3%;">Заголовок:</label>
+                        <input type="text" name="title" id="title" class="form-control" maxlength="35" required />
+
+                      <label class="form-label" for="description" style="margin-top: 3%;">Описание:</label>
+                        <input type="text" name="description" id="description" class="form-control" required />
+
+                      <label class="form-label" for="typeNumber{{moder.id}}">Запрашиваемая сумма:</label>
+                        <input type="number" name="request_amount" id="typeNumber{{moder.id}}" min="1" class="form-control" required />
+
+
+                      <input type="hidden" name="getType" value="add_bonus_request">
+
+              </div>
+          </div>
+              <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Отменить</button>
+                  <button type="submit" class="btn btn-primary">Подтвердить</button>
+              </div>
+          </form>
+        </div>
+      </div>
+    </div>
+
+<button type="button" data-bs-toggle="modal" data-bs-target="#add_request" class="btn btn-lg btn-primary" style="float: right; margin-top: 1px; margin-right: 1px">Создать запрос на надбавку</button>
+
+{% if not my_bonus_requests %}
+<div style="text-align: center; margin-top: 50px"><h2>У тебя нет запросов, для его создания тыкни на кнопку справа сверху</h2></div>
+{% endif %}
+
+<div class="bonus_cards" style="display: block; max-width: 900px; margin: auto ">
+
+    <div id="new_requests_point"></div>
+    <div id="old_requests_point"></div>
+
+
+<script>
+    let bonus_card_html = ``
+    let new_requests_label = null
+    let old_requests_label = null
+</script>
+
+
+    {% for bonus_request in all_bonus_requests %}
+
+        {% if bonus_request.moder == data.moder or data.moder.is_st %}
+
+            <script>
+                bonus_card_html = `
+                    <div class="card" style="margin-top: 15px">
+                      <h5 class="card-header">{{bonus_request.title}}</h5>
+                      <div class="card-body">
+                <!--        <h5 class="card-title">Special title treatment</h5>-->
+                        <p class="card-text">👨🏿Автор: <b>{{bonus_request.moder.nickname}}</b></p>
+                        <p class="card-text">💁🏿‍♀️Описание: {{bonus_request.description}}</p>
+                        <p class="card-text">👛Сумма: {%if bonus_request.final_amount and bonus_request.final_amount != bonus_request.request_amount%}<s>{{bonus_request.request_amount}}</s> <b>{{bonus_request.final_amount}}{%else%}<b>{{bonus_request.request_amount}}{%endif%} б.</b></p>
+                        <p class="card-text">📆Дата: {{bonus_request.getDate}}</p>
+                        <p class="card-text">👶🏿Статус: {%if bonus_request.is_accepted %}{%if bonus_request.is_canceled%}Отклонён❌ ({{bonus_request.who_accepted.nickname}}){%else%}Одобрен✅ ({{bonus_request.who_accepted.nickname}}){%endif%}{%else%}Ожидает проверки⏰{%endif%}</p>
+
+                        {% if not bonus_request.is_accepted%}
+                        {% if data.moder.is_st or data.moder.is_admin %}
+                        <button type="button" data-bs-toggle="modal" data-bs-target="#accept_request{{bonus_request.id}}" class="btn btn-success">Подтвердить</button>
+                        <button type="button" data-bs-toggle="modal" data-bs-target="#cancel_request{{bonus_request.id}}" class="btn btn-danger">Отклонить</button>
+                        <button type="button" data-bs-toggle="modal" data-bs-target="#changeAmount{{bonus_request.id}}" class="btn btn-primary">Изменить сумму</button>
+                        {% endif %}
+                        {% endif %}
+
+                      </div>
+                    </div>
+                `
+                {%if bonus_request.is_accepted %}
+                console.log('is_accepted')
+                if(old_requests_label==null){
+                    old_requests_label = `<div id="old_requests_label" style="text-align: center; margin-top: 15px"><h1>Старые запросы</h1></div>`
+                    $("#old_requests_point").after(old_requests_label)
+                }
+                $("#old_requests_label").after(bonus_card_html)
+                {%else%}
+                console.log('wait')
+                if(new_requests_label==null){
+                    new_requests_label = `<div id="new_requests_label" style="text-align: center; margin-top: 55px; "><h1>Новые запросы</h1></div>`
+                    $("#new_requests_point").after(new_requests_label)
+                }
+                $("#new_requests_label").after(bonus_card_html)
+                {%endif %}
+            </script>
+
+
+    {%endif%}
+
+    {% endfor %}
+
+</div>
+
+
+{% endblock %}

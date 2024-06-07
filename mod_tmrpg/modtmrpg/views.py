@@ -650,6 +650,68 @@ def EnigmaConfig(request, configName):
 
 
 
+def bonus(request):
+    if not request.user.is_authenticated:
+        return HttpResponseRedirect('/')
+
+    data = init_data(request)
+
+    if request.method == 'POST':
+        if request.POST.get('postType') == 'change_amount':
+            new_amount = request.POST.get('amount')
+            bonus_request_id = request.POST.get('bonus_request_id')
+            if data['moder'].is_st() or data['moder'].is_st() or request.user.is_superuser():
+                bonus_request = models.BonusRequest.objects.get(id=bonus_request_id)
+                if not new_amount:
+                    new_amount = None
+                bonus_request.final_amount = new_amount
+                bonus_request.save()
+
+        if request.POST.get('postType') == 'process_request':
+            bonus_request_id = request.POST.get('bonus_request_id')
+            if data['moder'].is_st() or data['moder'].is_st() or request.user.is_superuser():
+                bonus_request = models.BonusRequest.objects.get(id=bonus_request_id)
+                if bonus_request.is_accepted() == False:
+                    if request.POST.get('request_action') == 'cancel':
+                        bonus_request.is_canceled = True
+                    elif request.POST.get('request_action') == 'accept':
+                        bonus_request.is_canceled = False
+                        amount = bonus_request.final_amount if bonus_request.final_amount else bonus_request.request_amount
+                        new_log = models.EcoLog.objects.create(moder=bonus_request.moder,admin=data['moder'], amount=amount,
+                                                               reason=f'{bonus_request.title} (auto)')
+                        new_log.save()
+                        bonus_request.moder.balance += amount
+                        bonus_request.moder.save()
+                    bonus_request.who_accepted = data['moder']
+                    bonus_request.save()
+
+
+    my_bonus_requests = models.BonusRequest.objects.filter(moder=data['moder']).order_by('moder')
+
+    all_bonus_requests = models.BonusRequest.objects.all()
+
+    return render(request, 'modtmrpg/bonus.html', {'data': data, 'my_bonus_requests': my_bonus_requests, 'all_bonus_requests': all_bonus_requests, })
+
+def add_bonus_request(request):
+
+    if not request.user.is_authenticated:
+        return HttpResponseRedirect('/')
+
+    data = init_data(request)
+
+    if request.method == 'GET':
+        print(56456454612321312321213213213213213)
+        if request.GET.get('getType') == 'add_bonus_request':
+            print(12312312321312321213213213213213)
+            title = request.GET.get('title')
+            description = request.GET.get('description')
+            request_amount = request.GET.get('request_amount')
+
+            new_bonus_request = models.BonusRequest.objects.create(title=title, description=description,
+                                                                   request_amount=request_amount, moder=data['moder'])
+            new_bonus_request.save()
+            return HttpResponseRedirect('/bonus/')
+    return HttpResponseRedirect('/bonus/')
 
 
 # def api_OC_moders(request):
