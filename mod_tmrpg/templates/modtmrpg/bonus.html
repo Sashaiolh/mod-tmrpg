@@ -149,12 +149,15 @@
     let bonus_card_html = ``
     let new_requests_label = null
     let old_requests_label = null
+    let replacePattern1;
+    let replacedText;
+
 </script>
 
 
     {% for bonus_request in all_bonus_requests %}
 
-        {% if bonus_request.moder == data.moder or data.moder.is_st %}
+        {% if bonus_request.moder == data.moder or data.moder.is_st or data.moder.is_admin %}
 
             <script>
                 bonus_card_html = `
@@ -170,15 +173,21 @@
 
                         {% if not bonus_request.is_accepted%}
                         {% if data.moder.is_st or data.moder.is_admin %}
-                        <button type="button" data-bs-toggle="modal" data-bs-target="#accept_request{{bonus_request.id}}" class="btn btn-success">Подтвердить</button>
-                        <button type="button" data-bs-toggle="modal" data-bs-target="#cancel_request{{bonus_request.id}}" class="btn btn-danger">Отклонить</button>
-                        <button type="button" data-bs-toggle="modal" data-bs-target="#changeAmount{{bonus_request.id}}" class="btn btn-primary">Изменить сумму</button>
+                        <button type="button" data-bs-toggle="modal" data-bs-target="#accept_request{{bonus_request.id}}" class="btn btn-success" style="margin-bottom: 5px;">Подтвердить</button>
+                        <button type="button" data-bs-toggle="modal" data-bs-target="#cancel_request{{bonus_request.id}}" class="btn btn-danger" style="margin-bottom: 5px;">Отклонить</button>
+                        <button type="button" data-bs-toggle="modal" data-bs-target="#changeAmount{{bonus_request.id}}" class="btn btn-primary" style="margin-bottom: 5px;">Изменить сумму</button>
                         {% endif %}
                         {% endif %}
 
                       </div>
                     </div>
                 `
+
+                // URLs starting with http://, https://, or ftp://
+                replacePattern1 = /(\b(https?|ftp):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/gim;
+                bonus_card_html = bonus_card_html.replace(replacePattern1, '<a href="$1" target="_blank">$1</a>');
+
+
                 {%if bonus_request.is_accepted %}
                 console.log('is_accepted')
                 if(old_requests_label==null){
